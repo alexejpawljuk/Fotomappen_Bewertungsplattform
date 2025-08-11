@@ -11,13 +11,13 @@ interface Props {
 
 export const SignupPage: React.FC<Props> = ({}) => {
     const [email, setEmail] = useState("")
-    const [username, setUsername] = useState("")
+    const [clubName, setClubName] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate()
 
     const handleSubmit = () => {
         const cleanedEmail = email.trim()
-        const cleanedUsername = username.trim()
+        const cleanedUsername = clubName.trim()
 
         if(!validator.isEmail(cleanedEmail)) {
             return message.error("Email is invalid")
@@ -36,9 +36,23 @@ export const SignupPage: React.FC<Props> = ({}) => {
         <Space direction="vertical">
             <Typography.Title level={2}>Create new account</Typography.Title>
 
-            <Input placeholder={"email"} value={email} addonBefore={"@"} onChange={e => setEmail(e.target.value)}/>
-            <Input placeholder={"username"} value={username} onChange={e => setUsername(e.target.value)}/>
-            <Input.Password placeholder={"Password"} value={password} type={"password"} prefix={<LockOutlined />} onChange={e => setPassword(e.target.value)}/>
+            <Input
+                placeholder={"Email"}
+                value={email}
+                addonBefore={"@"}
+                onChange={e => setEmail(e.target.value)}
+            />
+            <Input
+                placeholder={"Club Name"}
+                value={clubName}
+                onChange={e => setClubName(e.target.value)}
+            />
+            <Input.Password
+                placeholder={"Password"}
+                value={password} type={"password"}
+                prefix={<LockOutlined />}
+                onChange={e => setPassword(e.target.value)}
+            />
 
             <Button type="primary" onClick={handleSubmit}>Sign Up</Button>
 

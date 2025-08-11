@@ -30,7 +30,7 @@ export const LoginPage: React.FC<Props> = ({}) => {
         <Space direction="vertical">
             <Typography.Title level={2}>Log into your account</Typography.Title>
 
-            <Input placeholder={"email"} value={email} addonBefore={"@"} onChange={e => setEmail(e.target.value)}/>
+            <Input placeholder={"Email"} value={email} addonBefore={"@"} onChange={e => setEmail(e.target.value)}/>
             <Input.Password placeholder={"Password"} value={password} type={"password"} prefix={<LockOutlined />} onChange={e => setPassword(e.target.value)}/>
 
             <Button type="primary" onClick={handleSubmit}>Login</Button>
