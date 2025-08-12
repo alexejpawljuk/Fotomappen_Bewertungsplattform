@@ -18,19 +18,11 @@ export type AppUserIdModel = string | undefined | null
 export const App = () => {
     const userId: AppUserIdModel = useTracker(() => Meteor.userId())
 
-    if (userId === null) {
-        return (
-            <BrowserRouter>
-                <ConfigProvider>
-                    <Routes>
-                        {Object.values(publicRoutes).map((route) => (
-                            <Route key={route.path} path={route.path} element={route.element} />
-                        ))}
-                    </Routes>
-                </ConfigProvider>
-            </BrowserRouter>
-        )
-    }
+    const routes = [
+        ...(userId === null ?
+            [...Object.values(publicRoutes)] :
+            [...Object.values(protectedRoutes), ...Object.values(publicRoutes)])
+    ]
 
     if (userId === undefined) {
         return <LoadingOutlined/>
@@ -40,14 +32,8 @@ export const App = () => {
         <BrowserRouter>
             <ConfigProvider>
                 <Routes>
-                    {Object.values(protectedRoutes).map((route) => (
-                        <Route key={route.path} path={route.path} element={route.element} />
-                    ))}
-                </Routes>
-
-                <Routes>
-                    {Object.values(publicRoutes).map((route) => (
-                        <Route key={route.path} path={route.path} element={route.element} />
+                    {routes.map((route) => (
+                        <Route key={route.path} path={route.path} element={route.element}/>
                     ))}
                 </Routes>
             </ConfigProvider>

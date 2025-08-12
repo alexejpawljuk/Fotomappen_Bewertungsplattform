@@ -1,10 +1,11 @@
-import {Meteor} from "/.meteor/local/build/programs/server/assets/packages/meteor/meteor";
-import {Role} from "/imports/api/models";
+import {Meteor} from "meteor/meteor"
+import {Role} from "/imports/api/models"
 
 
 interface Profile {
-    clubName: string,
+    clubName: string
     role: Role
+    communityId: string
 }
 
 export class ClubAdmin implements Meteor.User {
@@ -23,4 +24,5 @@ export interface MethodSetClubAdminCreateModel {
     email: string,
     password: string,
     clubName: string,
+    communityId: string,
 }

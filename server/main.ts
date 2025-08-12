@@ -1,6 +1,9 @@
-import "/imports/startup/imports"
+import "/imports/startup/server/imports"
 import {Meteor} from "meteor/meteor";
+import {ensureRoles} from "/imports/api/ensureRoles";
+
 
 Meteor.startup(async () => {
-    console.log('Startup complete');
+    await ensureRoles()
+    console.log('Startup complete ');
 });

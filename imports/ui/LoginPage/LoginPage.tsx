@@ -1,17 +1,20 @@
 import React, {useState} from 'react';
 import {Button, Input, message, Space, Typography} from "antd";
 import {LockOutlined} from "@ant-design/icons";
-import {publicRoutes} from "/imports/utils/constans/routes";
+import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
 import {useNavigate} from "react-router-dom";
 import validator from "validator";
+import {Meteor} from "meteor/meteor"
+import { Header } from "../Header/Header";
 
 interface Props {
     // define your props here
 }
 
 export const LoginPage: React.FC<Props> = ({}) => {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
+    const [password, setPassword] = useState("0123456789")
+    const [_, setLoggingIn] = useState(false)
     const navigate = useNavigate()
 
     const handleSubmit = () => {
@@ -24,21 +27,33 @@ export const LoginPage: React.FC<Props> = ({}) => {
         if (password.length < 8) {
             return message.error("Password is too short")
         }
+
+        Meteor.loginWithPassword(cleanedEmail, password, (error) => {
+            if(error) {
+                setLoggingIn(false)
+                return message.error("Could not log in")
+            }
+            setLoggingIn(true)
+            navigate(protectedRoutes.dashboard.path)
+        })
     }
 
     return (
-        <Space direction="vertical">
-            <Typography.Title level={2}>Log into your account</Typography.Title>
+        <div>
+            <Header/>
+            <Space direction="vertical">
+                <Typography.Title level={2}>Log into your account</Typography.Title>
 
-            <Input placeholder={"Email"} value={email} addonBefore={"@"} onChange={e => setEmail(e.target.value)}/>
-            <Input.Password placeholder={"Password"} value={password} type={"password"} prefix={<LockOutlined />} onChange={e => setPassword(e.target.value)}/>
+                <Input placeholder={"Email"} value={email} addonBefore={"@"} onChange={e => setEmail(e.target.value)}/>
+                <Input.Password placeholder={"Password"} value={password} type={"password"} prefix={<LockOutlined />} onChange={e => setPassword(e.target.value)}/>
 
-            <Button type="primary" onClick={handleSubmit}>Login</Button>
+                <Button type="primary" onClick={handleSubmit}>Login</Button>
 
-            <Typography>
-                Registration
-                <Button type="link" onClick={() => navigate(publicRoutes.signup.path)}>Login</Button>
-            </Typography>
-        </Space>
+                <Typography>
+                    Registration
+                    <Button type="link" onClick={() => navigate(publicRoutes.signup.path)}>Sign up</Button>
+                </Typography>
+            </Space>
+        </div>
     );
 };

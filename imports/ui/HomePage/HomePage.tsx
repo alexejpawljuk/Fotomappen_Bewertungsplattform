@@ -1,15 +1,20 @@
 import React from 'react';
 import {Typography} from "antd";
+import {Header}  from "../Header/Header";
 
-interface Props {
+interface HomePageProps {
     // define your props here
 }
 
-export const HomePage: React.FC<Props> = ({}) => {
+export const HomePage: React.FC<HomePageProps> = ({}) => {
+
     return (
-        <Typography.Title level={2}>
-            HomePage component
-        </Typography.Title>
+        <div>
+            <Header/>
+            <Typography.Title level={2}>
+                HomePage component
+            </Typography.Title>
+        </div>
     );
 };
 

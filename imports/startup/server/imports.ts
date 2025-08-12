@@ -1,4 +1,9 @@
 // Methods
-import "/imports/api/club_admin/methods/index"
+import "/imports/api/club_admin/methods"
+import "/imports/api/community/methods"
 
 // Databases
+import "/imports/api/community/community"
+
+// configuration
+import "/imports/api/config"

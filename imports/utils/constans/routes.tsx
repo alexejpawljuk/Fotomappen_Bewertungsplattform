@@ -3,6 +3,8 @@ import {HomePage} from "/imports/ui/HomePage/HomePage";
 import {LoginPage} from "/imports/ui/LoginPage/LoginPage";
 import {SignupPage} from "/imports/ui/SignupPage/SignupPage";
 import {NotFoundPage} from "/imports/ui/NotFoundPage/NotFoundPage";
+import {Dashboard} from "/imports/ui/DashboardPage/Dashboard";
+import {VerifyEmailPage} from "/imports/ui/VerifyEmailPage/VerifyEmailPage";
 
 export const publicRoutes = {
     home: {
@@ -17,15 +19,19 @@ export const publicRoutes = {
         path: '/signup',
         element: (<SignupPage/>),
     },
-    default: {
-        path: '*',
+    verifyEmail: {
+        path: '/verify-email/:token',
+        element: (<VerifyEmailPage/>),
+    },
+    notFound: {
+        path: '/404',
         element: (<NotFoundPage/>),
     }
 } as const
 
 export const protectedRoutes = {
-    temp: {
-        path: '/test',
-        element: (<></>),
+    dashboard: {
+        path: '/dashboard',
+        element: (<Dashboard/>),
     }
 } as const
