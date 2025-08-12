@@ -8,6 +8,8 @@ import {MethodSetClubAdminCreateModel} from "/imports/api/club_admin/models";
 import {Meteor} from 'meteor/meteor';
 import { Header } from "../Header/Header";
 import {Community} from "/imports/api/community/models";
+import {SignupError, SignupStatus} from "/imports/utils/constans/text";
+import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 
 
 interface Props {
@@ -43,35 +45,39 @@ export const SignupPage: React.FC<Props> = ({}) => {
 
     const handleSubmit = async () => {
         const cleanedEmail = email.trim()
-        const cleanedClubname = clubName.trim()
+        const cleanedClubName = clubName.trim()
 
         if(!validator.isEmail(cleanedEmail)) {
-            return message.error("Email is invalid")
+            return message.error(SignupError.EMAIL_INVALID)
         }
 
-        if (cleanedClubname.length < 3) {
-            return message.error("Username is too short")
+        if (cleanedClubName.length < 3) {
+            return message.error(SignupError.CLUB_NAME_TOO_SHORT)
+        }
+
+        if (!stringContainsOnlyLettersAndNumbers(cleanedClubName)) {
+            return message.error(SignupError.CLUB_NAME_INVALID_CHARS)
         }
 
         if (communityId === "") {
-            return message.error("Please select a community")
+            return message.error(SignupError.COMMUNITY_REQUIRED)
         }
 
         if (password.length < 8) {
-            return message.error("Password is too short")
+            return message.error(SignupError.PASSWORD_TOO_SHORT)
         }
 
         try {
             const data: MethodSetClubAdminCreateModel = {
                 email: cleanedEmail,
                 password,
-                clubName: cleanedClubname,
+                clubName: cleanedClubName,
                 communityId,
             }
 
             await Meteor.callAsync("set.user.create", data)
 
-            message.success("User created")
+            message.success(SignupStatus.SUCCESS)
 
             setLoggingIn(true)
 

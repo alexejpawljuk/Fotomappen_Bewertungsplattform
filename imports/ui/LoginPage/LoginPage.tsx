@@ -6,34 +6,34 @@ import {useNavigate} from "react-router-dom";
 import validator from "validator";
 import {Meteor} from "meteor/meteor"
 import { Header } from "../Header/Header";
+import {LoginError} from "/imports/utils/constans/text";
 
 interface Props {
     // define your props here
 }
 
+
+
 export const LoginPage: React.FC<Props> = ({}) => {
     const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
     const [password, setPassword] = useState("0123456789")
-    const [_, setLoggingIn] = useState(false)
     const navigate = useNavigate()
 
     const handleSubmit = () => {
         const cleanedEmail = email.trim()
 
         if(!validator.isEmail(cleanedEmail)) {
-            return message.error("Email is invalid")
+            return message.error(LoginError.EMAIL_INVALID)
         }
 
         if (password.length < 8) {
-            return message.error("Password is too short")
+            return message.error(LoginError.PASSWORD_TOO_SHORT)
         }
 
         Meteor.loginWithPassword(cleanedEmail, password, (error) => {
             if(error) {
-                setLoggingIn(false)
-                return message.error("Could not log in")
+                return message.error(LoginError.INVALID_CREDENTIALS)
             }
-            setLoggingIn(true)
             navigate(protectedRoutes.dashboard.path)
         })
     }

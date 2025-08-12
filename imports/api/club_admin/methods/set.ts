@@ -8,6 +8,7 @@ import {Accounts} from 'meteor/accounts-base';
 import {Role} from "/imports/api/models";
 import { Roles } from "meteor/alanning:roles";
 import {CommunityCollection} from "/imports/api/community/community";
+import {SignupError} from "/imports/utils/constans/text";
 
 
 Meteor.methods({
@@ -19,26 +20,26 @@ Meteor.methods({
 
         const cleanEmail = email.trim().toLowerCase()
         if (!isEmail(cleanEmail)) {
-            return clientContentError("Invalid email")
+            return clientContentError(SignupError.EMAIL_INVALID)
         }
 
         const community = CommunityCollection.findOne({_id: communityId})
         if (!community) {
-            return clientContentError("Community not found")
+            return clientContentError(SignupError.COMMUNITY_NOT_FOUND)
         }
 
         const cleanedClubName = clubName.trim()
         if (!stringContainsOnlyLettersAndNumbers(cleanedClubName)) {
-            return clientContentError("Club name can only contain letters and numbers")
+            return clientContentError(SignupError.CLUB_NAME_INVALID_CHARS)
         }
 
         if (password.length < 8) {
-            return clientContentError("Password is too short")
+            return clientContentError(SignupError.PASSWORD_TOO_SHORT)
         }
 
         const existing = Meteor.users.findOne({'emails.address': cleanEmail})
         if (existing) {
-            return clientContentError("This email is already taken")
+            return clientContentError(SignupError.EMAIL_TAKEN)
         }
 
         try {

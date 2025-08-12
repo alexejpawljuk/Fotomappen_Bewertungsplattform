@@ -3,8 +3,9 @@ import {useParams} from 'react-router-dom';
 import {Accounts} from "meteor/accounts-base";
 import {useEffect, useState} from "react";
 import {Result} from "antd";
+import {VerificationStatus} from "/imports/utils/constans/text";
 
-export const VerifyEmailPage = () => {
+export const EmailVerifyPage = () => {
     const {token} = useParams();
     const [status, setStatus] = useState<"success" | "error">("success")
     const [title, setTitle] = useState<string>("")
@@ -16,10 +17,10 @@ export const VerifyEmailPage = () => {
         Accounts.verifyEmail(token, (err) => {
             if (err) {
                 setStatus("error")
-                setTitle("E-Mail-Verifizierung fehlgeschlagen.")
+                setTitle(VerificationStatus.ERROR)
             } else {
                 setStatus("success")
-                setTitle("E-Mail-Verifizierung erfolgreich abgeschlossen.")
+                setTitle(VerificationStatus.SUCCESS)
             }
         })
     }, [token])

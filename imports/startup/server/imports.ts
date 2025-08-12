@@ -7,3 +7,5 @@ import "/imports/api/community/community"
 
 // configuration
 import "/imports/api/config"
+
+// publications
