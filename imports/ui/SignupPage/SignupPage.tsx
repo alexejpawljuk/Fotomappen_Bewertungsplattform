@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Input, message, Select, Space, Typography} from "antd";
 import { useNavigate } from "react-router-dom";
 import validator from "validator";
-import {LockOutlined} from "@ant-design/icons";
+import {LockOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/icons";
 import {publicRoutes} from "/imports/utils/constans/routes";
 import {MethodSetClubAdminCreateModel} from "/imports/api/club_admin/models";
 import {Meteor} from 'meteor/meteor';
@@ -47,6 +47,10 @@ export const SignupPage: React.FC<Props> = ({}) => {
         const cleanedEmail = email.trim()
         const cleanedClubName = clubName.trim()
 
+        if (communityId === "") {
+            return message.error(SignupError.COMMUNITY_REQUIRED)
+        }
+
         if(!validator.isEmail(cleanedEmail)) {
             return message.error(SignupError.EMAIL_INVALID)
         }
@@ -57,10 +61,6 @@ export const SignupPage: React.FC<Props> = ({}) => {
 
         if (!stringContainsOnlyLettersAndNumbers(cleanedClubName)) {
             return message.error(SignupError.CLUB_NAME_INVALID_CHARS)
-        }
-
-        if (communityId === "") {
-            return message.error(SignupError.COMMUNITY_REQUIRED)
         }
 
         if (password.length < 8) {
@@ -95,21 +95,11 @@ export const SignupPage: React.FC<Props> = ({}) => {
             <Space direction="vertical">
                 <Typography.Title level={2}>Create new account</Typography.Title>
 
-                <Input
-                    placeholder={"Email"}
-                    value={email}
-                    addonBefore={"@"}
-                    onChange={e => setEmail(e.target.value)}
-                />
-                <Input
-                    placeholder={"Club Name"}
-                    value={clubName}
-                    onChange={e => setClubName(e.target.value)}
-                />
                 <Select
+                    placeholder="Community"
                     showSearch
                     style={{ width: "100%" }}
-                    placeholder="Search to Select"
+                    prefix={<UsergroupAddOutlined />}
                     optionFilterProp="label"
                     filterSort={(optionA, optionB) =>
                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
@@ -120,10 +110,22 @@ export const SignupPage: React.FC<Props> = ({}) => {
                     }))}
                     onSelect={(value: string)  => setCommunityId(value)}
                 />
+                <Input
+                    placeholder={"Email"}
+                    value={email}
+                    addonBefore={"@"}
+                    onChange={e => setEmail(e.target.value)}
+                />
+                <Input
+                    placeholder={"Club Name"}
+                    value={clubName}
+                    addonBefore={<UserOutlined />}
+                    onChange={e => setClubName(e.target.value)}
+                />
                 <Input.Password
                     placeholder={"Password"}
                     value={password} type={"password"}
-                    prefix={<LockOutlined />}
+                    addonBefore={<LockOutlined />}
                     onChange={e => setPassword(e.target.value)}
                 />
 
