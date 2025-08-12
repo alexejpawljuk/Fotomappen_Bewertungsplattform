@@ -1,6 +1,6 @@
 import React from 'react';
 import {Typography} from "antd";
-import {Header}  from "../Header/Header";
+import {MainLayout} from "/imports/ui/Layout/MainLayout";
 
 interface HomePageProps {
     // define your props here
@@ -9,13 +9,12 @@ interface HomePageProps {
 export const HomePage: React.FC<HomePageProps> = ({}) => {
 
     return (
-        <div>
-            <Header/>
+        <MainLayout>
             <Typography.Title level={2}>
                 HomePage component
             </Typography.Title>
-        </div>
-    );
+        </MainLayout>
+    )
 };
 
 

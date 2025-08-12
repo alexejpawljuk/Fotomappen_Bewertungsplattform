@@ -1,9 +1,9 @@
 import React, {useEffect} from 'react';
 import {message, Typography} from "antd";
-import {Header} from "../Header/Header";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor"
 import {VerificationStatus} from "/imports/utils/constans/text";
+import {MainLayout} from "/imports/ui/Layout/MainLayout";
 
 interface DashboardProps {
     // TODO: define props here
@@ -23,9 +23,10 @@ export const Dashboard: React.FC<DashboardProps> = ({}) => {
     useNotificationOfVerification()
 
     return (
-        <div>
-            <Header/>
-            <Typography.Title level={2}>Dashboard</Typography.Title>
-        </div>
-    );
+        <MainLayout>
+            <Typography.Title level={2}>
+                Dashboard component
+            </Typography.Title>
+        </MainLayout>
+    )
 };

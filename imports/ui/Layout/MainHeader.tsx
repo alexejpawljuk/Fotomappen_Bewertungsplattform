@@ -1,15 +1,11 @@
 import React from 'react';
 import {Button, Flex} from "antd";
-import {useNavigate} from "react-router-dom";
+import {AppUserIdModel} from "/imports/ui/App";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
-import {AppUserIdModel} from "/imports/ui/App";
+import {useNavigate} from "react-router-dom";
 
-interface HeaderProps {
-    // TODO: define props here
-}
-
-const IsNoAuthed = () => {
+const SignedOutActions = () => {
     const navigate = useNavigate()
 
     const handleRegistration = () => {
@@ -20,29 +16,34 @@ const IsNoAuthed = () => {
     }
 
     return (
-        <Flex style={{}} justify={"flex-end"} align={"center"}>
+        <Flex justify={"flex-end"} align={"center"}>
             <Button type={"link"} onClick={handleRegistration}>Registration</Button>
             <Button type={"link"} onClick={handleLogin}>Login</Button>
         </Flex>
     )
 }
 
-const IsAuthed = () => {
+const SignedInActions = () => {
     const navigate = useNavigate()
+    const user = useTracker(() => Meteor.user())
+
+    console.log(user)
 
     const handleLogout = () => {
-        Meteor.logout()
-        navigate("/")
+        Meteor.logout((error) => {
+            navigate("/")
+            if (error) console.error(error)
+        })
     }
 
-    return(
-        <Flex style={{}} justify={"flex-end"} align={"center"}>
+    return (
+        <Flex justify={"flex-end"} align={"center"}>
             <Button type={"link"} onClick={handleLogout}>Logout</Button>
         </Flex>
     )
 }
 
-export const Header: React.FC<HeaderProps> = ({}) => {
+export const MainHeader = () => {
     const userId: AppUserIdModel = useTracker(() => Meteor.userId())
     const navigate = useNavigate()
 
@@ -53,13 +54,11 @@ export const Header: React.FC<HeaderProps> = ({}) => {
     }
 
     return (
-        <div>
-            <Flex justify={"space-between"}>
-                <Flex style={{}} justify={"flex-end"} align={"center"}>
-                    <Button type={"link"} onClick={homeHandle}>Home</Button>
-                </Flex>
-                {isAuthed ? <IsAuthed/> : <IsNoAuthed/>}
+        <Flex style={{height: "65px"}} justify={"space-between"}>
+            <Flex justify={"flex-end"} align={"center"}>
+                <Button type={"link"} onClick={homeHandle}>Home</Button>
             </Flex>
-        </div>
-    )
-}
+            {isAuthed ? <SignedInActions/> : <SignedOutActions/>}
+        </Flex>
+    );
+};

@@ -5,14 +5,12 @@ import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
 import {useNavigate} from "react-router-dom";
 import validator from "validator";
 import {Meteor} from "meteor/meteor"
-import { Header } from "../Header/Header";
 import {LoginError} from "/imports/utils/constans/text";
+import {MainLayout} from "/imports/ui/Layout/MainLayout";
 
 interface Props {
     // define your props here
 }
-
-
 
 export const LoginPage: React.FC<Props> = ({}) => {
     const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
@@ -39,8 +37,7 @@ export const LoginPage: React.FC<Props> = ({}) => {
     }
 
     return (
-        <div>
-            <Header/>
+        <MainLayout>
             <Space direction="vertical">
                 <Typography.Title level={2}>Log into your account</Typography.Title>
 
@@ -54,6 +51,6 @@ export const LoginPage: React.FC<Props> = ({}) => {
                     <Button type="link" onClick={() => navigate(publicRoutes.signup.path)}>Sign up</Button>
                 </Typography>
             </Space>
-        </div>
+        </MainLayout>
     );
 };

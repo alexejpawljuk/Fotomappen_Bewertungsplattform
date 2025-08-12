@@ -24,7 +24,7 @@ export const publicRoutes = {
         element: (<EmailVerifyPage/>),
     },
     notFound: {
-        path: '/404',
+        path: '*',
         element: (<NotFoundPage/>),
     }
 } as const

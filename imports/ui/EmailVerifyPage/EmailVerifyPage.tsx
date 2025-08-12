@@ -2,12 +2,13 @@ import React from 'react';
 import {useParams} from 'react-router-dom';
 import {Accounts} from "meteor/accounts-base";
 import {useEffect, useState} from "react";
-import {Result} from "antd";
+import {Result, Typography} from "antd";
 import {VerificationStatus} from "/imports/utils/constans/text";
+
 
 export const EmailVerifyPage = () => {
     const {token} = useParams();
-    const [status, setStatus] = useState<"success" | "error">("success")
+    const [status, setStatus] = useState<"success" | "error" | null>(null)
     const [title, setTitle] = useState<string>("")
 
     useEffect(() => {
@@ -26,7 +27,14 @@ export const EmailVerifyPage = () => {
     }, [token])
 
     return (
-        <Result status={status} title={title}/>
+        <>
+            {
+                status === null ?
+                    <Typography.Text>Loading...</Typography.Text> :
+                    <Result status={status} title={title}/>
+            }
+        </>
     )
+
 }
 

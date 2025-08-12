@@ -6,10 +6,10 @@ import {LockOutlined} from "@ant-design/icons";
 import {publicRoutes} from "/imports/utils/constans/routes";
 import {MethodSetClubAdminCreateModel} from "/imports/api/club_admin/models";
 import {Meteor} from 'meteor/meteor';
-import { Header } from "../Header/Header";
 import {Community} from "/imports/api/community/models";
 import {SignupError, SignupStatus} from "/imports/utils/constans/text";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
+import {MainLayout} from "/imports/ui/Layout/MainLayout";
 
 
 interface Props {
@@ -91,8 +91,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
     }
 
     return (
-        <div>
-            <Header/>
+        <MainLayout>
             <Space direction="vertical">
                 <Typography.Title level={2}>Create new account</Typography.Title>
 
@@ -135,6 +134,6 @@ export const SignupPage: React.FC<Props> = ({}) => {
                     <Button type="link" onClick={() => navigate(publicRoutes.login.path)}>Login</Button>
                 </Typography>
             </Space>
-        </div>
+        </MainLayout>
     );
 };
