@@ -3,7 +3,7 @@ import {HomePage} from "/imports/ui/HomePage/HomePage";
 import {LoginPage} from "/imports/ui/LoginPage/LoginPage";
 import {SignupPage} from "/imports/ui/SignupPage/SignupPage";
 import {NotFoundPage} from "/imports/ui/NotFoundPage/NotFoundPage";
-import {Dashboard} from "/imports/ui/DashboardPage/Dashboard";
+import {DashboardLayout} from "/imports/ui/DashboardPage/DashboardLayout";
 import {EmailVerifyPage} from "/imports/ui/EmailVerifyPage/EmailVerifyPage";
 
 export const publicRoutes = {
@@ -32,6 +32,6 @@ export const publicRoutes = {
 export const protectedRoutes = {
     dashboard: {
         path: '/dashboard',
-        element: (<Dashboard/>),
+        element: (<DashboardLayout/>),
     }
 } as const

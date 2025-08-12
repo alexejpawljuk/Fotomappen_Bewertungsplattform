@@ -25,9 +25,11 @@ const SignedOutActions = () => {
 
 const SignedInActions = () => {
     const navigate = useNavigate()
-    const user = useTracker(() => Meteor.user())
+    // const user = useTracker(() => Meteor.user())
 
-    console.log(user)
+    const handleDashboard = () => {
+        navigate("/dashboard")
+    }
 
     const handleLogout = () => {
         Meteor.logout((error) => {
@@ -38,6 +40,7 @@ const SignedInActions = () => {
 
     return (
         <Flex justify={"flex-end"} align={"center"}>
+            <Button type={"link"} onClick={handleDashboard}>Dashboard</Button>
             <Button type={"link"} onClick={handleLogout}>Logout</Button>
         </Flex>
     )
@@ -54,7 +57,7 @@ export const MainHeader = () => {
     }
 
     return (
-        <Flex style={{height: "65px"}} justify={"space-between"}>
+        <Flex style={{height: "65px", margin: "0 20px"}} justify={"space-between"}>
             <Flex justify={"flex-end"} align={"center"}>
                 <Button type={"link"} onClick={homeHandle}>Home</Button>
             </Flex>

@@ -56,6 +56,20 @@ Meteor.methods({
             await Roles.addUsersToRolesAsync(clubAdmin, Role.CLUB_ADMIN)
 
             Accounts.sendVerificationEmail(clubAdmin);
+
+            // Temp
+            // const super_admin = await Accounts.createUserAsync({
+            //     email: "a.pawljuk@hotmail.com",
+            //     password: "0123456789",
+            //     profile: {
+            //         clubName: "",
+            //         role: Role.SUPER_ADMIN,
+            //         communityId: ""
+            //     }
+            // })
+            // await Roles.addUsersToRolesAsync(super_admin, Role.SUPER_ADMIN)
+            // Accounts.sendVerificationEmail(clubAdmin);
+
         } catch (e: unknown) {
             if (e instanceof Meteor.Error) {
                 return internalServerError(e.details || e.reason || e.message)
