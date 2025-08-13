@@ -33,7 +33,7 @@ export const Router: React.FC<RouterProps> = ({}) => {
             [...Object.values(protectedRoutes), ...Object.values(publicRoutes)])
     ]
 
-    if (loggingIn || userId === undefined) {
+    if (userId === undefined) {
         return (
             <Flex justify={"center"} align={"center"} style={{height: "100%"}}>
                 <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />

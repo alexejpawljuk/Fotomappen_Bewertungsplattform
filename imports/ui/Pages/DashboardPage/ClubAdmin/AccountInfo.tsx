@@ -2,8 +2,9 @@ import React, {useMemo} from 'react';
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
 import {User} from "/imports/api/User/models";
-import {Descriptions, DescriptionsProps, message} from "antd";
+import {Descriptions, DescriptionsProps, Flex, message} from "antd";
 import {UserMethods} from "/imports/api/names";
+import {Verification} from "/imports/utils/constans/text";
 
 interface AccountInfoProps {
     // TODO: define props here
@@ -16,8 +17,8 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
 
         const resendVerification = async () => {
             try {
-                await Meteor.callAsync(UserMethods.POST_USER_SEND_VERIFICATION_EMAIL);
-                message.success('Verification email sent!');
+                await Meteor.callAsync(UserMethods.GET_USER_SEND_VERIFICATION_EMAIL);
+                message.success(Verification.SEND_VERIFICATION_EMAIL);
             } catch (e) {
                 if (e instanceof Meteor.Error) {
                     message.error(e.reason || e.message);
@@ -26,15 +27,18 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
         };
 
         return [
-            { key: 'clubName', label: 'Club Name', children: user.profile?.clubName ?? '-' },
-            { key: 'role', label: 'Role', children: user.profile?.role ?? '-' },
-            { key: 'email', label: 'Email', children: user.emails?.[0]?.address ?? '-' },
-            { key: 'varify', label: 'Email varified', children: user.emails?.[0]?.verified ? 'Ja' :
-                    <a onClick={resendVerification}>verify</a>
+            {key: 'clubName', label: 'Club Name', children: user.profile?.clubName ?? '-'},
+            {key: 'role', label: 'Role', children: user.profile?.role ?? '-'},
+            {key: 'email', label: 'Email', children: user.emails?.[0]?.address ?? '-'},
+            {
+                key: 'varify', label: 'Email varified', children: user.emails?.[0]?.verified ? 'Ja' :
+                    <a onClick={resendVerification}>E-Mail verifizieren</a>
             },
         ];
     }, [user]);
-    return(
-        <Descriptions title="Account Info" items={accountInfo} column={1}/>
+    return (
+        <Flex justify={"center"} align={"center"} wrap gap={"middle"}>
+            <Descriptions title="Account Info" items={accountInfo} column={1} style={{display: "inline-block"}}/>
+        </Flex>
     )
 };

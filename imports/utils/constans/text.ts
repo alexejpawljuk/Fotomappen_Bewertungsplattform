@@ -1,7 +1,8 @@
-export enum VerificationStatus {
+export enum Verification {
     SUCCESS  = "E-Mail-Verifizierung erfolgreich abgeschlossen.",
     ERROR = "E-Mail-Verifizierung fehlgeschlagen.",
     UNVERIFIED = "Bitte bestätigen Sie Ihre E-Mail-Adresse.",
+    SEND_VERIFICATION_EMAIL = "Wir haben Ihnen eine E-Mail zur Bestätigung Ihrer Adresse gesendet."
 }
 
 export enum SignupError {

@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Flex, message, Typography} from "antd";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor"
-import {VerificationStatus} from "/imports/utils/constans/text";
+import {Verification} from "/imports/utils/constans/text";
 import {MainLayout} from "/imports/ui/Layout/MainLayout";
 
 
@@ -25,7 +25,7 @@ const useNotificationOfVerification = () => {
         if (!userId) return;
         if (verified) return;
 
-        message.warning(VerificationStatus.UNVERIFIED);
+        message.warning(Verification.UNVERIFIED);
     }, [userId, verified, loggingIn]);
 }
 
