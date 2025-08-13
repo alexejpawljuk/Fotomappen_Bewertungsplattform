@@ -7,6 +7,7 @@ import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
 import {LoadingOutlined} from "@ant-design/icons";
 import {MESSAGE_DURATION} from "/imports/ui/config";
 
+
 /**
  * Defines the type for the user ID on login
  *

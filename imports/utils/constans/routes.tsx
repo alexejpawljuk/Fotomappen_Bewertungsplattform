@@ -3,8 +3,9 @@ import {HomePage} from "/imports/ui/HomePage/HomePage";
 import {LoginPage} from "/imports/ui/LoginPage/LoginPage";
 import {SignupPage} from "/imports/ui/SignupPage/SignupPage";
 import {NotFoundPage} from "/imports/ui/NotFoundPage/NotFoundPage";
-import {DashboardLayout} from "/imports/ui/DashboardPage/DashboardLayout";
 import {EmailVerifyPage} from "/imports/ui/EmailVerifyPage/EmailVerifyPage";
+import {DashboardClubAdminLayout} from "/imports/ui/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
+import {DashboardLayout} from "/imports/ui/DashboardPage/DashboardLayout";
 
 export const publicRoutes = {
     home: {
@@ -30,8 +31,16 @@ export const publicRoutes = {
 } as const
 
 export const protectedRoutes = {
-    dashboard: {
-        path: '/dashboard',
+    // dashboard: {
+    //     path: '/dashboard',
+    //     element: (<DashboardLayout/>),
+    // },
+    dashboardClubAdmin: {
+        path: '/dashboard/club-admin',
+        element: (<DashboardClubAdminLayout/>),
+    },
+    dashboardSuperAdmin: {
+        path: '/dashboard/super-admin',
         element: (<DashboardLayout/>),
     }
 } as const

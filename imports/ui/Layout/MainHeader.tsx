@@ -4,15 +4,18 @@ import {AppUserIdModel} from "/imports/ui/App";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
 import {useNavigate} from "react-router-dom";
+import {Role} from "/imports/api/models";
+import {ClubAdmin} from "/imports/api/club_admin/models";
+import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
 
 const SignedOutActions = () => {
     const navigate = useNavigate()
 
     const handleRegistration = () => {
-        navigate("/signup")
+        navigate(publicRoutes.signup.path)
     }
     const handleLogin = () => {
-        navigate("/login")
+        navigate(publicRoutes.login.path)
     }
 
     return (
@@ -25,15 +28,18 @@ const SignedOutActions = () => {
 
 const SignedInActions = () => {
     const navigate = useNavigate()
-    // const user = useTracker(() => Meteor.user())
+    const user = useTracker(() => Meteor.user() as ClubAdmin | null)
 
     const handleDashboard = () => {
-        navigate("/dashboard")
+        if (!user) return
+        const role = user?.profile?.role
+        if (role === Role.SUPER_ADMIN) navigate(protectedRoutes.dashboardSuperAdmin.path)
+        if (role === Role.CLUB_ADMIN) navigate(protectedRoutes.dashboardClubAdmin.path)
     }
 
     const handleLogout = () => {
         Meteor.logout((error) => {
-            navigate("/")
+            navigate(publicRoutes.home.path)
             if (error) console.error(error)
         })
     }
@@ -53,7 +59,7 @@ export const MainHeader = () => {
     const isAuthed = userId !== null
 
     const homeHandle = () => {
-        navigate("/")
+        navigate(publicRoutes.home.path)
     }
 
     return (

@@ -1,9 +1,10 @@
 import React, {useEffect} from 'react';
-import {Descriptions, DescriptionsProps, Flex, message, Typography} from "antd";
+import {Flex, message, Typography} from "antd";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor"
 import {VerificationStatus} from "/imports/utils/constans/text";
 import {MainLayout} from "/imports/ui/Layout/MainLayout";
+
 
 interface DashboardProps {
     children?: React.ReactNode
@@ -31,22 +32,12 @@ const useNotificationOfVerification = () => {
 export const DashboardLayout: React.FC<DashboardProps> = ({children}) => {
     useNotificationOfVerification()
 
-    const descriptionItems: DescriptionsProps['items'] = [
-        {
-            key: "0",
-            label: 'Name',
-            children: 'Alexey',
-        }
-    ]
-
     return (
         <MainLayout>
             <Flex justify={"center"}>
-                <Typography.Title level={2}>
-                    Dashboard
-                </Typography.Title>
+                <Typography.Title level={2}>Dashboard</Typography.Title>
             </Flex>
-            {children ?? <Descriptions title="Account Info" items={descriptionItems}/>}
+            {children}
         </MainLayout>
     )
 };

@@ -32,7 +32,7 @@ export const LoginPage: React.FC<Props> = ({}) => {
             if(error) {
                 return message.error(LoginError.INVALID_CREDENTIALS)
             }
-            navigate(protectedRoutes.dashboard.path)
+            navigate(protectedRoutes.dashboardClubAdmin.path)
         })
     }
 
