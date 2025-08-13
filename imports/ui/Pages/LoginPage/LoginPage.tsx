@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Button, Input, message, Space, Typography} from "antd";
 import {LockOutlined} from "@ant-design/icons";
-import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
+import {protectedRoutes, publicRoutes} from "/imports/ui/Router/routes";
 import {useNavigate} from "react-router-dom";
 import validator from "validator";
 import {Meteor} from "meteor/meteor"

@@ -22,4 +22,5 @@ export enum CommunityMethods {
 export enum UserMethods {
     SET_CLUB_ADMIN_CREATE = "set.club_admin.create",
     // SET_SUPER_ADMIN_CREATE = "set.super_admin.create",
+    POST_USER_SEND_VERIFICATION_EMAIL = "post.user.sendVerificationEmail",
 }

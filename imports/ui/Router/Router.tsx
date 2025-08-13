@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {Flex, Spin} from "antd";
-import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
+import {protectedRoutes, publicRoutes} from "/imports/ui/Router/routes";
 import {LoadingOutlined} from "@ant-design/icons";
 import {Meteor} from "meteor/meteor";
 import { useTracker } from "meteor/react-meteor-data";
@@ -25,13 +25,15 @@ export const Router: React.FC<RouterProps> = ({}) => {
         loggingIn: Meteor.loggingIn(),
     }), []);
 
+    console.log("Logging In: ", loggingIn)
+
     const routes = [
         ...(userId === null ?
             [...Object.values(publicRoutes)] :
             [...Object.values(protectedRoutes), ...Object.values(publicRoutes)])
     ]
 
-    if (userId === undefined) {
+    if (loggingIn || userId === undefined) {
         return (
             <Flex justify={"center"} align={"center"} style={{height: "100%"}}>
                 <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />

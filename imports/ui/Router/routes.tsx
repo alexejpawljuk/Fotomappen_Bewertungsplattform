@@ -1,11 +1,11 @@
 import React from 'react';
-import {HomePage} from "/imports/ui/HomePage/HomePage";
-import {LoginPage} from "/imports/ui/LoginPage/LoginPage";
-import {SignupPage} from "/imports/ui/SignupPage/SignupPage";
-import {NotFoundPage} from "/imports/ui/NotFoundPage/NotFoundPage";
-import {EmailVerifyPage} from "/imports/ui/EmailVerifyPage/EmailVerifyPage";
-import {DashboardClubAdminLayout} from "/imports/ui/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
-import {DashboardLayout} from "/imports/ui/DashboardPage/DashboardLayout";
+import {LoginPage} from "/imports/ui/Pages/LoginPage/LoginPage";
+import {SignupPage} from "/imports/ui/Pages/SignupPage/SignupPage";
+import {NotFoundPage} from "/imports/ui/Pages/NotFoundPage/NotFoundPage";
+import {EmailVerifyPage} from "/imports/ui/Pages/EmailVerifyPage/EmailVerifyPage";
+import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
+import {DashboardLayout} from "/imports/ui/Pages/DashboardPage/DashboardLayout";
+import {HomePage} from "/imports/ui/Pages/HomePage/HomePage";
 
 export const publicRoutes = {
     home: {

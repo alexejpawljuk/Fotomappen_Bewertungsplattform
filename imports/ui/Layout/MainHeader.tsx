@@ -6,7 +6,7 @@ import {Meteor} from "meteor/meteor";
 import {useNavigate} from "react-router-dom";
 import {Role} from "/imports/api/names";
 import {User} from "/imports/api/User/models";
-import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
+import {protectedRoutes, publicRoutes} from "/imports/ui/Router/routes";
 
 const SignedOutActions = () => {
     const navigate = useNavigate()

@@ -3,7 +3,7 @@ import {Button, Input, message, Select, Space, Typography} from "antd";
 import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import {LockOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/icons";
-import {publicRoutes} from "/imports/utils/constans/routes";
+import {publicRoutes} from "/imports/ui/Router/routes";
 import {MethodSetClubAdminCreateModel} from "/imports/api/User/models";
 import {Meteor} from 'meteor/meteor';
 import {Community} from "/imports/api/community/models";
