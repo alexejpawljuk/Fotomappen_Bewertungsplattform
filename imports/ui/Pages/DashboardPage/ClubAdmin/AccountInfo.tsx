@@ -2,7 +2,7 @@ import React, {useMemo} from 'react';
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
 import {User} from "/imports/api/User/models";
-import {Descriptions, DescriptionsProps, Flex, message} from "antd";
+import {Descriptions, DescriptionsProps, Flex, message, Typography} from "antd";
 import {UserMethods} from "/imports/api/names";
 import {Verification} from "/imports/utils/constans/text";
 
@@ -38,7 +38,12 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
     }, [user]);
     return (
         <Flex justify={"center"} align={"center"} wrap gap={"middle"}>
-            <Descriptions title="Account Info" items={accountInfo} column={1} style={{display: "inline-block"}}/>
+            <Descriptions
+                title={<Typography.Title level={4} style={{textAlign: "center"}}>Account info</Typography.Title>}
+                items={accountInfo}
+                column={{ xs: 1, sm: 1, md: 2, lg: 2, xl: 2, xxl: 2 }}
+                bordered
+            />
         </Flex>
     )
 };
