@@ -4,8 +4,8 @@ import {AppUserIdModel} from "/imports/ui/App";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
 import {useNavigate} from "react-router-dom";
-import {Role} from "/imports/api/models";
-import {ClubAdmin} from "/imports/api/club_admin/models";
+import {Role} from "/imports/api/names";
+import {User} from "/imports/api/User/models";
 import {protectedRoutes, publicRoutes} from "/imports/utils/constans/routes";
 
 const SignedOutActions = () => {
@@ -28,7 +28,7 @@ const SignedOutActions = () => {
 
 const SignedInActions = () => {
     const navigate = useNavigate()
-    const user = useTracker(() => Meteor.user() as ClubAdmin | null)
+    const user = useTracker(() => Meteor.user() as User | null)
 
     const handleDashboard = () => {
         if (!user) return

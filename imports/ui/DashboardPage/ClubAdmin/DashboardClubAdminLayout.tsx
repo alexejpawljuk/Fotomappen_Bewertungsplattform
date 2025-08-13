@@ -3,14 +3,14 @@ import {DashboardLayout} from "/imports/ui/DashboardPage/DashboardLayout";
 import {Button, Descriptions, DescriptionsProps, Flex} from "antd";
 import { useTracker } from "meteor/react-meteor-data";
 import { Meteor } from "meteor/meteor";
-import {ClubAdmin} from "/imports/api/club_admin/models";
+import {User} from "/imports/api/User/models";
 
 interface DashboardClubAdminLayoutProps {
     children?: React.ReactNode
 }
 
 const AccountInfo = () => {
-    const user = useTracker(() => Meteor.user() as ClubAdmin | null)
+    const user = useTracker(() => Meteor.user() as User | null)
     const accountInfo: DescriptionsProps['items'] = useMemo(() => {
         if (!user) return [];
         return [

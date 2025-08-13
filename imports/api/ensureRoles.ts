@@ -1,5 +1,5 @@
 import { Roles } from "meteor/alanning:roles";
-import {Role} from "/imports/api/models";
+import {Role} from "/imports/api/names";
 
 export const ensureRoles = async () => {
     await Roles.createRoleAsync(Role.SUPER_ADMIN, { unlessExists: true });

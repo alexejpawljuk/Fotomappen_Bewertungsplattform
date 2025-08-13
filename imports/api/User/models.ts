@@ -1,5 +1,5 @@
 import {Meteor} from "meteor/meteor"
-import {Role} from "/imports/api/models"
+import {Role} from "/imports/api/names"
 
 
 interface Profile {
@@ -8,7 +8,7 @@ interface Profile {
     communityId: string
 }
 
-export class ClubAdmin implements Meteor.User {
+export class User implements Meteor.User {
     _id!: string;
     emails!: Meteor.UserEmail[];
     createdAt!: Date;

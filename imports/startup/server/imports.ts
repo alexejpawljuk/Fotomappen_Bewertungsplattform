@@ -1,5 +1,5 @@
 // Methods
-import "/imports/api/club_admin/methods"
+import "/imports/api/User/club_admin/methods"
 import "/imports/api/community/methods"
 
 // Databases

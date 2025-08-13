@@ -1,18 +1,23 @@
 import {Meteor} from 'meteor/meteor';
-import {MethodSetClubAdminCreateModel} from "/imports/api/club_admin/models";
+import {MethodSetClubAdminCreateModel} from "/imports/api/User/models";
 import {check} from 'meteor/check';
 import {clientContentError, internalServerError} from "/imports/utils/serverErrors";
 import {isEmail} from "validator";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {Accounts} from 'meteor/accounts-base';
-import {Role} from "/imports/api/models";
-import { Roles } from "meteor/alanning:roles";
+import {Role, UserMethods} from "/imports/api/names";
+import {Roles} from "meteor/alanning:roles";
 import {CommunityCollection} from "/imports/api/community/community";
 import {SignupError} from "/imports/utils/constans/text";
 
 
 Meteor.methods({
-    "set.user.create": async ({email, password, clubName, communityId}: MethodSetClubAdminCreateModel) => {
+    [UserMethods.SET_CLUB_ADMIN_CREATE]: async ({
+        email,
+        password,
+        clubName,
+        communityId
+    }: MethodSetClubAdminCreateModel) => {
         console.log("Called set user create")
         check(email, String)
         check(password, String)

@@ -18,7 +18,11 @@ import {MESSAGE_DURATION} from "/imports/ui/config";
 export type AppUserIdModel = string | undefined | null
 
 export const App = () => {
-    const userId: AppUserIdModel = useTracker(() => Meteor.userId())
+    // @ts-ignore
+    const { userId, loggingIn } = useTracker(() => ({
+        userId: Meteor.userId(),
+        loggingIn: Meteor.loggingIn(),
+    }), []);
     message.config({duration: MESSAGE_DURATION})
 
     const routes = [

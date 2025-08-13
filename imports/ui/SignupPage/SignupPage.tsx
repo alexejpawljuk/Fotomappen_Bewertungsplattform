@@ -4,12 +4,14 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import {LockOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/icons";
 import {publicRoutes} from "/imports/utils/constans/routes";
-import {MethodSetClubAdminCreateModel} from "/imports/api/club_admin/models";
+import {MethodSetClubAdminCreateModel} from "/imports/api/User/models";
 import {Meteor} from 'meteor/meteor';
 import {Community} from "/imports/api/community/models";
 import {SignupError, SignupStatus} from "/imports/utils/constans/text";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {MainLayout} from "/imports/ui/Layout/MainLayout";
+import {UserMethods} from "/imports/api/names";
+
 
 
 interface Props {
@@ -75,7 +77,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
                 communityId,
             }
 
-            await Meteor.callAsync("set.user.create", data)
+            await Meteor.callAsync(UserMethods.SET_CLUB_ADMIN_CREATE, data)
 
             message.success(SignupStatus.SUCCESS)
 
