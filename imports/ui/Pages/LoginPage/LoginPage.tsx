@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Input, message, Space, Typography} from "antd";
 import {LockOutlined} from "@ant-design/icons";
 import {protectedRoutes, publicRoutes} from "/imports/ui/Router/routes";
@@ -7,6 +7,9 @@ import validator from "validator";
 import {Meteor} from "meteor/meteor"
 import {LoginError} from "/imports/utils/constans/text";
 import {MainLayout} from "/imports/ui/Layout/MainLayout";
+import {useTracker} from "meteor/react-meteor-data";
+import {User} from "/imports/api/User/models";
+import {Role} from "/imports/api/names";
 
 interface Props {
     // define your props here
@@ -16,6 +19,20 @@ export const LoginPage: React.FC<Props> = ({}) => {
     const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
     const [password, setPassword] = useState("0123456789")
     const navigate = useNavigate()
+    const loggedIn = useTracker(() => Meteor.userId())
+    const user = useTracker(() => Meteor.user() as User | null)
+    const role = user?.profile?.role
+
+    useEffect(() => {
+        if (!loggedIn || !role) return;
+
+        if (role === Role.SUPER_ADMIN) {
+            navigate(protectedRoutes.dashboardSuperAdmin.path, { replace: true });
+        } else if (role === Role.CLUB_ADMIN) {
+            navigate(protectedRoutes.dashboardClubAdmin.path, { replace: true });
+        }
+    }, [loggedIn, role, navigate]);
+
 
     const handleSubmit = () => {
         const cleanedEmail = email.trim()
@@ -32,7 +49,6 @@ export const LoginPage: React.FC<Props> = ({}) => {
             if(error) {
                 return message.error(LoginError.INVALID_CREDENTIALS)
             }
-            navigate(protectedRoutes.dashboardClubAdmin.path)
         })
     }
 

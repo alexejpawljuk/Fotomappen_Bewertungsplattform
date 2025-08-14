@@ -21,8 +21,9 @@ interface RouterProps {
  */
 export const Router: React.FC<RouterProps> = ({}) => {
 
-    const {userId} = useTracker(() => ({
-        userId: Meteor.userId()
+    const {userId, loggingIn} = useTracker(() => ({
+        userId: Meteor.userId(),
+        loggingIn: Meteor.loggingIn(),
     }), []);
 
     const user = useTracker(() => Meteor.user() as User | null);
@@ -32,11 +33,9 @@ export const Router: React.FC<RouterProps> = ({}) => {
         Object.values(protectedRoutes)
             .filter(rout => rout.requiredRole === userRole)
 
-    console.log("User routes: ", allowedProtectedRoutes)
-
     const routes = [...allowedProtectedRoutes, ...Object.values(publicRoutes)]
 
-    if (userId === undefined) {
+    if (userId === undefined || loggingIn) {
         return (
             <Flex justify={"center"} align={"center"} style={{height: "100%"}}>
                 <Spin indicator={<LoadingOutlined style={{fontSize: 48}} spin/>}/>
