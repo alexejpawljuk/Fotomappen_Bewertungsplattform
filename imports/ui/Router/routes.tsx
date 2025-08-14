@@ -1,12 +1,13 @@
 import React from 'react';
+import {Role} from "/imports/api/names";
+import {HomePage} from "/imports/ui/Pages/HomePage/HomePage";
 import {LoginPage} from "/imports/ui/Pages/LoginPage/LoginPage";
 import {SignupPage} from "/imports/ui/Pages/SignupPage/SignupPage";
 import {NotFoundPage} from "/imports/ui/Pages/NotFoundPage/NotFoundPage";
 import {EmailVerifyPage} from "/imports/ui/Pages/EmailVerifyPage/EmailVerifyPage";
 import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
-import {HomePage} from "/imports/ui/Pages/HomePage/HomePage";
-import {Role} from "/imports/api/names";
 import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAdmin/DashboardSuperAdminLayout";
+import {DashboardPhotoAlbums} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbums/DashboardPhotoAlbums";
 
 export const publicRoutes = {
     home: {
@@ -38,6 +39,11 @@ export const protectedRoutes = {
             element: (<DashboardClubAdminLayout/>),
             requiredRole: Role.CLUB_ADMIN
         },
+        dashboardPhotoAlbums: {
+            path: '/dashboard/club-admin/photo-albums',
+            element: (<DashboardPhotoAlbums/>),
+            requiredRole: Role.CLUB_ADMIN
+        }
     },
     [Role.SUPER_ADMIN]: {
         dashboardSuperAdmin: {
