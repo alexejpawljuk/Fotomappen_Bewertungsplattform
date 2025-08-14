@@ -6,7 +6,7 @@ import {EmailVerifyPage} from "/imports/ui/Pages/EmailVerifyPage/EmailVerifyPage
 import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
 import {HomePage} from "/imports/ui/Pages/HomePage/HomePage";
 import {Role} from "/imports/api/names";
-import {DashboardLayout} from "/imports/ui/Pages/DashboardPage/DashboardLayout";
+import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAdmin/DashboardSuperAdminLayout";
 
 export const publicRoutes = {
     home: {
@@ -43,7 +43,7 @@ export const protectedRoutes = {
     },
     dashboardSuperAdmin: {
         path: '/dashboard/super-admin',
-        element: (<DashboardLayout/>),
+        element: (<DashboardSuperAdminLayout/>),
         requiredRole: Role.SUPER_ADMIN
     }
 } as const
