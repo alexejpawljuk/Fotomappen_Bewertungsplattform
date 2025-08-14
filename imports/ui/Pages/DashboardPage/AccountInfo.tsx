@@ -5,6 +5,7 @@ import {User} from "/imports/api/User/models";
 import {Descriptions, DescriptionsProps, Flex, message, Typography} from "antd";
 import {UserMethods} from "/imports/api/names";
 import {Verification} from "/imports/utils/constans/text";
+import {isEmpty} from "validator";
 
 interface AccountInfoProps {
     // TODO: define props here
@@ -27,9 +28,13 @@ export const AccountInfo: React.FC<AccountInfoProps> = ({}) => {
         };
 
         return [
-            {key: 'clubName', label: 'Club Name', children: user.profile?.clubName ?? '-'},
-            {key: 'role', label: 'Role', children: user.profile?.role ?? '-'},
-            {key: 'email', label: 'Email', children: user.emails?.[0]?.address ?? '-'},
+            {
+                key: 'clubName', label: 'Club Name',
+                children: isEmpty(user.profile?.clubName) ? '-' : user.profile?.clubName},
+            {
+                key: 'role', label: 'Role', children: user.profile?.role ?? '-'},
+            {
+                key: 'email', label: 'Email', children: user.emails?.[0]?.address ?? '-'},
             {
                 key: 'varify', label: 'Email varified', children: user.emails?.[0]?.verified ? 'Ja' :
                     <a onClick={resendVerification}>E-Mail verifizieren</a>
