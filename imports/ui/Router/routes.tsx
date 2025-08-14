@@ -32,18 +32,28 @@ export const publicRoutes = {
 } as const
 
 export const protectedRoutes = {
-    // dashboard: {
-    //     path: '/dashboard',
-    //     element: (<DashboardLayout/>),
-    // },
-    dashboardClubAdmin: {
-        path: '/dashboard/club-admin',
-        element: (<DashboardClubAdminLayout/>),
-        requiredRole: Role.CLUB_ADMIN
+    [Role.CLUB_ADMIN]: {
+        dashboardClubAdmin: {
+            path: '/dashboard/club-admin',
+            element: (<DashboardClubAdminLayout/>),
+            requiredRole: Role.CLUB_ADMIN
+        },
     },
-    dashboardSuperAdmin: {
-        path: '/dashboard/super-admin',
-        element: (<DashboardSuperAdminLayout/>),
-        requiredRole: Role.SUPER_ADMIN
-    }
+    [Role.SUPER_ADMIN]: {
+        dashboardSuperAdmin: {
+            path: '/dashboard/super-admin',
+            element: (<DashboardSuperAdminLayout/>),
+            requiredRole: Role.SUPER_ADMIN
+        }
+    },
+    // dashboardClubAdmin: {
+    //     path: '/dashboard/club-admin',
+    //     element: (<DashboardClubAdminLayout/>),
+    //     requiredRole: Role.CLUB_ADMIN
+    // },
+    // dashboardSuperAdmin: {
+    //     path: '/dashboard/super-admin',
+    //     element: (<DashboardSuperAdminLayout/>),
+    //     requiredRole: Role.SUPER_ADMIN
+    // }
 } as const

@@ -29,9 +29,10 @@ export const Router: React.FC<RouterProps> = ({}) => {
     const user = useTracker(() => Meteor.user() as User | null);
     const userRole = user?.profile?.role;
 
-    const allowedProtectedRoutes =
-        Object.values(protectedRoutes)
-            .filter(rout => rout.requiredRole === userRole)
+    const allowedProtectedRoutes = [
+        ...Object.values(protectedRoutes.club_admin),
+        ...Object.values(protectedRoutes.super_admin)
+    ].filter(rout => rout.requiredRole === userRole)
 
     const routes = [...allowedProtectedRoutes, ...Object.values(publicRoutes)]
 

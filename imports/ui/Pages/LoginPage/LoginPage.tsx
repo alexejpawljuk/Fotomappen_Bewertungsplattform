@@ -27,9 +27,9 @@ export const LoginPage: React.FC<Props> = ({}) => {
         if (!loggedIn || !role) return;
 
         if (role === Role.SUPER_ADMIN) {
-            navigate(protectedRoutes.dashboardSuperAdmin.path, { replace: true });
+            navigate(protectedRoutes.super_admin.dashboardSuperAdmin.path, { replace: true });
         } else if (role === Role.CLUB_ADMIN) {
-            navigate(protectedRoutes.dashboardClubAdmin.path, { replace: true });
+            navigate(protectedRoutes.club_admin.dashboardClubAdmin.path, { replace: true });
         }
     }, [loggedIn, role, navigate]);
 

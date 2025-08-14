@@ -32,8 +32,8 @@ const SignedInActions = () => {
     const handleDashboard = () => {
         if (!user) return
         const role = user?.profile?.role
-        if (role === Role.SUPER_ADMIN) navigate(protectedRoutes.dashboardSuperAdmin.path)
-        if (role === Role.CLUB_ADMIN) navigate(protectedRoutes.dashboardClubAdmin.path)
+        if (role === Role.SUPER_ADMIN) navigate(protectedRoutes.super_admin.dashboardSuperAdmin.path)
+        if (role === Role.CLUB_ADMIN) navigate(protectedRoutes.club_admin.dashboardClubAdmin.path)
     }
 
     const handleLogout = () => {
