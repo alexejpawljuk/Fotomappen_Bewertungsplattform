@@ -48,7 +48,7 @@ Meteor.methods({
         }
 
         try {
-            const clubAdmin = await Accounts.createUserAsync({
+            const userId = await Accounts.createUserAsync({
                 email: cleanEmail,
                 password,
                 profile: {
@@ -58,9 +58,11 @@ Meteor.methods({
                 }
             });
 
-            await Roles.addUsersToRolesAsync(clubAdmin, Role.CLUB_ADMIN)
+            await Roles.addUsersToRolesAsync(userId, Role.CLUB_ADMIN)
 
-            Accounts.sendVerificationEmail(clubAdmin);
+            Accounts.sendVerificationEmail(userId);
+
+            return { ok: true, userId };
 
             // Temp
             // const super_admin = await Accounts.createUserAsync({

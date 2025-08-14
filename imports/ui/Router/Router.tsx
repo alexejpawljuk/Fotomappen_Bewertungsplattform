@@ -4,7 +4,9 @@ import {Flex, Spin} from "antd";
 import {protectedRoutes, publicRoutes} from "/imports/ui/Router/routes";
 import {LoadingOutlined} from "@ant-design/icons";
 import {Meteor} from "meteor/meteor";
-import { useTracker } from "meteor/react-meteor-data";
+import {useTracker} from "meteor/react-meteor-data";
+import {User} from "/imports/api/User/models";
+
 
 interface RouterProps {
     // TODO: define props here
@@ -19,28 +21,28 @@ interface RouterProps {
  */
 export const Router: React.FC<RouterProps> = ({}) => {
 
-    // @ts-ignore
-    const {userId, loggingIn} = useTracker(() => ({
-        userId: Meteor.userId(),
-        loggingIn: Meteor.loggingIn(),
+    const {userId} = useTracker(() => ({
+        userId: Meteor.userId()
     }), []);
 
-    console.log("Logging In: ", loggingIn)
+    const user = useTracker(() => Meteor.user() as User | null);
+    const userRole = user?.profile?.role;
 
-    const routes = [
-        ...(userId === null ?
-            [...Object.values(publicRoutes)] :
-            [...Object.values(protectedRoutes), ...Object.values(publicRoutes)])
-    ]
+    const allowedProtectedRoutes =
+        Object.values(protectedRoutes)
+            .filter(rout => rout.requiredRole === userRole)
+
+    console.log("User routes: ", allowedProtectedRoutes)
+
+    const routes = [...allowedProtectedRoutes, ...Object.values(publicRoutes)]
 
     if (userId === undefined) {
         return (
             <Flex justify={"center"} align={"center"} style={{height: "100%"}}>
-                <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
+                <Spin indicator={<LoadingOutlined style={{fontSize: 48}} spin/>}/>
             </Flex>
         )
     }
-
 
     return (
         <BrowserRouter>

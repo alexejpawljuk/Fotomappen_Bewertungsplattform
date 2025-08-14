@@ -1,7 +1,7 @@
 import React from 'react';
 import {DashboardLayout} from "/imports/ui/Pages/DashboardPage/DashboardLayout";
 import {Button,Flex} from "antd";
-import {AccountInfo} from "/imports/ui/Pages/DashboardPage/ClubAdmin/AccountInfo";
+import {AccountInfo} from "/imports/ui/Pages/DashboardPage/AccountInfo";
 
 interface DashboardClubAdminLayoutProps {
     children?: React.ReactNode

@@ -4,7 +4,7 @@ import {Community} from "/imports/api/community/models";
 
 export const CommunityCollection = new Mongo.Collection<Community>(AvailableCollectionNames.COMMUNITY);
 
-// // Populate the collection with some data
+// Populate the collection with some data
 // if (CommunityCollection.find().count() === 0) {
 //     CommunityCollection.insert({
 //         name: 'Community 1',

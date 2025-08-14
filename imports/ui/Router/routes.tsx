@@ -4,8 +4,9 @@ import {SignupPage} from "/imports/ui/Pages/SignupPage/SignupPage";
 import {NotFoundPage} from "/imports/ui/Pages/NotFoundPage/NotFoundPage";
 import {EmailVerifyPage} from "/imports/ui/Pages/EmailVerifyPage/EmailVerifyPage";
 import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
-import {DashboardLayout} from "/imports/ui/Pages/DashboardPage/DashboardLayout";
 import {HomePage} from "/imports/ui/Pages/HomePage/HomePage";
+import {Role} from "/imports/api/names";
+import {DashboardLayout} from "/imports/ui/Pages/DashboardPage/DashboardLayout";
 
 export const publicRoutes = {
     home: {
@@ -38,9 +39,11 @@ export const protectedRoutes = {
     dashboardClubAdmin: {
         path: '/dashboard/club-admin',
         element: (<DashboardClubAdminLayout/>),
+        requiredRole: Role.CLUB_ADMIN
     },
     dashboardSuperAdmin: {
         path: '/dashboard/super-admin',
         element: (<DashboardLayout/>),
+        requiredRole: Role.SUPER_ADMIN
     }
 } as const

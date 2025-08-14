@@ -27,7 +27,7 @@ export const EmailVerifyPage = () => {
     }, [token])
 
     if (status === null) {
-        return
+        return <></>
     }
 
     return (

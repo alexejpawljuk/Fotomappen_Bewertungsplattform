@@ -1,6 +1,5 @@
 import React from 'react';
 import {Button, Flex} from "antd";
-import {AppUserIdModel} from "/imports/ui/App";
 import {useTracker} from "meteor/react-meteor-data";
 import {Meteor} from "meteor/meteor";
 import {useNavigate} from "react-router-dom";
@@ -53,7 +52,7 @@ const SignedInActions = () => {
 }
 
 export const MainHeader = () => {
-    const userId: AppUserIdModel = useTracker(() => Meteor.userId())
+    const userId = useTracker(() => Meteor.userId())
     const navigate = useNavigate()
 
     const isAuthed = userId !== null
