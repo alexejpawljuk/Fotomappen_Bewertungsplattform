@@ -38,6 +38,7 @@
     "esModuleInterop": true,
     "preserveSymlinks": true
   },
+//  "include": ["/imports/types/meteor-methods.d.ts"],
   "exclude": [
     "./.meteor/**",
     "./packages/**"

@@ -7,7 +7,7 @@ import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {Accounts} from 'meteor/accounts-base';
 import {Role, UserMethods} from "/imports/api/names";
 import {Roles} from "meteor/alanning:roles";
-import {CommunityCollection} from "/imports/api/community/community";
+import {CommunityCollectionCollection} from "/imports/api/community/communityCollection";
 import {SignupError} from "/imports/utils/constans/text";
 
 
@@ -18,7 +18,6 @@ Meteor.methods({
         clubName,
         communityId
     }: MethodSetClubAdminCreateModel) => {
-        console.log("Called set user create")
         check(email, String)
         check(password, String)
         check(clubName, String)
@@ -28,7 +27,7 @@ Meteor.methods({
             return clientContentError(SignupError.EMAIL_INVALID)
         }
 
-        const community = CommunityCollection.findOne({_id: communityId})
+        const community = CommunityCollectionCollection.findOne({_id: communityId})
         if (!community) {
             return clientContentError(SignupError.COMMUNITY_NOT_FOUND)
         }

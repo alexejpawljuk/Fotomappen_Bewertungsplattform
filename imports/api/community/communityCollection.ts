@@ -1,8 +1,8 @@
 import {Mongo} from 'meteor/mongo';
 import {AvailableCollectionNames} from "/imports/api/names";
-import {Community} from "/imports/api/community/models";
+import {Community} from "./models";
 
-export const CommunityCollection = new Mongo.Collection<Community>(AvailableCollectionNames.COMMUNITY);
+export const CommunityCollectionCollection = new Mongo.Collection<Community>(AvailableCollectionNames.COMMUNITY);
 
 // Populate the collection with some data
 // if (CommunityCollection.find().count() === 0) {

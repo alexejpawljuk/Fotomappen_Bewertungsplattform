@@ -1,3 +1,3 @@
 
 // Message duration in seconds
-export const MESSAGE_DURATION = 10;
+export const MESSAGE_DURATION = 7;

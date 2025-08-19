@@ -4,6 +4,9 @@ export enum AvailableCollectionNames {
     CLUB_ADMIN = 'club_admin',
     SUPER_ADMIN = 'super_admin',
     COMMUNITY = 'community',
+    PHOTO_ALBUM = 'photo_album',
+    PHOTO = 'photo',
+    CONTEST = 'contest',
 }
 
 // Role names
@@ -23,4 +26,13 @@ export enum UserMethods {
     SET_CLUB_ADMIN_CREATE = "set.club_admin.create",
     // SET_SUPER_ADMIN_CREATE = "set.super_admin.create",
     GET_USER_SEND_VERIFICATION_EMAIL = "get.user.sendVerificationEmail",
+}
+
+// PhotoAlbum method names
+export enum PhotoAlbumMethods {
+    SET_PHOTO_ALBUM_CREATE = "set.photo_album.create",
+    // SET_PHOTO_ALBUM_UPDATE = "set.photo_album.update",
+    // SET_PHOTO_ALBUM_DELETE = "set.photo_album.delete",
+    // SET_PHOTO_ALBUM_ADD_PHOTO = "set.photo_album.addPhoto",
+    // SET_PHOTO_ALBUM_REMOVE_PHOTO = "set.photo_album.removePhoto",
 }
