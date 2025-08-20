@@ -6,6 +6,7 @@ import "/imports/api/PhotoAlbum/methods"
 // Databases
 import "/imports/api/community/communityCollection"
 import "/imports/api/PhotoAlbum/photoAlbumCollection"
+import "/imports/api/Photo/photoCollection"
 
 // configuration
 import "/imports/api/config"
