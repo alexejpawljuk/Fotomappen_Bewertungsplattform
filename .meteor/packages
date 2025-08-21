@@ -24,4 +24,3 @@ zodern:types            # Pull in type declarations from other Meteor packages
 accounts-base
 accounts-password
 alanning:roles
-cultofcoders:grapher

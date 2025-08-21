@@ -31,8 +31,10 @@ export enum UserMethods {
 // PhotoAlbum method names
 export enum PhotoAlbumMethods {
     SET_PHOTO_ALBUM_CREATE = "set.photo_album.create",
-    // SET_PHOTO_ALBUM_UPDATE = "set.photo_album.update",
-    // SET_PHOTO_ALBUM_DELETE = "set.photo_album.delete",
-    // SET_PHOTO_ALBUM_ADD_PHOTO = "set.photo_album.addPhoto",
-    // SET_PHOTO_ALBUM_REMOVE_PHOTO = "set.photo_album.removePhoto",
+    GET_PHOTO_ALBUM_LIST = "get.photo_album.list",
+    DELETE_PHOTO_ALBUM_BY_ID = "delete.photo_album.byId",
+}
+
+export enum PhotoAlbumPublication {
+    LIST = "photo_album.list",
 }
