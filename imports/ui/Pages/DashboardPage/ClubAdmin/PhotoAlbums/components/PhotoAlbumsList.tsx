@@ -37,7 +37,6 @@ export const PhotoAlbumsList: React.FC = () => {
             if (err) {
                 return console.error(err)
             }
-            setData((prevState) => prevState.filter((item) => item.albumId !== key))
         })
         console.log("delete key: ", key)
     }

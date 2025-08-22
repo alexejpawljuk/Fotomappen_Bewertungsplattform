@@ -31,3 +31,8 @@ export interface MethodGetPhotoAlbumListModel {
         status: StatusType;
     }
 }
+
+// DELETE methods
+export interface MethodDeletePhotoAlbumByIdModel {
+    albumId: string
+}
