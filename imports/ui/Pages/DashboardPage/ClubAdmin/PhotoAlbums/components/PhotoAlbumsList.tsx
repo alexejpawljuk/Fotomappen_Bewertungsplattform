@@ -6,7 +6,9 @@ import {CheckCircleOutlined, ClockCircleOutlined, SyncOutlined} from "@ant-desig
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
 import {PhotoAlbumMethods, PhotoAlbumPublication} from "/imports/api/names";
-import {MethodGetPhotoAlbumListModel} from "/imports/api/PhotoAlbum/models";
+import {MethodDeletePhotoAlbumByIdModel, MethodGetPhotoAlbumListModel} from "/imports/api/PhotoAlbum/models";
+import {Link} from "react-router-dom";
+import {protectedRoutes} from "/imports/ui/Router/routes";
 
 export const PhotoAlbumsList: React.FC = () => {
     const [data, setData] = useState<MethodGetPhotoAlbumListModel[]>([])
@@ -32,13 +34,14 @@ export const PhotoAlbumsList: React.FC = () => {
         }
     });
 
-    const handleDelete = (key: React.Key) => {
-        Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, {albumId: key}, key, (err: any) => {
+    const handleDelete = (albumId: string) => {
+        const params: MethodDeletePhotoAlbumByIdModel = {albumId}
+
+        Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, params, (err: any) => {
             if (err) {
                 return console.error(err)
             }
         })
-        console.log("delete key: ", key)
     }
 
 
@@ -48,7 +51,8 @@ export const PhotoAlbumsList: React.FC = () => {
                 title: 'Title',
                 dataIndex: 'title',
                 key: 'title',
-                render: (_, {title}) => title,
+                render: (_, {title, albumId}) =>
+                    <Link to={protectedRoutes.club_admin.dashboardPhotoAlbum.path + albumId}>{title}</Link>,
             },
             {
                 title: 'Datum',

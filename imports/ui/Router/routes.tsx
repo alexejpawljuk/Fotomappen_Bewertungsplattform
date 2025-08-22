@@ -8,6 +8,7 @@ import {EmailVerifyPage} from "/imports/ui/Pages/EmailVerifyPage/EmailVerifyPage
 import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmin/DashboardClubAdminLayout";
 import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAdmin/DashboardSuperAdminLayout";
 import {DashboardPhotoAlbums} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbums/DashboardPhotoAlbums";
+import {DashboardPhotoAlbum} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/DashboardPhotoAlbum";
 
 export const publicRoutes = {
     home: {
@@ -42,6 +43,11 @@ export const protectedRoutes = {
         dashboardPhotoAlbums: {
             path: '/dashboard/club-admin/photo-albums',
             element: (<DashboardPhotoAlbums/>),
+            requiredRole: Role.CLUB_ADMIN
+        },
+        dashboardPhotoAlbum: {
+            path: '/dashboard/club-admin/photo-album/:albumId',
+            element: (<DashboardPhotoAlbum/>),
             requiredRole: Role.CLUB_ADMIN
         }
     },
