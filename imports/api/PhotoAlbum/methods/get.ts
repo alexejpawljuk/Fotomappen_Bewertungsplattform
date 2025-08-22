@@ -12,6 +12,11 @@ Meteor.methods({
 
         const result = await PhotoAlbumCollection.rawCollection().aggregate([
             {
+                $match: {
+                    "owner.userId": this.userId,
+                }
+            },
+            {
                 $lookup: {
                     from: AvailableCollectionNames.PHOTO,
                     localField: "_id",
