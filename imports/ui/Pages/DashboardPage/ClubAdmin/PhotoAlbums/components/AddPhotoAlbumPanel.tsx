@@ -10,7 +10,7 @@ interface CreatePhotoAlbumProps {
     // TODO: define props here
 }
 
-export const CreatePhotoAlbum: React.FC<CreatePhotoAlbumProps> = ({}) => {
+export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
     const [title, setTitle] = useState("")
 
     const handleCreate = async () => {
@@ -35,6 +35,7 @@ export const CreatePhotoAlbum: React.FC<CreatePhotoAlbumProps> = ({}) => {
         try {
             await Meteor.callAsync(PhotoAlbumMethods.SET_PHOTO_ALBUM_CREATE, data)
             message.success(`"${cleanTitle}" ` + `${PhotoAlbumStatus.SUCCESS}`);
+            setTitle("")
         } catch (e: unknown) {
             if (e instanceof Meteor.Error){
                 return message.error(e.details || e.reason || e.message || "Unknown error")
@@ -58,6 +59,7 @@ export const CreatePhotoAlbum: React.FC<CreatePhotoAlbumProps> = ({}) => {
                         placeholder="Title"
                         size={"small"}
                         style={{width: "150px"}}
+                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                     />
                     <Button

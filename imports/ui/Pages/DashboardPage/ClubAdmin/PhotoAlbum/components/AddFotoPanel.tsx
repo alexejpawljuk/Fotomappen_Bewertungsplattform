@@ -1,0 +1,13 @@
+import React from 'react';
+
+interface AddFotoPanelProps {
+    // TODO: define props here
+}
+
+export const AddFotoPanel: React.FC<AddFotoPanelProps> = ({}) => {
+    return (
+        <div>
+            {/* TODO: implement UI */}
+        </div>
+    );
+};

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useParams} from "react-router-dom";
+import {DashboardContentTitle} from "/imports/ui/Pages/DashboardPage/DashboardContentTitle";
+import {AddFotoPanel} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/components/AddFotoPanel";
 
 interface DashboardPhotoAlbumProps {
     // TODO: define props here
@@ -8,10 +10,16 @@ interface DashboardPhotoAlbumProps {
 export const DashboardPhotoAlbum: React.FC<DashboardPhotoAlbumProps> = ({}) => {
     const {albumId} = useParams();
 
+    useEffect(() => {
+
+    }, []);
+
     return (
         <div>
-            <h1>Photo Album</h1>
-            <h2>{albumId}</h2>
+            <DashboardContentTitle title={"Fotomappe "+ albumId}/>
+
+            <AddFotoPanel/>
+
         </div>
     );
 };
