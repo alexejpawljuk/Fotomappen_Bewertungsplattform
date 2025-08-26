@@ -6,12 +6,15 @@ import {CheckCircleOutlined, ClockCircleOutlined, SyncOutlined} from "@ant-desig
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
 import {PhotoAlbumMethods, PhotoAlbumPublication} from "/imports/api/names";
-import {MethodDeletePhotoAlbumByIdModel, MethodGetPhotoAlbumListModel} from "/imports/api/PhotoAlbum/models";
-import {Link} from "react-router-dom";
+import {
+    MethodDeletePhotoAlbumByIdRequestModel,
+    MethodGetPhotoAlbumListResponseModel
+} from "/imports/api/PhotoAlbum/models";
+import {generatePath, Link} from "react-router-dom";
 import {protectedRoutes} from "/imports/ui/Router/routes";
 
 export const PhotoAlbumsList: React.FC = () => {
-    const [data, setData] = useState<MethodGetPhotoAlbumListModel[]>([])
+    const [data, setData] = useState<MethodGetPhotoAlbumListResponseModel[]>([])
 
     const {isLoading} = useTracker(() => {
         const handle = Meteor.subscribe(PhotoAlbumPublication.LIST, Meteor.userId())
@@ -21,7 +24,7 @@ export const PhotoAlbumsList: React.FC = () => {
             }
         }
 
-        Meteor.call(PhotoAlbumMethods.GET_PHOTO_ALBUM_LIST, (err: any, res: MethodGetPhotoAlbumListModel[]) => {
+        Meteor.call(PhotoAlbumMethods.GET_PHOTO_ALBUM_LIST, (err: any, res: MethodGetPhotoAlbumListResponseModel[]) => {
             if (err) {
                 setData([])
                 return console.error(err)
@@ -35,7 +38,7 @@ export const PhotoAlbumsList: React.FC = () => {
     });
 
     const handleDelete = (albumId: string) => {
-        const params: MethodDeletePhotoAlbumByIdModel = {albumId}
+        const params: MethodDeletePhotoAlbumByIdRequestModel = {albumId}
 
         Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, params, (err: any) => {
             if (err) {
@@ -45,14 +48,14 @@ export const PhotoAlbumsList: React.FC = () => {
     }
 
 
-    const columns: TableProps<MethodGetPhotoAlbumListModel>['columns'] = useMemo(() => {
+    const columns: TableProps<MethodGetPhotoAlbumListResponseModel>['columns'] = useMemo(() => {
         return [
             {
                 title: 'Title',
                 dataIndex: 'title',
                 key: 'title',
                 render: (_, {title, albumId}) =>
-                    <Link to={protectedRoutes.club_admin.dashboardPhotoAlbum.path + albumId}>{title}</Link>,
+                    <Link to={generatePath(protectedRoutes.club_admin.dashboardPhotoAlbum.path, {albumId})}>{title}</Link>
             },
             {
                 title: 'Datum',
@@ -127,7 +130,7 @@ export const PhotoAlbumsList: React.FC = () => {
                 />
             </Flex>
 
-            <Table<MethodGetPhotoAlbumListModel>
+            <Table<MethodGetPhotoAlbumListResponseModel>
                 loading={isLoading}
                 rowKey="albumId"
                 pagination={{position: ["bottomCenter"]}}

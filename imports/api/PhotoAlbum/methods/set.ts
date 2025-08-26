@@ -1,6 +1,6 @@
 import {Meteor} from 'meteor/meteor';
 import {PhotoAlbumMethods} from "/imports/api/names";
-import {MethodSetPhotoAlbumCreateModel, PhotoAlbum} from "/imports/api/PhotoAlbum/models";
+import {MethodSetPhotoAlbumCreateRequestModel, PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 import {check} from "meteor/check";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {PhotoAlbumError} from "/imports/utils/constans/text";
@@ -11,7 +11,7 @@ import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection
 Meteor.methods({
     [PhotoAlbumMethods.SET_PHOTO_ALBUM_CREATE]: async function ({
                                                                     title
-                                                                }: MethodSetPhotoAlbumCreateModel) {
+                                                                }: MethodSetPhotoAlbumCreateRequestModel) {
         check(title, String)
 
         const userId = Meteor.userId();

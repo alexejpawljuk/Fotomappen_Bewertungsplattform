@@ -4,7 +4,7 @@ interface AddFotoPanelProps {
     // TODO: define props here
 }
 
-export const AddFotoPanel: React.FC<AddFotoPanelProps> = ({}) => {
+export const AddPhotoPanel: React.FC<AddFotoPanelProps> = ({}) => {
     return (
         <div>
             {/* TODO: implement UI */}

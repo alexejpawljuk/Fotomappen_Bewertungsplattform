@@ -2,11 +2,11 @@ import {Meteor} from "meteor/meteor"
 import {PhotoAlbumMethods} from "/imports/api/names";
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
 import {noAuthError} from "/imports/utils/serverErrors";
-import {MethodDeletePhotoAlbumByIdModel} from "/imports/api/PhotoAlbum/models";
+import {MethodDeletePhotoAlbumByIdRequestModel} from "/imports/api/PhotoAlbum/models";
 
 
 Meteor.methods({
-    [PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID]: function ({ albumId }: MethodDeletePhotoAlbumByIdModel): boolean {
+    [PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID]: function ({ albumId }: MethodDeletePhotoAlbumByIdRequestModel): boolean {
         if (!this.userId) return noAuthError()
 
         const removed = PhotoAlbumCollection.remove({

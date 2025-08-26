@@ -3,7 +3,7 @@ import {Button, Flex, Input, message} from "antd";
 import {PhotoAlbumError, PhotoAlbumStatus} from "/imports/utils/constans/text";
 import {Meteor} from "meteor/meteor"
 import {PhotoAlbumMethods} from "/imports/api/names";
-import {MethodSetPhotoAlbumCreateModel} from "/imports/api/PhotoAlbum/models";
+import {MethodSetPhotoAlbumCreateRequestModel} from "/imports/api/PhotoAlbum/models";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 
 interface CreatePhotoAlbumProps {
@@ -28,7 +28,7 @@ export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
             return message.error(PhotoAlbumError.PHOTO_ALBUM_TITLE_TO_LONG)
         }
 
-        const data: MethodSetPhotoAlbumCreateModel = {
+        const data: MethodSetPhotoAlbumCreateRequestModel = {
             title: cleanTitle,
         }
 

@@ -13,13 +13,13 @@ export interface PhotoAlbum {
 export type StatusType = "Active" | "Inactive" | "Pending"
 
 // SET methods
-export interface MethodSetPhotoAlbumCreateModel {
+export interface MethodSetPhotoAlbumCreateRequestModel {
     title: string;
 }
 
 
 // GET methods
-export interface MethodGetPhotoAlbumListModel {
+export interface MethodGetPhotoAlbumListResponseModel {
     albumId: string;
     ownerId: string;
     title: string;
@@ -32,7 +32,15 @@ export interface MethodGetPhotoAlbumListModel {
     }
 }
 
+export interface MethodGetPhotoAlbumByIDRequestModel {
+    albumId: string;
+}
+export interface MethodGetPhotoAlbumByIDResponseModel {
+    photoAlbum: PhotoAlbum | undefined;
+}
+
+
 // DELETE methods
-export interface MethodDeletePhotoAlbumByIdModel {
+export interface MethodDeletePhotoAlbumByIdRequestModel {
     albumId: string
 }
