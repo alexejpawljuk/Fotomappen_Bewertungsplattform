@@ -11,6 +11,7 @@ import {
 } from "/imports/api/PhotoAlbum/models";
 import {message} from "antd";
 
+
 interface DashboardPhotoAlbumProps {
     // TODO: define props here
 }
@@ -38,9 +39,8 @@ export const DashboardPhotoAlbum: React.FC<DashboardPhotoAlbumProps> = ({}) => {
     return (
         <DashboardClubAdminLayout>
             <DashboardContentTitle title={"Fotomappe: " + title}/>
-
+            {/*<PhotoDisplay/>*/}
             <AddPhotoPanel/>
-
         </DashboardClubAdminLayout>
     );
 };

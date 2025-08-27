@@ -8,7 +8,8 @@ export const PhotoCollection = new Mongo.Collection<Photo>(AvailableCollectionNa
 if (PhotoCollection.find().count() === 0) {
     PhotoCollection.insert({
         photoAlbumId: "H8sTmrEnGaHfeqWwN",
-        url: "https://picsum.photos/200/300",
+        title: "",
+        base64: "",
         createdAt: new Date(),
         photographer: {
             firstname: "John",
@@ -17,7 +18,8 @@ if (PhotoCollection.find().count() === 0) {
     })
     PhotoCollection.insert({
         photoAlbumId: "H8sTmrEnGaHfeqWwN",
-        url: "https://picsum.photos/200/300",
+        title: "",
+        base64: "",
         createdAt: new Date(),
         photographer: {
             firstname: "John",

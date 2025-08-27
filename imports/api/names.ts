@@ -32,8 +32,15 @@ export enum UserMethods {
 export enum PhotoAlbumMethods {
     SET_PHOTO_ALBUM_CREATE = "set.photo_album.create",
     GET_PHOTO_ALBUM_LIST = "get.photo_album.list",
-    GET_PHOTO_ALBUM_BY_ID = "get.photo_album.by_id",
+    GET_PHOTO_ALBUM_BY_ID = "get.photo_album.byId",
     DELETE_PHOTO_ALBUM_BY_ID = "delete.photo_album.byId",
+}
+
+// Photo methods name
+export enum PhotoMethods {
+    GET_PHOTOS_BY_PHOT_ALBUM_ID = "get.photos.by_photo_album_id",
+    SET_PHOTO_BY_ALBUM_ID = "set.photo.by_photo_album_id",
+    DELETE_PHOTO_BY_ID = "delete.photo.byId",
 }
 
 export enum PhotoAlbumPublication {

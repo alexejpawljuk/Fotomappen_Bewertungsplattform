@@ -27,6 +27,10 @@ export enum PhotoAlbumStatus {
     // ERROR = "Der Album konnte nicht erstellt werden.",
 }
 
+export enum PhotoError {
+    PHOTO_TITLE_TAKEN = "Dieser Titel ist bereits vergeben."
+}
+
 export enum SignupStatus {
     SUCCESS = "Ihr Benutzerkonto wurde erfolgreich erstellt. Sie können sich jetzt anmelden."
 }

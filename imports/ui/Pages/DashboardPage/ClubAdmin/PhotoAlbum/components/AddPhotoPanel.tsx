@@ -1,13 +1,119 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Meteor } from 'meteor/meteor';
+import { Space, Input, Upload, Button, message } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import type { UploadFile, RcFile } from 'antd/es/upload/interface';
+import type { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
+import {PhotoMethods} from "/imports/api/names";
+import {useParams} from "react-router-dom";
+import {MethodSetPhotoByPhotoAlbumIDRequestModel} from "/imports/api/Photo/models";
 
-interface AddFotoPanelProps {
-    // TODO: define props here
+interface PhotoData {
+    firstname: string;
+    lastname: string;
+    title: string;
+    photoBase64: string | null; // data URL
 }
 
-export const AddPhotoPanel: React.FC<AddFotoPanelProps> = ({}) => {
+const fileToBase64 = (file: RcFile) =>
+    new Promise<string>((res, rej) => {
+        const r = new FileReader();
+        r.readAsDataURL(file);
+        r.onload = () => res(String(r.result));
+        r.onerror = rej;
+    });
+
+export const AddPhotoPanel: React.FC = () => {
+    const {albumId} = useParams()
+    const [photoData, setPhotoData] = useState<PhotoData>({
+        firstname: '', lastname: '', title: '', photoBase64: null,
+    });
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+    const [saving, setSaving] = useState(false);
+
+    const customRequest = async ({ file, onSuccess, onError }: RcCustomRequestOptions) => {
+        try {
+            const base64 = await fileToBase64(file as RcFile);
+            setPhotoData(prev => ({ ...prev, photoBase64: base64 }));
+            onSuccess?.({ ok: true });
+        } catch (e) {
+            onError?.(e as any);
+        }
+    };
+
+    const save = () => {
+        if (!photoData.firstname) return message.warning('Invalid Name');
+        if (!photoData.lastname) return message.warning('Invalid Vorname');
+        if (!photoData.title) return message.warning('Invalid Title');
+        if (!photoData.photoBase64) return message.warning('Invalid file');
+
+        const data: MethodSetPhotoByPhotoAlbumIDRequestModel = {
+            title: photoData.title,
+            photoAlbumId: albumId,
+            base64: photoData.photoBase64,
+            photographer: {
+                firstname: photoData.firstname,
+                lastname: photoData.lastname
+            }
+        }
+
+        setSaving(true);
+        Meteor.call(PhotoMethods.SET_PHOTO_BY_ALBUM_ID, data, (err: Meteor.Error | undefined) => {
+            setSaving(false);
+            if (err) return message.error(err.reason || 'Saving failed');
+            message.success('Saved successfully');
+            setPhotoData({ firstname: '', lastname: '', title: '', photoBase64: null });
+            setFileList([]);
+        });
+    };
+
+    const reset = () => {
+        setPhotoData({ firstname: '', lastname: '', title: '', photoBase64: null });
+        setFileList([]);
+    };
+
     return (
-        <div>
-            {/* TODO: implement UI */}
-        </div>
+        <Space direction="vertical" size="middle" style={{ width: 420 }}>
+            <Input
+                value={photoData.firstname}
+                onChange={e => setPhotoData(p => ({ ...p, firstname: e.target.value }))}
+                placeholder="Name"
+            />
+            <Input
+                value={photoData.lastname}
+                onChange={e => setPhotoData(p => ({ ...p, lastname: e.target.value }))}
+                placeholder="Vorname"
+            />
+            <Input
+                value={photoData.title}
+                onChange={e => setPhotoData(p => ({ ...p, title: e.target.value }))}
+                placeholder="Title"
+            />
+
+            <Upload
+                listType="picture-card"
+                accept="image/*"
+                maxCount={1}
+                customRequest={customRequest}
+                fileList={fileList}
+                onChange={({ fileList }) => setFileList(fileList.slice(-1))}
+                onRemove={() => {
+                    setPhotoData(p => ({ ...p, photoBase64: null }));
+                    return true;
+                }}
+            >
+                {fileList.length ? null : (
+                    <button type="button" style={{ border: 0, background: 'none' }}>
+                        <PlusOutlined />
+                        <div style={{ marginTop: 8 }}>Фото</div>
+                    </button>
+                )}
+            </Upload>
+
+            <Space>
+                <Button type="primary" onClick={save} loading={saving}>Save</Button>
+                <Button onClick={reset}>Cancel</Button>
+            </Space>
+        </Space>
     );
 };
