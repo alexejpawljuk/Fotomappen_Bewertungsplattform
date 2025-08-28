@@ -28,8 +28,15 @@ export enum PhotoAlbumStatus {
 }
 
 export enum PhotoError {
-    PHOTO_TITLE_TAKEN = "Dieser Titel ist bereits vergeben."
+    PHOTO_TITLE_TAKEN = "Dieser Titel ist bereits vergeben.",
+    PHOTO_TITLE_TO_SHORT = "Der Titel ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
+    PHOTO_TITLE_EMPTY = "Bitte geben Sie einen Titel ein.",
+    PHOTOGRAPHER_FIRSTNAME_EMPTY = "Bitte geben Sie den Vornamen des Fotografen ein.",
+    PHOTOGRAPHER_FIRSTNAME_TOO_SHORT = "Der Vorname des Fotografen ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
+    PHOTOGRAPHER_LASTNAME_EMPTY = "Bitte geben Sie den Nachnamen des Fotografen ein.",
+    PHOTOGRAPHER_LASTNAME_TOO_SHORT = "Der Nachname des Fotografen ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
 }
+
 
 export enum SignupStatus {
     SUCCESS = "Ihr Benutzerkonto wurde erfolgreich erstellt. Sie können sich jetzt anmelden."

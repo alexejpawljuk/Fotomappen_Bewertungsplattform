@@ -38,7 +38,8 @@ export enum PhotoAlbumMethods {
 
 // Photo methods name
 export enum PhotoMethods {
-    GET_PHOTOS_BY_PHOT_ALBUM_ID = "get.photos.by_photo_album_id",
+    GET_PHOTOS_BY_TITLE = "get.photos.by_photo_album_id",
+    // GET_PHOTOS_BY_PHOT_ALBUM_ID = "get.photos.by_photo_album_id",
     SET_PHOTO_BY_ALBUM_ID = "set.photo.by_photo_album_id",
     DELETE_PHOTO_BY_ID = "delete.photo.byId",
 }

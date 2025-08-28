@@ -26,7 +26,7 @@ const fileToBase64 = (file: RcFile) =>
 export const AddPhotoPanel: React.FC = () => {
     const {albumId} = useParams()
     const [photoData, setPhotoData] = useState<PhotoData>({
-        firstname: '', lastname: '', title: '', photoBase64: null,
+        firstname: 'Muster', lastname: 'Mustermann', title: 'Fist photo', photoBase64: null,
     });
     const [fileList, setFileList] = useState<UploadFile[]>([]);
     const [saving, setSaving] = useState(false);
@@ -60,7 +60,12 @@ export const AddPhotoPanel: React.FC = () => {
         setSaving(true);
         Meteor.call(PhotoMethods.SET_PHOTO_BY_ALBUM_ID, data, (err: Meteor.Error | undefined) => {
             setSaving(false);
-            if (err) return message.error(err.reason || 'Saving failed');
+            if (err) {
+                if (err instanceof Meteor.Error) {
+                    return message.error(err.details || err.reason || err.message || 'Saving failed');
+                }
+                console.log(err)
+            }
             message.success('Saved successfully');
             setPhotoData({ firstname: '', lastname: '', title: '', photoBase64: null });
             setFileList([]);

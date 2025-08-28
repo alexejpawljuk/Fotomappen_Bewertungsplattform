@@ -1,14 +1,28 @@
-import { Meteor } from "meteor/meteor";
+import {Meteor} from "meteor/meteor";
 import {PhotoMethods} from "/imports/api/names";
-import {MethodSetPhotoByPhotoAlbumIDRequestModel} from "/imports/api/Photo/models";
+import {
+    MethodGetPhotoByTitleRequestModel,
+    MethodSetPhotoByPhotoAlbumIDRequestModel,
+    Photo
+} from "/imports/api/Photo/models";
 import {check} from "meteor/check";
-import {clientContentError} from "/imports/utils/serverErrors";
+import {clientContentError, internalServerError, noAuthError} from "/imports/utils/serverErrors";
 import {PhotoError} from "/imports/utils/constans/text";
-import {MethodGetPhotoAlbumByIDRequestModel} from "/imports/api/PhotoAlbum/models";
+import {PhotoCollection} from "/imports/api/Photo/photoCollection";
 
 
 Meteor.methods({
-    [PhotoMethods.SET_PHOTO_BY_ALBUM_ID]: async function ({photoAlbumId, title, base64, photographer}: MethodSetPhotoByPhotoAlbumIDRequestModel) {
+    [PhotoMethods.SET_PHOTO_BY_ALBUM_ID]: async function ({
+                                                              photoAlbumId,
+                                                              title,
+                                                              base64,
+                                                              photographer
+                                                          }: MethodSetPhotoByPhotoAlbumIDRequestModel) {
+        const userId = Meteor.userId();
+        if (!userId) {
+            return noAuthError()
+        }
+
         check(title, String)
         check(base64, String)
         check(photoAlbumId, String)
@@ -20,37 +34,44 @@ Meteor.methods({
         const cleanPhotographerLastname = photographer.lastname.trim()
 
         if (!cleanTitle) {
-
+            return clientContentError(PhotoError.PHOTO_TITLE_EMPTY)
         }
 
         if (cleanTitle.length < 4) {
-
+            return clientContentError(PhotoError.PHOTO_TITLE_TO_SHORT)
         }
 
         if (!cleanPhotographerFirstname) {
-
+            return clientContentError(PhotoError.PHOTOGRAPHER_FIRSTNAME_EMPTY)
         }
 
         if (cleanPhotographerFirstname.length < 4) {
-
+            return clientContentError(PhotoError.PHOTOGRAPHER_FIRSTNAME_TOO_SHORT)
         }
 
         if (!cleanPhotographerLastname) {
-
+            return clientContentError(PhotoError.PHOTOGRAPHER_LASTNAME_EMPTY)
         }
 
         if (cleanPhotographerLastname.length < 4) {
-
+            return clientContentError(PhotoError.PHOTOGRAPHER_LASTNAME_TOO_SHORT)
         }
 
-        const photoAlbumRequest: MethodGetPhotoAlbumByIDRequestModel = {
-            albumId: photoAlbumId
+        const photoAlbumRequest: MethodGetPhotoByTitleRequestModel = {
+            title: cleanTitle
         }
-        const existing = Meteor.call(PhotoMethods.GET_PHOTOS_BY_PHOT_ALBUM_ID, photoAlbumRequest)
+
+        const existing = Meteor.call(PhotoMethods.GET_PHOTOS_BY_TITLE, photoAlbumRequest)
         if (existing) {
             return clientContentError(PhotoError.PHOTO_TITLE_TAKEN)
         }
 
-
+        const photoData: Photo = {
+            title, base64, photoAlbumId, photographer,
+            createdAt: new Date()
+        }
+        PhotoCollection.insert(photoData, (err: any) => {
+            if (err) return internalServerError(err)
+        })
     }
 })

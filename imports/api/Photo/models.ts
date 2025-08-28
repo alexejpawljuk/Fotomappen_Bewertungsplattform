@@ -20,3 +20,8 @@ export interface MethodSetPhotoByPhotoAlbumIDRequestModel {
     photoAlbumId: string | undefined;
     base64: string;
 }
+
+//GET
+export interface MethodGetPhotoByTitleRequestModel {
+    title: string;
+}
