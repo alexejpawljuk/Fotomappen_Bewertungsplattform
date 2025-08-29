@@ -20,6 +20,7 @@ export enum PhotoAlbumError {
     PHOTO_ALBUM_TITLE_TO_LONG = "Der Titel ist zu lang, es sind maximal 16 Zeichen erlaubt.",
     PHOTO_ALBUM_TITLE_TO_SHORT = "Der Titel ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
     PHOTO_ALBUM_TITLE_TAKEN = "Dieser Titel ist bereits vergeben.",
+    PHOTO_ALBUM_ACCESS = "Album nicht gefunden oder fehlende Berechtigung.",
 }
 
 export enum PhotoAlbumStatus {

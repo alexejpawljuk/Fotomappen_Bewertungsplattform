@@ -1,14 +1,11 @@
 import {Meteor} from "meteor/meteor";
 import {PhotoMethods} from "/imports/api/names";
-import {
-    MethodGetPhotoByTitleRequestModel,
-    MethodSetPhotoByPhotoAlbumIDRequestModel,
-    Photo
-} from "/imports/api/Photo/models";
+import {MethodSetPhotoByPhotoAlbumIDRequestModel, Photo} from "/imports/api/Photo/models";
 import {check} from "meteor/check";
 import {clientContentError, internalServerError, noAuthError} from "/imports/utils/serverErrors";
-import {PhotoError} from "/imports/utils/constans/text";
+import {PhotoAlbumError, PhotoError} from "/imports/utils/constans/text";
 import {PhotoCollection} from "/imports/api/Photo/photoCollection";
+import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
 
 
 Meteor.methods({
@@ -57,19 +54,25 @@ Meteor.methods({
             return clientContentError(PhotoError.PHOTOGRAPHER_LASTNAME_TOO_SHORT)
         }
 
-        const photoAlbumRequest: MethodGetPhotoByTitleRequestModel = {
+        const existing = await PhotoCollection.findOneAsync({
             title: cleanTitle
-        }
-
-        const existing = Meteor.call(PhotoMethods.GET_PHOTOS_BY_TITLE, photoAlbumRequest)
+        })
         if (existing) {
             return clientContentError(PhotoError.PHOTO_TITLE_TAKEN)
         }
 
-        const photoData: Photo = {
-            title, base64, photoAlbumId, photographer,
-            createdAt: new Date()
+        const owner = await PhotoAlbumCollection.findOneAsync({
+            _id: photoAlbumId,
+            owner: {
+                userId: this.userId
+            }
+        })
+        if (!owner) {
+            return noAuthError(PhotoAlbumError.PHOTO_ALBUM_ACCESS)
         }
+
+        const photoData: Photo = {title, base64, photoAlbumId, photographer, createdAt: new Date()}
+
         PhotoCollection.insert(photoData, (err: any) => {
             if (err) return internalServerError(err)
         })
