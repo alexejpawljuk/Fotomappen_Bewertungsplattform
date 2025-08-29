@@ -40,12 +40,12 @@ Meteor.methods({
                 { $sort: { createdAt: -1 } },
             ]).toArray()
 
-            return result.map<MethodGetPhotoAlbumListResponseModel>(({_id, owner, title, createdAt, photos, contest}) => ({
+            return result.map<MethodGetPhotoAlbumListResponseModel>(({_id, owner, title, createdAt, photo, contest}) => ({
                 albumId: _id,
                 ownerId: owner.userId,
                 title: title,
                 createdAt: createdAt,
-                numberOfPhotos: photos?.length ?? 0,
+                numberOfPhotos: photo?.length ?? 0,
                 rating: undefined,
                 contest: {
                     contestId: contest[0]?.contestId ?? undefined,
