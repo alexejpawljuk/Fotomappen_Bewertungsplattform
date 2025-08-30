@@ -22,6 +22,19 @@ export interface MethodSetPhotoByPhotoAlbumIDRequestModel {
 }
 
 //GET
-export interface MethodGetPhotoByTitleRequestModel {
+// export interface MethodGetPhotoByTitleRequestModel {
+//     albumId: string;
+// }
+
+export interface MethodGetPhotosListByAlbumIdResponseModel {
+    photoId: string | undefined;
     title: string;
+    photoAlbumId: string | undefined;
+    base64: string;
+    createdAt: Date;
+    photographer: Photographer
+}
+
+export interface MethodGetPhotosListByAlbumIdRequestModel {
+    albumId: string;
 }

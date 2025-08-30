@@ -10,6 +10,7 @@ import {
     MethodGetPhotoAlbumByIDResponseModel
 } from "/imports/api/PhotoAlbum/models";
 import {message} from "antd";
+import {PhotoDisplay} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/components/PhotoDisplay";
 
 
 interface DashboardPhotoAlbumProps {
@@ -39,8 +40,8 @@ export const DashboardPhotoAlbum: React.FC<DashboardPhotoAlbumProps> = ({}) => {
     return (
         <DashboardClubAdminLayout>
             <DashboardContentTitle title={"Fotomappe: " + title}/>
-            {/*<PhotoDisplay/>*/}
             <AddPhotoPanel/>
+            <PhotoDisplay/>
         </DashboardClubAdminLayout>
     );
 };
