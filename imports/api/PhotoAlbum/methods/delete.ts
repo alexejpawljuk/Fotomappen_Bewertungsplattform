@@ -3,6 +3,7 @@ import {PhotoAlbumMethods} from "/imports/api/names";
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
 import {noAuthError} from "/imports/utils/serverErrors";
 import {MethodDeletePhotoAlbumByIdRequestModel} from "/imports/api/PhotoAlbum/models";
+import {PhotoCollection} from "/imports/api/Photo/photoCollection";
 
 
 Meteor.methods({
@@ -17,6 +18,8 @@ Meteor.methods({
         if (removed === 0) {
             throw new Meteor.Error("not-found", "Album not found or not yours");
         }
+
+        PhotoCollection.remove({photoAlbumId: albumId})
 
         return true;
     }
