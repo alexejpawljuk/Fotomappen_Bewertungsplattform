@@ -1,7 +1,7 @@
 import React, {CSSProperties, useMemo, useState} from 'react';
 import {Meteor} from "meteor/meteor";
 import {useTracker} from "meteor/react-meteor-data";
-import {Flex, Popconfirm, Table, TableProps, Tag} from 'antd';
+import {Flex, message, Popconfirm, Table, TableProps, Tag} from 'antd';
 import {CheckCircleOutlined, ClockCircleOutlined, SyncOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
@@ -42,8 +42,13 @@ export const PhotoAlbumsList: React.FC = () => {
 
         Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, params, (err: any) => {
             if (err) {
+                if (err instanceof Meteor.Error) {
+                    message.error(err.details)
+                }
                 return console.error(err)
             }
+            const photoAlbum = data.find(album => album.albumId === albumId)
+            message.success(`Fotomappe ${photoAlbum?.title} deleted`)
         })
     }
 
