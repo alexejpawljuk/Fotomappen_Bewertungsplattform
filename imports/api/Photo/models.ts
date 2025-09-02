@@ -38,3 +38,11 @@ export interface MethodGetPhotosListByAlbumIdResponseModel {
 export interface MethodGetPhotosListByAlbumIdRequestModel {
     albumId: string;
 }
+
+export interface MethodDeletePhotoByIdRequestModel {
+    photoId: string | undefined;
+}
+
+export interface MethodDeletePhotoByIdResponseModel {
+    photo: Photo
+}

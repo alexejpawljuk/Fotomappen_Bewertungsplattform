@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
-import {Table, Image, TableProps, Flex, Popconfirm} from 'antd';
+import {Table, Image, TableProps, Flex, Popconfirm, message} from 'antd';
 import {
+    MethodDeletePhotoByIdRequestModel, MethodDeletePhotoByIdResponseModel,
     MethodGetPhotosListByAlbumIdRequestModel,
     MethodGetPhotosListByAlbumIdResponseModel
 } from "/imports/api/Photo/models";
@@ -32,6 +33,16 @@ export const PhotoDisplay: React.FC = () => {
 
     const handleDelete = (photoId: string | undefined) => {
         console.log("To delete: ", photoId);
+
+        const params: MethodDeletePhotoByIdRequestModel = {
+            photoId
+        }
+
+        Meteor.call(PhotoMethods.DELETE_PHOTO_BY_ID, params, (err: any, res: MethodDeletePhotoByIdResponseModel) => {
+            if(err) return console.log(err)
+            console.log("Delete response: ", res)
+            message.success(`Photo ${res.photo.title} deleted`)
+        });
     }
 
 

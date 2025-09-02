@@ -6,6 +6,7 @@ import {
     MethodGetPhotosListByAlbumIdResponseModel
 } from "/imports/api/Photo/models";
 
+
 Meteor.methods({
     [PhotoMethods.GET_PHOTOS_LIST_BY_ALBUM_ID]: async function ({albumId}: MethodGetPhotosListByAlbumIdRequestModel) {
         const photosResult = PhotoCollection.find({
@@ -22,3 +23,4 @@ Meteor.methods({
         }))
     }
 })
+
