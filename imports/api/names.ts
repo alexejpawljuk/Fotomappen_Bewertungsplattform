@@ -46,3 +46,7 @@ export enum PhotoMethods {
 export enum PhotoAlbumPublication {
     LIST = "photo_album.list",
 }
+
+export enum PhotoPublication {
+    LIST = "photo.list",
+}

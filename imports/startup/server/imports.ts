@@ -15,3 +15,5 @@ import "/imports/api/config"
 
 // publications
 import "/imports/api/PhotoAlbum/Publication"
+import "/imports/api/Photo/Publication"
+

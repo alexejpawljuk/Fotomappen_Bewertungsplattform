@@ -24,6 +24,7 @@ Meteor.publish(PhotoAlbumPublication.LIST, async function () {
     if (!this.userId) {
         return noAuthError()
     }
+
     return PhotoAlbumCollection.find(
         {"owner.userId": this.userId},
         {fields: {_id: 1,}
