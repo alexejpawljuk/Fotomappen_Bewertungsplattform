@@ -44,13 +44,8 @@ export const PhotoService = create<IPhotoAlbumService>(setState => {
         },
         setPhoto(photoData) {
             return new Promise((resolve, reject) => {
-                setState(state => ({...state, loading: true}))
                 Meteor.call(PhotoMethods.SET_PHOTO_BY_ALBUM_ID, photoData, (err: any) => {
-                    if (err) {
-                        setState(state => ({...state, loading: false}))
-                        return reject(err);
-                    }
-                    setState(state => ({...state, loading: false}))
+                    if (err) return reject(err);
                     resolve(photoData.photoAlbumId as string);
                 });
             })
