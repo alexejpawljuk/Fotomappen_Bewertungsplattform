@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {Button, Flex, Input, message} from "antd";
 import {PhotoAlbumError, PhotoAlbumStatus} from "/imports/utils/constans/text";
-import {Meteor} from "meteor/meteor"
-import {PhotoAlbumMethods} from "/imports/api/names";
 import {MethodSetPhotoAlbumCreateRequestModel} from "/imports/api/PhotoAlbum/models";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
@@ -13,7 +11,7 @@ interface CreatePhotoAlbumProps {
 
 export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
     const [title, setTitle] = useState("")
-    const {photoAlbumsListFetch} = PhotoAlbumService()
+    const {createPhotoAlbum, photoAlbumsListFetch} = PhotoAlbumService()
 
     const handleCreate = async () => {
         const cleanTitle = title.trim()
@@ -34,17 +32,13 @@ export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
             title: cleanTitle,
         }
 
-        try {
-            await Meteor.callAsync(PhotoAlbumMethods.SET_PHOTO_ALBUM_CREATE, data)
-            photoAlbumsListFetch()
-            message.success(`"${cleanTitle}" ` + `${PhotoAlbumStatus.SUCCESS}`);
-            setTitle("")
-        } catch (e: unknown) {
-            if (e instanceof Meteor.Error){
-                return message.error(e.details || e.reason || e.message || "Unknown error")
-            }
-            return message.error((e as Error).message || JSON.stringify(e))
-        }
+        createPhotoAlbum(data)
+            .then(async () => {
+                setTitle("")
+                await photoAlbumsListFetch()
+                return message.success(`"${cleanTitle}" ` + `${PhotoAlbumStatus.SUCCESS}`);
+            })
+            .catch(console.error)
     }
 
     return (
