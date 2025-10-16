@@ -17,13 +17,14 @@ interface IPhotoAlbumService {
 export const PhotoAlbumService = create<IPhotoAlbumService>(setState => {
     return {
         photoAlbumsList: [],
-        loading: true,
+        loading: false,
         photoAlbumsListFetch () {
             return new Promise((resolve, rejects) => {
+                setState(state => ({...state, loading: true}))
                 Meteor.call(PhotoAlbumMethods.GET_PHOTO_ALBUM_LIST, (err: any, res: MethodGetPhotoAlbumListResponseModel[]) => {
                     if (err) {
                         setState(state => ({...state, loading: false}))
-                        rejects(err)
+                        return rejects(err)
                     }
                     setState(state => ({...state, photoAlbumsList: res, loading: false}))
                     resolve()

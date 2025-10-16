@@ -1,12 +1,11 @@
 import React, {useState} from 'react';
-import {Meteor} from 'meteor/meteor';
 import {Space, Input, Upload, Button, message, Flex, Image} from 'antd';
 import {PlusOutlined} from '@ant-design/icons';
 import type {UploadFile, RcFile} from 'antd/es/upload/interface';
 import type {UploadRequestOption as RcCustomRequestOptions} from 'rc-upload/lib/interface';
-import {PhotoMethods} from "/imports/api/names";
 import {useParams} from "react-router-dom";
 import {MethodSetPhotoByPhotoAlbumIDRequestModel} from "/imports/api/Photo/models";
+import {PhotoService} from "/imports/ui/Services/PhotoService";
 
 interface PhotoData {
     firstname: string;
@@ -29,9 +28,9 @@ export const AddPhotoPanel: React.FC = () => {
         firstname: 'Muster', lastname: 'Mustermann', title: 'Fist photo', photoBase64: null,
     });
     const [fileList, setFileList] = useState<UploadFile[]>([]);
-    const [saving, setSaving] = useState(false);
     const [previewOpen, setPreviewOpen] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
+    const {loading, setPhoto, photosListByAlbumIdFetch} = PhotoService()
 
     const customRequest = async ({file, onSuccess, onError}: RcCustomRequestOptions) => {
         try {
@@ -59,19 +58,15 @@ export const AddPhotoPanel: React.FC = () => {
             }
         }
 
-        setSaving(true);
-        Meteor.call(PhotoMethods.SET_PHOTO_BY_ALBUM_ID, data, (err: Meteor.Error | undefined) => {
-            setSaving(false);
-            if (err) {
-                if (err instanceof Meteor.Error) {
-                    return message.error(err.details || err.reason || err.message || 'Saving failed');
-                }
-                console.log(err)
-            }
-            message.success('Saved successfully');
-            setPhotoData({firstname: '', lastname: '', title: '', photoBase64: null});
-            setFileList([]);
-        });
+        setPhoto(data)
+            .then(async (photoAlbumId) => {
+                await photosListByAlbumIdFetch(photoAlbumId);
+                setPhotoData({firstname: '', lastname: '', title: '', photoBase64: null});
+                setFileList([]);
+                return message.success('Saved successfully');
+            })
+            .catch(console.error);
+
     };
 
     const reset = () => {
@@ -89,31 +84,35 @@ export const AddPhotoPanel: React.FC = () => {
     };
 
     return (
-        <Flex wrap justify="center" >
+        <Flex wrap justify="center">
             <Space direction="vertical" size="middle" style={{width: 420, margin: "0 20px"}}>
                 <Input
                     value={photoData.firstname}
                     onChange={e => setPhotoData(p => ({...p, firstname: e.target.value}))}
                     placeholder="Name"
+                    disabled={loading}
                 />
                 <Input
                     value={photoData.lastname}
                     onChange={e => setPhotoData(p => ({...p, lastname: e.target.value}))}
                     placeholder="Vorname"
+                    disabled={loading}
                 />
                 <Input
                     value={photoData.title}
                     onChange={e => setPhotoData(p => ({...p, title: e.target.value}))}
                     placeholder="Title"
+                    disabled={loading}
                 />
 
                 <Space>
-                    <Button type="primary" onClick={save} loading={saving}>Save</Button>
-                    <Button onClick={reset}>Cancel</Button>
+                    <Button type="primary" onClick={save} disabled={loading}>Save</Button>
+                    <Button onClick={reset} disabled={loading}>Cancel</Button>
                 </Space>
             </Space>
 
             <Upload
+                disabled={loading}
                 listType="picture-circle"
                 accept="image/*"
                 maxCount={1}

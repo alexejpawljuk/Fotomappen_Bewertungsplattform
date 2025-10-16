@@ -22,10 +22,10 @@ export const PhotoAlbumsList: React.FC = () => {
 
     const handleDelete = (albumId: string) => {
         photoAlbumDeleteById(albumId)
-            .then(() => {
+            .then(async () => {
                 const photoAlbum = photoAlbumsList.find(photoAlbum => photoAlbum.albumId === albumId);
-                if (photoAlbum) message.success(`Fotomappe ${photoAlbum?.title} deleted`)
-                return photoAlbumsListFetch()
+                await photoAlbumsListFetch()
+                if (photoAlbum) return message.success(`Fotomappe ${photoAlbum?.title} deleted`)
             })
             .catch(console.error);
     }

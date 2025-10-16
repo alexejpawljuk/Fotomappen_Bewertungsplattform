@@ -1,62 +1,31 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useMemo} from 'react';
 import {Table, Image, Flex, Popconfirm, message, TableProps} from 'antd';
-import {
-    MethodDeletePhotoByIdRequestModel,
-    MethodDeletePhotoByIdResponseModel,
-    MethodGetPhotosListByAlbumIdRequestModel,
-    MethodGetPhotosListByAlbumIdResponseModel
-} from "/imports/api/Photo/models";
+import {MethodGetPhotosListByAlbumIdResponseModel} from "/imports/api/Photo/models";
 import {formatDate} from "/imports/utils/formatDate";
 import {useParams} from "react-router-dom";
-import {Meteor} from "meteor/meteor";
-import {PhotoMethods} from "/imports/api/names";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
+import {PhotoService} from "/imports/ui/Services/PhotoService";
 
 export const PhotoList: React.FC = () => {
     const {albumId} = useParams();
-
-    const [photosList, setPhotosList] = useState<MethodGetPhotosListByAlbumIdResponseModel[]>([])
-    const [loading, setLoading] = useState(false)
+    const {photosList, loading, photosListByAlbumIdFetch, deletePhotoById} = PhotoService()
 
     useDebugMount("PhotosList")
 
     useEffect(() => {
-        if (albumId) fetchPhotosList(albumId)
+        if (albumId) photosListByAlbumIdFetch(albumId).catch(console.error);
     }, []);
 
-    const fetchPhotosList = (_albumId: string) => {
-        if (!_albumId) return
-        const params: MethodGetPhotosListByAlbumIdRequestModel = {
-            albumId: _albumId
-        }
-
-        setLoading(true)
-        Meteor.call(PhotoMethods.GET_PHOTOS_LIST_BY_ALBUM_ID, params, (err: any, res: MethodGetPhotosListByAlbumIdResponseModel[]) => {
-            if (err) {
-                setPhotosList([])
-                setLoading(false)
-                return console.error(err)
-            }
-            setLoading(false)
-            setPhotosList(() => res)
-        });
-    }
-
     const handleDelete = (photoId: string | undefined) => {
-        console.log("To delete: ", photoId);
-
-        const params: MethodDeletePhotoByIdRequestModel = {
-            photoId
+        if (photoId) {
+            deletePhotoById(photoId)
+                .then(async (photo) => {
+                    await photosListByAlbumIdFetch(photoId)
+                    return message.success(`Photo ${photo?.title} deleted`)
+                })
+                .catch(console.error);
         }
-
-        Meteor.call(PhotoMethods.DELETE_PHOTO_BY_ID, params, (err: any, res: MethodDeletePhotoByIdResponseModel) => {
-            if(err) return console.log(err)
-            console.log("Delete response: ", res)
-            message.success(`Photo ${res.photo.title} deleted`)
-        });
     }
-
-
 
     const columns: TableProps<MethodGetPhotosListByAlbumIdResponseModel>['columns'] = useMemo(() => {
         return [
@@ -92,9 +61,7 @@ export const PhotoList: React.FC = () => {
                         width={100}
                         height={70}
                         style={{objectFit: 'cover', borderRadius: "5px"}}
-                        preview={{
-
-                        }}
+                        preview={{}}
                     />
                 ),
             },
