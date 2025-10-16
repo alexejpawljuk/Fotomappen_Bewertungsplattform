@@ -1,41 +1,33 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Table, Image, TableProps, Flex, Popconfirm, message} from 'antd';
+import {Table, Image, Flex, Popconfirm, message, TableProps} from 'antd';
 import {
-    MethodDeletePhotoByIdRequestModel, MethodDeletePhotoByIdResponseModel,
+    MethodDeletePhotoByIdRequestModel,
+    MethodDeletePhotoByIdResponseModel,
     MethodGetPhotosListByAlbumIdRequestModel,
     MethodGetPhotosListByAlbumIdResponseModel
 } from "/imports/api/Photo/models";
 import {formatDate} from "/imports/utils/formatDate";
 import {useParams} from "react-router-dom";
 import {Meteor} from "meteor/meteor";
-import {PhotoMethods, PhotoPublication} from "/imports/api/names";
-import {useTracker} from "meteor/react-meteor-data";
-
+import {PhotoMethods} from "/imports/api/names";
+import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 
 export const PhotoList: React.FC = () => {
     const {albumId} = useParams();
+
     const [photosList, setPhotosList] = useState<MethodGetPhotosListByAlbumIdResponseModel[]>([])
     const [loading, setLoading] = useState(false)
 
-    const {isLoading} = useTracker(() => {
-        console.log("Photo collection subscription loaded")
-
-        const handle = Meteor.subscribe(PhotoPublication.LIST)
-        if (!handle.ready()) {
-            return {
-                isLoading: true
-            }
-        }
-
-        return {
-            isLoading: false
-        }
-    });
+    useDebugMount("PhotosList")
 
     useEffect(() => {
-        if (!albumId) return
+        if (albumId) fetchPhotosList(albumId)
+    }, []);
+
+    const fetchPhotosList = (_albumId: string) => {
+        if (!_albumId) return
         const params: MethodGetPhotosListByAlbumIdRequestModel = {
-            albumId
+            albumId: _albumId
         }
 
         setLoading(true)
@@ -48,8 +40,7 @@ export const PhotoList: React.FC = () => {
             setLoading(false)
             setPhotosList(() => res)
         });
-
-    }, []);
+    }
 
     const handleDelete = (photoId: string | undefined) => {
         console.log("To delete: ", photoId);
@@ -64,6 +55,7 @@ export const PhotoList: React.FC = () => {
             message.success(`Photo ${res.photo.title} deleted`)
         });
     }
+
 
 
     const columns: TableProps<MethodGetPhotosListByAlbumIdResponseModel>['columns'] = useMemo(() => {

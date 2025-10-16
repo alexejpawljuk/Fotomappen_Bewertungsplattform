@@ -5,6 +5,7 @@ import {Meteor} from "meteor/meteor"
 import {PhotoAlbumMethods} from "/imports/api/names";
 import {MethodSetPhotoAlbumCreateRequestModel} from "/imports/api/PhotoAlbum/models";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
+import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
 
 interface CreatePhotoAlbumProps {
     // TODO: define props here
@@ -12,6 +13,7 @@ interface CreatePhotoAlbumProps {
 
 export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
     const [title, setTitle] = useState("")
+    const {photoAlbumsListFetch} = PhotoAlbumService()
 
     const handleCreate = async () => {
         const cleanTitle = title.trim()
@@ -34,6 +36,7 @@ export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
 
         try {
             await Meteor.callAsync(PhotoAlbumMethods.SET_PHOTO_ALBUM_CREATE, data)
+            photoAlbumsListFetch()
             message.success(`"${cleanTitle}" ` + `${PhotoAlbumStatus.SUCCESS}`);
             setTitle("")
         } catch (e: unknown) {

@@ -1,55 +1,33 @@
-import React, {CSSProperties, useMemo, useState} from 'react';
-import {Meteor} from "meteor/meteor";
-import {useTracker} from "meteor/react-meteor-data";
+import React, {CSSProperties, useEffect, useMemo} from 'react';
 import {Flex, message, Popconfirm, Table, TableProps, Tag} from 'antd';
 import {CheckCircleOutlined, ClockCircleOutlined, SyncOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
-import {PhotoAlbumMethods, PhotoAlbumPublication} from "/imports/api/names";
-import {
-    MethodDeletePhotoAlbumByIdRequestModel,
-    MethodGetPhotoAlbumListResponseModel
-} from "/imports/api/PhotoAlbum/models";
+import {MethodGetPhotoAlbumListResponseModel} from "/imports/api/PhotoAlbum/models";
 import {generatePath, Link} from "react-router-dom";
 import {protectedRoutes} from "/imports/ui/Router/routes";
+import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
+import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
+
 
 export const PhotoAlbumsList: React.FC = () => {
-    const [data, setData] = useState<MethodGetPhotoAlbumListResponseModel[]>([])
+    const {photoAlbumsList, loading, photoAlbumsListFetch, photoAlbumDeleteById} = PhotoAlbumService()
 
-    const {isLoading} = useTracker(() => {
-        const handle = Meteor.subscribe(PhotoAlbumPublication.LIST, Meteor.userId())
-        if (!handle.ready()) {
-            return {
-                isLoading: true,
-            }
-        }
+    useDebugMount("PhotoAlbumsList")
 
-        Meteor.call(PhotoAlbumMethods.GET_PHOTO_ALBUM_LIST, (err: any, res: MethodGetPhotoAlbumListResponseModel[]) => {
-            if (err) {
-                setData([])
-                return console.error(err)
-            }
-            setData(() => res)
-        })
-
-        return {
-            isLoading: false,
-        }
-    });
+    useEffect(() => {
+        photoAlbumsListFetch()
+            .catch(message.error);
+    }, []);
 
     const handleDelete = (albumId: string) => {
-        const params: MethodDeletePhotoAlbumByIdRequestModel = {albumId}
-
-        Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, params, (err: any) => {
-            if (err) {
-                if (err instanceof Meteor.Error) {
-                    message.error(err.details)
-                }
-                return console.error(err)
-            }
-            const photoAlbum = data.find(album => album.albumId === albumId)
-            message.success(`Fotomappe ${photoAlbum?.title} deleted`)
-        })
+        photoAlbumDeleteById(albumId)
+            .then(() => {
+                const photoAlbum = photoAlbumsList.find(photoAlbum => photoAlbum.albumId === albumId);
+                if (photoAlbum) message.success(`Fotomappe ${photoAlbum?.title} deleted`)
+                return photoAlbumsListFetch()
+            })
+            .catch(console.error);
     }
 
 
@@ -60,7 +38,8 @@ export const PhotoAlbumsList: React.FC = () => {
                 dataIndex: 'title',
                 key: 'title',
                 render: (_, {title, albumId}) =>
-                    <Link to={generatePath(protectedRoutes.club_admin.dashboardPhotoAlbum.path, {albumId})}>{title}</Link>
+                    <Link
+                        to={generatePath(protectedRoutes.club_admin.dashboardPhotoAlbum.path, {albumId})}>{title}</Link>
             },
             {
                 title: 'Datum',
@@ -113,7 +92,7 @@ export const PhotoAlbumsList: React.FC = () => {
                 render: (_, {albumId}) => (
                     <Flex justify={"center"} wrap gap={"small"}>
                         <a>Bearbeiten</a>
-                        {data.length >= 1 ? (
+                        {photoAlbumsList.length >= 1 ? (
                             <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(albumId)}>
                                 <a>Delete</a>
                             </Popconfirm>
@@ -122,7 +101,7 @@ export const PhotoAlbumsList: React.FC = () => {
                 ),
             },
         ]
-    }, [data])
+    }, [photoAlbumsList])
 
     return (
         <Flex vertical gap={"small"}>
@@ -136,11 +115,11 @@ export const PhotoAlbumsList: React.FC = () => {
             </Flex>
 
             <Table<MethodGetPhotoAlbumListResponseModel>
-                loading={isLoading}
+                loading={loading}
                 rowKey="albumId"
                 pagination={{position: ["bottomCenter"]}}
                 columns={columns}
-                dataSource={data}
+                dataSource={photoAlbumsList}
                 style={{minWidth: "375px"}}
                 // scroll={{ y: 'calc(100vh - 300px)' }}
             />
