@@ -1,7 +1,8 @@
 import {
     MethodDeletePhotoByIdRequestModel, MethodDeletePhotoByIdResponseModel,
     MethodGetPhotosListByAlbumIdRequestModel,
-    MethodGetPhotosListByAlbumIdResponseModel, MethodSetPhotoByPhotoAlbumIDRequestModel, Photo
+    MethodGetPhotosListByAlbumIdResponseModel, MethodSetPhotoByPhotoAlbumIDRequestModel,
+    MethodUpdatePhotoRequestModel, Photo
 } from "/imports/api/Photo/models";
 import {create} from "zustand";
 import {Meteor} from "meteor/meteor";
@@ -13,6 +14,7 @@ interface IPhotoAlbumService {
     photosListByAlbumIdFetch(photoAlbumId: string): Promise<void>;
     deletePhotoById(photoId: string): Promise<Photo>;
     setPhoto(photoData: MethodSetPhotoByPhotoAlbumIDRequestModel): Promise<string>;
+    updatePhoto(photoData: MethodUpdatePhotoRequestModel): Promise<void>;
 }
 
 export const PhotoService = create<IPhotoAlbumService>(setState => {
@@ -48,6 +50,14 @@ export const PhotoService = create<IPhotoAlbumService>(setState => {
                     if (err) return reject(err);
                     resolve(photoData.photoAlbumId as string);
                 });
+            })
+        },
+        updatePhoto(photoData: MethodUpdatePhotoRequestModel) {
+            return new Promise((resolve, reject) => {
+                Meteor.call(PhotoMethods.UPDATE_PHOTO_BY_ID, photoData, (err: any, _: MethodUpdatePhotoRequestModel) => {
+                    if (err) return reject(err);
+                    resolve();
+                })
             })
         }
     }

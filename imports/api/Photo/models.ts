@@ -13,6 +13,13 @@ export interface Photo {
     photographer: Photographer
 }
 
+// UPDATE Methods
+export interface MethodUpdatePhotoRequestModel {
+    photoId: string;
+    photographer: Photographer;
+    title: string;
+}
+
 // SET
 export interface MethodSetPhotoByPhotoAlbumIDRequestModel {
     photographer: Photographer;

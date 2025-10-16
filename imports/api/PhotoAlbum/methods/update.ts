@@ -8,6 +8,7 @@ import {check} from 'meteor/check';
 Meteor.methods({
     [PhotoAlbumMethods.UPDATE_PHOTO_ALBUM_BY_ID]: async function(data: MethodUpdatePhotoAlbumRequestModel){
         if (!this.userId) return noAuthError()
+
         check(data.title, String)
         check(data.albumId, String)
 
@@ -22,7 +23,8 @@ Meteor.methods({
                 throw new Meteor.Error('not-found', 'Album not found');
             }
         } catch (error) {
-            throw new Meteor.Error(error)
+            if (error instanceof Meteor.Error) throw new Meteor.Error(error)
+            console.log(error)
         }
 
         return true;

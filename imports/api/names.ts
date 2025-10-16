@@ -42,6 +42,7 @@ export enum PhotoMethods {
     GET_PHOTOS_LIST_BY_ALBUM_ID = "get.photos_list.by_photo_album_id",
     SET_PHOTO_BY_ALBUM_ID = "set.photo.by_photo_album_id",
     DELETE_PHOTO_BY_ID = "delete.photo.byId",
+    UPDATE_PHOTO_BY_ID = "update.photo.byId",
 }
 
 export enum PhotoAlbumPublication {
