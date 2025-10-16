@@ -12,12 +12,8 @@ Meteor.methods({
     [PhotoAlbumMethods.SET_PHOTO_ALBUM_CREATE]: async function ({
                                                                     title
                                                                 }: MethodSetPhotoAlbumCreateRequestModel) {
+        if (!this.userId) return noAuthError()
         check(title, String)
-
-        const userId = Meteor.userId();
-        if (!userId) {
-            return noAuthError();
-        }
 
         const cleanTitle = title.trim()
 
@@ -36,7 +32,7 @@ Meteor.methods({
         const data: PhotoAlbum = {
             title,
             owner: {
-                userId
+                userId: this.userId,
             },
             contest: {
                 contestId: "YHojbKNTiXyEoZ7tj"

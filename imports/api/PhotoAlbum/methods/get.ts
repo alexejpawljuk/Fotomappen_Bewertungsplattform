@@ -6,13 +6,12 @@ import {
     MethodGetPhotoAlbumListResponseModel
 } from "/imports/api/PhotoAlbum/models"
 import {noAuthError} from "/imports/utils/serverErrors"
-
+import {check} from "meteor/check"
 
 Meteor.methods({
     [PhotoAlbumMethods.GET_PHOTO_ALBUM_LIST]: async function () {
-        if (!this.userId) {
-            return noAuthError()
-        }
+        if (!this.userId) return noAuthError()
+
 
         try {
             const result = await PhotoAlbumCollection.rawCollection().aggregate([
@@ -64,9 +63,8 @@ Meteor.methods({
 
 Meteor.methods({
     [PhotoAlbumMethods.GET_PHOTO_ALBUM_BY_ID]: async function ({albumId}: MethodGetPhotoAlbumByIDRequestModel) {
-        if (!this.userId) {
-            return noAuthError()
-        }
+        if (!this.userId) return noAuthError()
+        check(albumId, String)
 
         try {
             const photoAlbum = await PhotoAlbumCollection.findOneAsync({_id: albumId})

@@ -11,14 +11,18 @@ Meteor.methods({
         check(data.title, String)
         check(data.albumId, String)
 
-        const selector = {_id: data.albumId}
-        const res = await PhotoAlbumCollection.updateAsync(
-            selector,
-            {$set: { title: data.title}}
-        )
+        try {
+            const selector = {_id: data.albumId}
+            const res = await PhotoAlbumCollection.updateAsync(
+                selector,
+                {$set: { title: data.title}}
+            )
 
-        if (res === 0) {
-            throw new Meteor.Error('not-found', 'Album not found');
+            if (res === 0) {
+                throw new Meteor.Error('not-found', 'Album not found');
+            }
+        } catch (error) {
+            throw new Meteor.Error(error)
         }
 
         return true;
