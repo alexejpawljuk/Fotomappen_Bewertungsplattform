@@ -34,6 +34,7 @@ export enum PhotoAlbumMethods {
     GET_PHOTO_ALBUM_LIST = "get.photo_album.list",
     GET_PHOTO_ALBUM_BY_ID = "get.photo_album.byId",
     DELETE_PHOTO_ALBUM_BY_ID = "delete.photo_album.byId",
+    UPDATE_PHOTO_ALBUM_BY_ID = "update.photo_album.byId",
 }
 
 // Photo methods name

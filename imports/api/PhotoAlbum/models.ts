@@ -17,6 +17,12 @@ export interface MethodSetPhotoAlbumCreateRequestModel {
     title: string;
 }
 
+// UPDATE methods
+export interface MethodUpdatePhotoAlbumRequestModel {
+    title: string;
+    albumId: string;
+}
+
 
 // GET methods
 export interface MethodGetPhotoAlbumListResponseModel {

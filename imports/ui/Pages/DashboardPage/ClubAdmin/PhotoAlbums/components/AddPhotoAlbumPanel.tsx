@@ -4,12 +4,14 @@ import {PhotoAlbumError, PhotoAlbumStatus} from "/imports/utils/constans/text";
 import {MethodSetPhotoAlbumCreateRequestModel} from "/imports/api/PhotoAlbum/models";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
+import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 
 interface CreatePhotoAlbumProps {
     // TODO: define props here
 }
 
 export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
+    useDebugMount("AddPhotoAlbumPanel")
     const [title, setTitle] = useState("")
     const {createPhotoAlbum, photoAlbumsListFetch} = PhotoAlbumService()
 

@@ -6,6 +6,7 @@ import type {UploadRequestOption as RcCustomRequestOptions} from 'rc-upload/lib/
 import {useParams} from "react-router-dom";
 import {MethodSetPhotoByPhotoAlbumIDRequestModel} from "/imports/api/Photo/models";
 import {PhotoService} from "/imports/ui/Services/PhotoService";
+import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 
 interface PhotoData {
     firstname: string;
@@ -23,6 +24,7 @@ const fileToBase64 = (file: RcFile) =>
     });
 
 export const AddPhotoPanel: React.FC = () => {
+    useDebugMount("AddPhotoPanel")
     const {albumId} = useParams()
     const [photoData, setPhotoData] = useState<PhotoData>({
         firstname: 'Muster', lastname: 'Mustermann', title: 'Fist photo', photoBase64: null,
