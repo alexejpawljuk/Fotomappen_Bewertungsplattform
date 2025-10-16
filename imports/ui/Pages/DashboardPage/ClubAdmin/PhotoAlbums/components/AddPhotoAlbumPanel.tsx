@@ -40,7 +40,7 @@ export const AddPhotoAlbumPanel: React.FC<CreatePhotoAlbumProps> = ({}) => {
                 await photoAlbumsListFetch()
                 return message.success(`"${cleanTitle}" ` + `${PhotoAlbumStatus.SUCCESS}`);
             })
-            .catch(console.error)
+            .catch(err => message.error(err?.details || "Client error"));
     }
 
     return (

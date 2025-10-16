@@ -35,7 +35,7 @@ Meteor.methods({
                 userId: this.userId,
             },
             contest: {
-                contestId: "YHojbKNTiXyEoZ7tj"
+                contestId: undefined
             },
             createdAt: new Date()
         }
@@ -46,12 +46,9 @@ Meteor.methods({
         }
 
         try {
-            PhotoAlbumCollection.insert(data)
+            PhotoAlbumCollection.insertAsync(data)
         } catch (e: unknown) {
-            if (e instanceof Meteor.Error) {
-                return clientContentError(e.details || e.reason || e.message)
-            }
-            return clientContentError((e as Error).message || JSON.stringify(e))
+            throw new Meteor.Error('Failed to insert photoAlbum')
         }
     }
 })

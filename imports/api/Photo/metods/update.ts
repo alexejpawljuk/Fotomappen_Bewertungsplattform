@@ -30,7 +30,7 @@ Meteor.methods({
                 throw new Meteor.Error('not-found', 'Photo not found');
             }
         } catch (error) {
-            if (error instanceof Meteor.Error) throw new Meteor.Error(error)
+            if (error instanceof Meteor.Error) throw new Meteor.Error(error.message);
             console.log(error)
         }
 

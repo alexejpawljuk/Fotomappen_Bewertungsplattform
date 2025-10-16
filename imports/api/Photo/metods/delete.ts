@@ -31,7 +31,8 @@ Meteor.methods({
 
             return {photo}
         } catch (err) {
-            if (err instanceof Meteor.Error) throw new Meteor.Error(err);
+            if (err instanceof Meteor.Error) throw new Meteor.Error(err.message);
+            console.log(err)
         }
     }
 })

@@ -2,7 +2,7 @@ import {Meteor} from "meteor/meteor";
 import {PhotoMethods} from "/imports/api/names";
 import {MethodSetPhotoByPhotoAlbumIDRequestModel, Photo} from "/imports/api/Photo/models";
 import {check} from "meteor/check";
-import {clientContentError, internalServerError, noAuthError} from "/imports/utils/serverErrors";
+import {clientContentError, noAuthError} from "/imports/utils/serverErrors";
 import {PhotoAlbumError, PhotoError} from "/imports/utils/constans/text";
 import {PhotoCollection} from "/imports/api/Photo/photoCollection";
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
@@ -74,7 +74,7 @@ Meteor.methods({
         const photoData: Photo = {title, base64, photoAlbumId, photographer, createdAt: new Date()}
 
         PhotoCollection.insert(photoData, (err: any) => {
-            if (err) return internalServerError(err)
+            if (err) clientContentError(err.reason)
         })
     }
 })
