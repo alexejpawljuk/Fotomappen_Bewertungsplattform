@@ -5,7 +5,6 @@ import {noAuthError} from "/imports/utils/serverErrors";
 import {MethodDeletePhotoAlbumByIdRequestModel} from "/imports/api/PhotoAlbum/models";
 import {PhotoCollection} from "/imports/api/Photo/photoCollection";
 
-
 Meteor.methods({
     [PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID]: function ({ albumId }: MethodDeletePhotoAlbumByIdRequestModel): boolean {
         if (!this.userId) return noAuthError()
