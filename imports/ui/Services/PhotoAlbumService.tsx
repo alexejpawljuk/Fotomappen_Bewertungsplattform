@@ -6,12 +6,11 @@ import {
 import {Meteor} from "meteor/meteor";
 import {PhotoAlbumMethods} from "/imports/api/names";
 
-
 interface IPhotoAlbumService {
     photoAlbumsList: MethodGetPhotoAlbumListResponseModel[];
     loading: boolean;
     photoAlbumsListFetch(): Promise<void | Error>;
-    photoAlbumDeleteById(photoAlbumId: string): Promise<void | Error>;
+    deletePhotoAlbumById(photoAlbumId: string): Promise<void | Error>;
 }
 
 export const PhotoAlbumService = create<IPhotoAlbumService>(setState => {
@@ -31,7 +30,7 @@ export const PhotoAlbumService = create<IPhotoAlbumService>(setState => {
                 })
             })
         },
-        photoAlbumDeleteById(photoAlbumId: string) {
+        deletePhotoAlbumById(photoAlbumId: string) {
             return new Promise((resolve, rejects) => {
                 const params: MethodDeletePhotoAlbumByIdRequestModel = {albumId: photoAlbumId}
                 Meteor.call(PhotoAlbumMethods.DELETE_PHOTO_ALBUM_BY_ID, params, (err: any) => {

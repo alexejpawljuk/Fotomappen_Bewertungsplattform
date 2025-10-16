@@ -11,7 +11,7 @@ import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
 
 
 export const PhotoAlbumsList: React.FC = () => {
-    const {photoAlbumsList, loading, photoAlbumsListFetch, photoAlbumDeleteById} = PhotoAlbumService()
+    const {photoAlbumsList, loading, photoAlbumsListFetch, deletePhotoAlbumById} = PhotoAlbumService()
 
     useDebugMount("PhotoAlbumsList")
 
@@ -21,7 +21,7 @@ export const PhotoAlbumsList: React.FC = () => {
     }, []);
 
     const handleDelete = (albumId: string) => {
-        photoAlbumDeleteById(albumId)
+        deletePhotoAlbumById(albumId)
             .then(async () => {
                 const photoAlbum = photoAlbumsList.find(photoAlbum => photoAlbum.albumId === albumId);
                 await photoAlbumsListFetch()
