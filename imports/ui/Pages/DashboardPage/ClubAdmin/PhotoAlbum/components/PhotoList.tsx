@@ -20,7 +20,7 @@ export const PhotoList: React.FC = () => {
         if (photoId) {
             deletePhotoById(photoId)
                 .then(async (photo) => {
-                    await photosListByAlbumIdFetch(photoId)
+                    await photosListByAlbumIdFetch(photo.photoAlbumId)
                     return message.success(`Photo ${photo?.title} deleted`)
                 })
                 .catch(console.error);
