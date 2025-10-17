@@ -62,12 +62,12 @@ export const AddPhotoPanel: React.FC = () => {
 
         setPhoto(data)
             .then(async (photoAlbumId) => {
-                await photosListByAlbumIdFetch(photoAlbumId);
                 setPhotoData({firstname: '', lastname: '', title: '', photoBase64: null});
                 setFileList([]);
-                return message.success('Saved successfully');
+                message.success('Saved successfully');
+                return photosListByAlbumIdFetch(photoAlbumId);
             })
-            .catch(err => message.error(err?.details || "Error"));
+            .catch(err => message.error(err?.details || console.error(err)));
 
     };
 

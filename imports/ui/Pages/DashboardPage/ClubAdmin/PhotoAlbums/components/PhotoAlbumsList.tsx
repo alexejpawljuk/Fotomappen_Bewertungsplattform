@@ -70,8 +70,8 @@ export const PhotoAlbumsList: React.FC = () => {
                 const data: MethodUpdatePhotoAlbumRequestModel = {albumId, title}
                 await updatePhotoAlbum(data)
                 setEditingKey('');
-                await photoAlbumsListFetch()
-                return message.success('Title updated');
+                message.success('Title updated');
+                return photoAlbumsListFetch()
             })
             .catch(console.error)
     };
@@ -80,8 +80,8 @@ export const PhotoAlbumsList: React.FC = () => {
         deletePhotoAlbumById(albumId)
             .then(async () => {
                 const photoAlbum = photoAlbumsList.find(photoAlbum => photoAlbum.albumId === albumId);
-                await photoAlbumsListFetch();
-                if (photoAlbum) return message.success(`Fotomappe ${photoAlbum?.title} deleted`);
+                if (photoAlbum) message.success(`Fotomappe ${photoAlbum?.title} deleted`);
+                return photoAlbumsListFetch();
             })
             .catch(console.error);
     };

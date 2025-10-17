@@ -9,6 +9,8 @@ import {DashboardClubAdminLayout} from "/imports/ui/Pages/DashboardPage/ClubAdmi
 import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAdmin/DashboardSuperAdminLayout";
 import {DashboardPhotoAlbums} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbums/DashboardPhotoAlbums";
 import {DashboardPhotoAlbum} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/DashboardPhotoAlbum";
+import {DashboardCommunity} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Community/DashboardCommunity";
+import {DashboardContest} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Contest/DashboardContest";
 
 export const publicRoutes = {
     home: {
@@ -56,16 +58,16 @@ export const protectedRoutes = {
             path: '/dashboard/super-admin',
             element: (<DashboardSuperAdminLayout/>),
             requiredRole: Role.SUPER_ADMIN
+        },
+        dashboardCommunity: {
+            path: '/dashboard/super-admin/community',
+            element: (<DashboardCommunity/>),
+            requiredRole: Role.SUPER_ADMIN
+        },
+        dashboardContest: {
+            path: '/dashboard/super-admin/contest',
+            element: (<DashboardContest/>),
+            requiredRole: Role.SUPER_ADMIN
         }
-    },
-    // dashboardClubAdmin: {
-    //     path: '/dashboard/club-admin',
-    //     element: (<DashboardClubAdminLayout/>),
-    //     requiredRole: Role.CLUB_ADMIN
-    // },
-    // dashboardSuperAdmin: {
-    //     path: '/dashboard/super-admin',
-    //     element: (<DashboardSuperAdminLayout/>),
-    //     requiredRole: Role.SUPER_ADMIN
-    // }
+    }
 } as const

@@ -83,14 +83,10 @@ export const PhotoList: React.FC = () => {
     const save = (photoId: string) => {
         form.validateFields()
             .then(async ({ title, photographer }: { title: string; photographer: { firstname: string; lastname: string } }) => {
-                await updatePhoto({
-                    photoId,
-                    title,
-                    photographer,
-                });
+                await updatePhoto({photoId, title, photographer});
                 setEditingKey('');
-                if (albumId) await photosListByAlbumIdFetch(albumId);
-                return message.success('Photo updated');
+                message.success('Photo updated');
+                if (albumId) return photosListByAlbumIdFetch(albumId);
             })
             .catch(console.error);
     };
@@ -99,8 +95,8 @@ export const PhotoList: React.FC = () => {
         if (!photoId) return;
         deletePhotoById(photoId)
             .then(async (photo) => {
-                await photosListByAlbumIdFetch(photo.photoAlbumId);
-                return message.success(`Photo ${photo?.title} deleted`);
+                message.success(`Photo ${photo?.title} deleted`);
+                return photosListByAlbumIdFetch(photo.photoAlbumId);
             })
             .catch(console.error);
     };
