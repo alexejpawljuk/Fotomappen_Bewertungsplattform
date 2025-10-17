@@ -67,7 +67,7 @@ export const AddPhotoPanel: React.FC = () => {
                 setFileList([]);
                 return message.success('Saved successfully');
             })
-            .catch(console.error);
+            .catch(err => message.error(err?.details || "Error"));
 
     };
 

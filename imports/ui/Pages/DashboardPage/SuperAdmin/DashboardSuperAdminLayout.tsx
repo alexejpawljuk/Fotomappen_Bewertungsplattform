@@ -13,7 +13,7 @@ export const DashboardSuperAdminLayout: React.FC<DashboardClubAdminLayoutProps> 
         <DashboardLayout>
             <Flex justify={"center"} align={"center"} wrap gap={"middle"} style={{height: "50px"}} >
                 <Button>Wettbewerb</Button>
-                <Button>Fotomappen</Button>
+                <Button>Community</Button>
             </Flex>
             {children ?? <AccountInfo/>}
         </DashboardLayout>

@@ -61,11 +61,9 @@ Meteor.methods({
 
             Accounts.sendVerificationEmail(userId);
 
-            return { ok: true, userId };
-
             // Temp
             // const super_admin = await Accounts.createUserAsync({
-            //     email: "a.pawljuk@hotmail.com",
+            //     email: "super_admin@hotmail.com",
             //     password: "0123456789",
             //     profile: {
             //         clubName: "",
@@ -74,7 +72,9 @@ Meteor.methods({
             //     }
             // })
             // await Roles.addUsersToRolesAsync(super_admin, Role.SUPER_ADMIN)
-            // Accounts.sendVerificationEmail(clubAdmin);
+            // Accounts.sendVerificationEmail(super_admin);
+
+            return { ok: true, userId };
 
         } catch (e: unknown) {
             if (e instanceof Meteor.Error) {
