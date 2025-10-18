@@ -23,6 +23,13 @@ export enum PhotoAlbumError {
     PHOTO_ALBUM_ACCESS = "Album nicht gefunden oder fehlende Berechtigung.",
 }
 
+export enum CommunityError {
+    COMMUNITY_TITLE_INVALID = "Bitte verwenden Sie im Title nur Buchstaben und Zahlen.",
+    COMMUNITY_TITLE_TO_LONG = "Der Titel ist zu lang, es sind maximal 16 Zeichen erlaubt.",
+    COMMUNITY_TITLE_TO_SHORT = "Der Titel ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
+    COMMUNITY_TITLE_TAKEN = "Dieser Titel ist bereits vergeben.",
+}
+
 export enum PhotoAlbumStatus {
     SUCCESS = "wurde erfolgreich erstellt.",
     // ERROR = "Der Album konnte nicht erstellt werden.",
