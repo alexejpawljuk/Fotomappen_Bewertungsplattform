@@ -1,8 +1,8 @@
 import {create} from "zustand";
 import {
-    MethodDeletePhotoAlbumByIdRequestModel,
+    MethodDeletePhotoAlbumByIdRequestModel, MethodGetPhotoAlbumByIDRequestModel, MethodGetPhotoAlbumByIDResponseModel,
     MethodGetPhotoAlbumListResponseModel,
-    MethodSetPhotoAlbumCreateRequestModel, MethodUpdatePhotoAlbumRequestModel,
+    MethodSetPhotoAlbumCreateRequestModel, MethodUpdatePhotoAlbumRequestModel, PhotoAlbum,
 } from "/imports/api/PhotoAlbum/models";
 import {Meteor} from "meteor/meteor";
 import {PhotoAlbumMethods} from "/imports/api/names";
@@ -14,6 +14,7 @@ interface IPhotoAlbumService {
     deletePhotoAlbumById(photoAlbumId: string): Promise<void>;
     createPhotoAlbum(data: MethodSetPhotoAlbumCreateRequestModel): Promise<void>;
     updatePhotoAlbum(data: MethodUpdatePhotoAlbumRequestModel): Promise<void>;
+    getPhotoAlbumById(photoAlbumId: string): Promise<PhotoAlbum>;
 }
 
 export const PhotoAlbumService = create<IPhotoAlbumService>(setState => {
@@ -55,6 +56,16 @@ export const PhotoAlbumService = create<IPhotoAlbumService>(setState => {
                 Meteor.call(PhotoAlbumMethods.UPDATE_PHOTO_ALBUM_BY_ID, data, (err: any) => {
                     if (err) return rejects(err)
                     resolve()
+                })
+            })
+        },
+        getPhotoAlbumById(photoAlbumId: string): Promise<PhotoAlbum> {
+            return new Promise((resolve, rejects) => {
+                const params: MethodGetPhotoAlbumByIDRequestModel = {albumId: photoAlbumId}
+                Meteor.call(PhotoAlbumMethods.GET_PHOTO_ALBUM_BY_ID, params, (err: any, {photoAlbum}: MethodGetPhotoAlbumByIDResponseModel) => {
+                    if (err) return rejects(err)
+                    if (!photoAlbum) return rejects(`Photo album ${photoAlbum} not found`)
+                    resolve(photoAlbum)
                 })
             })
         }
