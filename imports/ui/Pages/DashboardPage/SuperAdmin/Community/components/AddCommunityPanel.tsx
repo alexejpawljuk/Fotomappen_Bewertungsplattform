@@ -3,6 +3,7 @@ import {Button, Flex, Input, message} from "antd";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {CommunityError} from "/imports/utils/constans/text";
+import {CommunityService} from "/imports/ui/Services/CommunityService";
 
 interface AddCommunityPanelProps {
     // TODO: define props here
@@ -10,6 +11,8 @@ interface AddCommunityPanelProps {
 
 export const AddCommunityPanel: React.FC<AddCommunityPanelProps> = ({}) => {
     useDebugMount("AddCommunityPanel")
+
+    const {setCommunity} = CommunityService()
     const [title, setTitle] = useState("")
 
     const handleCreate = async () => {
@@ -26,6 +29,11 @@ export const AddCommunityPanel: React.FC<AddCommunityPanelProps> = ({}) => {
         if (cleanTitle.length > 16) {
             return message.error(CommunityError.COMMUNITY_TITLE_TO_LONG)
         }
+
+        setCommunity({title})
+            .then(() => message.success("Community created successfully."))
+            .catch(err => message.error(err.details || "Community creation failed."))
+            .catch(console.error)
     }
 
     return (

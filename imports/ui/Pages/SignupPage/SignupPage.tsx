@@ -31,9 +31,8 @@ export const SignupPage: React.FC<Props> = ({}) => {
     useEffect(() => {
         getCommunity()
             .then(setCommunity)
-            .catch(err => {
-                return message.error(err.details || err.reason || err.message || "Unknown error")
-            })
+            .catch(err => message.error(err.details || "Error: community request failed."))
+            .catch(console.error)
     }, [])
 
     const handleSubmit = async () => {
