@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Input, message, Select, Space, Typography} from "antd";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import validator from "validator";
 import {LockOutlined, UsergroupAddOutlined, UserOutlined} from "@ant-design/icons";
 import {publicRoutes} from "/imports/ui/Router/routes";
@@ -11,39 +11,30 @@ import {SignupError, SignupStatus} from "/imports/utils/constans/text";
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {MainLayout} from "/imports/ui/Layout/MainLayout";
 import {UserMethods} from "/imports/api/names";
-
+import {CommunityService} from "/imports/ui/Services/CommunityService";
 
 
 interface Props {
     // define your props here
 }
 
-const useCommunity = (): Community[] => {
-    const [community, setCommunity] = useState<Community[]>([])
-
-    useEffect(() => {
-        Meteor.callAsync("get.communityAll")
-            .then(res => {
-                setCommunity(() => res)
-            })
-            .catch((error: Meteor.Error) => {
-                message.error(error.details || error.reason || error.message || "Unknown error")
-            })
-    }, [])
-
-    return community
-}
-
 export const SignupPage: React.FC<Props> = ({}) => {
+    const {getCommunity} = CommunityService()
+    const [community, setCommunity] = useState<Community[]>([])
     const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
     const [clubName, setClubName] = useState("ClubName")
     const [communityId, setCommunityId] = useState("")
     const [password, setPassword] = useState("0123456789")
-    const communityAll = useCommunity()
     const [_, setLoggingIn] = useState(false)
     const navigate = useNavigate()
 
-
+    useEffect(() => {
+        getCommunity()
+            .then(setCommunity)
+            .catch(err => {
+                return message.error(err.details || err.reason || err.message || "Unknown error")
+            })
+    }, [])
 
     const handleSubmit = async () => {
         const cleanedEmail = email.trim()
@@ -53,7 +44,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
             return message.error(SignupError.COMMUNITY_REQUIRED)
         }
 
-        if(!validator.isEmail(cleanedEmail)) {
+        if (!validator.isEmail(cleanedEmail)) {
             return message.error(SignupError.EMAIL_INVALID)
         }
 
@@ -86,7 +77,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
             navigate(publicRoutes.login.path)
         } catch (e: unknown) {
             setLoggingIn(false)
-            if (e instanceof Meteor.Error){
+            if (e instanceof Meteor.Error) {
                 return message.error(e.details || e.reason || e.message || "Unknown error")
             }
         }
@@ -100,17 +91,17 @@ export const SignupPage: React.FC<Props> = ({}) => {
                 <Select
                     placeholder="Community"
                     showSearch
-                    style={{ width: "100%" }}
-                    prefix={<UsergroupAddOutlined />}
+                    style={{width: "100%"}}
+                    prefix={<UsergroupAddOutlined/>}
                     optionFilterProp="label"
                     filterSort={(optionA, optionB) =>
                         (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
                     }
-                    options={communityAll.map(community => ({
+                    options={community.map(community => ({
                         value: community._id,
                         label: community.name,
                     }))}
-                    onSelect={(value: string)  => setCommunityId(value)}
+                    onSelect={(value: string) => setCommunityId(value)}
                 />
                 <Input
                     placeholder={"Email"}
@@ -121,13 +112,13 @@ export const SignupPage: React.FC<Props> = ({}) => {
                 <Input
                     placeholder={"Club Name"}
                     value={clubName}
-                    addonBefore={<UserOutlined />}
+                    addonBefore={<UserOutlined/>}
                     onChange={e => setClubName(e.target.value)}
                 />
                 <Input.Password
                     placeholder={"Password"}
                     value={password} type={"password"}
-                    addonBefore={<LockOutlined />}
+                    addonBefore={<LockOutlined/>}
                     onChange={e => setPassword(e.target.value)}
                 />
 

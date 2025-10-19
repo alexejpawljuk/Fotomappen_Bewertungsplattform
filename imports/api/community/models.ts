@@ -3,3 +3,7 @@ export interface Community {
     name: string;
     createdAt: Date;
 }
+
+export interface MethodGetCommunitiesAllResponseModel {
+    communities: Community[];
+}
