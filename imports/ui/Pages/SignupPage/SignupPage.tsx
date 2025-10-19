@@ -19,7 +19,7 @@ interface Props {
 }
 
 export const SignupPage: React.FC<Props> = ({}) => {
-    const {getCommunity} = CommunityService()
+    const {getCommunities} = CommunityService()
     const [community, setCommunity] = useState<Community[]>([])
     const [email, setEmail] = useState("pawljuk-alexej@hotmail.com")
     const [clubName, setClubName] = useState("ClubName")
@@ -29,7 +29,7 @@ export const SignupPage: React.FC<Props> = ({}) => {
     const navigate = useNavigate()
 
     useEffect(() => {
-        getCommunity()
+        getCommunities()
             .then(setCommunity)
             .catch(err => message.error(err.details || "Error: community request failed."))
             .catch(console.error)
