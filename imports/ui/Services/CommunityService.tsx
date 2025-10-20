@@ -3,7 +3,7 @@ import {
     Community,
     MethodGetCommunitiesAllResponseModel, MethodGetCommunityByIdRequestModel, MethodGetCommunityByIdResponseModel,
     MethodGetCommunityListResponseModel,
-    MethodSetCommunityRequestModel
+    MethodSetCommunityRequestModel, MethodUpdateCommunityByIdRequestModel
 } from "/imports/api/community/models";
 import {Meteor} from "meteor/meteor";
 import {CommunityMethods} from "/imports/api/names";
@@ -14,7 +14,8 @@ interface ICommunity {
     getCommunityById(data: MethodGetCommunityByIdRequestModel): Promise<MethodGetCommunityByIdResponseModel>;
     setCommunity(data: MethodSetCommunityRequestModel): Promise<void>;
     communitiesList: MethodGetCommunityListResponseModel[];
-    getCommunitiesListFetch(): Promise<void>;
+    communitiesListFetch(): Promise<void>;
+    updateCommunityById(data: MethodUpdateCommunityByIdRequestModel): Promise<void>;
 }
 
 export const CommunityService = create<ICommunity>((setState) => {
@@ -44,11 +45,19 @@ export const CommunityService = create<ICommunity>((setState) => {
             })
         },
         communitiesList: [],
-        getCommunitiesListFetch() {
+        communitiesListFetch() {
             return new Promise((resolve, reject) => {
                 Meteor.call(CommunityMethods.GET_COMMUNITY_LIST, (err: any, res: MethodGetCommunityListResponseModel[]) => {
                     if (err) return reject(err)
                     setState(state => ({...state, communitiesList: res}))
+                    resolve()
+                })
+            })
+        },
+        updateCommunityById(data): Promise<void> {
+            return new Promise((resolve, reject) => {
+                Meteor.call(CommunityMethods.UPDATE_COMMUNITY_BY_ID, data, (err: any) => {
+                    if (err) reject(err)
                     resolve()
                 })
             })

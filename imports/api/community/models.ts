@@ -27,3 +27,9 @@ export interface MethodGetCommunityListResponseModel {
 export interface MethodSetCommunityRequestModel {
     title: string;
 }
+
+// UPDATE Methods
+export interface MethodUpdateCommunityByIdRequestModel {
+    communityId: string;
+    title: string;
+}

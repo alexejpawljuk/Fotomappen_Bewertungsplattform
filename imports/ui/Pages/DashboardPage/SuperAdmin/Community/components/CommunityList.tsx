@@ -1,11 +1,13 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Flex, Form, Input, Popconfirm, Table, TableProps, Typography} from 'antd';
+import {Flex, Form, Input, message, Popconfirm, Table, TableProps, Typography} from 'antd';
 import {CommunityService} from "/imports/ui/Services/CommunityService";
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {MethodGetPhotoAlbumListResponseModel} from "/imports/api/PhotoAlbum/models";
-import {MethodGetCommunityListResponseModel} from "/imports/api/community/models";
+import {
+    MethodGetCommunityListResponseModel
+} from "/imports/api/community/models";
 
 const EditableCell: React.FC<React.PropsWithChildren<{
     editing: boolean;
@@ -33,7 +35,7 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const CommunityList: React.FC = () => {
-    const {communitiesList, getCommunitiesListFetch} = CommunityService()
+    const {communitiesList, communitiesListFetch, updateCommunityById} = CommunityService()
 
     useDebugMount("CommunityList");
 
@@ -41,7 +43,7 @@ export const CommunityList: React.FC = () => {
     const [editingKey, setEditingKey] = useState<string>('');
 
     useEffect(() => {
-        getCommunitiesListFetch().catch(console.error);
+        communitiesListFetch().catch(console.error);
     }, []);
 
     const isEditing = (record: MethodGetCommunityListResponseModel) => record.communityId === editingKey;
@@ -54,15 +56,14 @@ export const CommunityList: React.FC = () => {
     const cancel = () => setEditingKey('');
 
     const save = (communityId: string) => {
-        // form.validateFields()
-        //     .then(async ({title}) => {
-        //         const data: MethodGetCommunityListResponseModel = {communityId, title}
-        //         await updatePhotoAlbum(data)
-        //         setEditingKey('');
-        //         message.success('Title updated');
-        //         return photoAlbumsListFetch()
-        //     })
-        //     .catch(console.error)
+        form.validateFields()
+            .then(async ({title}) => {
+                await updateCommunityById({communityId, title})
+                setEditingKey('');
+                message.success('Title updated');
+                return communitiesListFetch()
+            })
+            .catch(console.error)
     };
 
     const handleDelete = (communityId: string) => {
