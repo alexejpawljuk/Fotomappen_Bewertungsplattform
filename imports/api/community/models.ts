@@ -33,3 +33,8 @@ export interface MethodUpdateCommunityByIdRequestModel {
     communityId: string;
     title: string;
 }
+
+// DELETE Methods
+export interface MethodDeleteCommunityByIdRequestModel {
+    communityId: string;
+}

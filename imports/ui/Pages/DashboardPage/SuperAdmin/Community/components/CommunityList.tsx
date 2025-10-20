@@ -35,7 +35,7 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const CommunityList: React.FC = () => {
-    const {communitiesList, communitiesListFetch, updateCommunityById} = CommunityService()
+    const {communitiesList, communitiesListFetch, updateCommunityById, deleteCommunityById} = CommunityService()
 
     useDebugMount("CommunityList");
 
@@ -67,13 +67,13 @@ export const CommunityList: React.FC = () => {
     };
 
     const handleDelete = (communityId: string) => {
-        // deletePhotoAlbumById(communityId)
-        //     .then(async () => {
-        //         const photoAlbum = photoAlbumsList.find(photoAlbum => photoAlbum.albumId === albumId);
-        //         if (photoAlbum) message.success(`Fotomappe ${photoAlbum?.title} deleted`);
-        //         return photoAlbumsListFetch();
-        //     })
-        //     .catch(console.error);
+        deleteCommunityById({communityId})
+            .then(async () => {
+                const photoAlbum = communitiesList.find(community => community.communityId === communityId);
+                if (photoAlbum) message.success(`Community ${photoAlbum?.title} deleted`);
+                return communitiesListFetch();
+            })
+            .catch(console.error);
     };
 
     const columns = useMemo<TableProps<MethodGetCommunityListResponseModel>['columns']>(() => ([

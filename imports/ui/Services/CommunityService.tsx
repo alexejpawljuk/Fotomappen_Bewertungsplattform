@@ -1,12 +1,13 @@
 import {create} from "zustand";
 import {
-    Community,
+    Community, MethodDeleteCommunityByIdRequestModel,
     MethodGetCommunitiesAllResponseModel, MethodGetCommunityByIdRequestModel, MethodGetCommunityByIdResponseModel,
     MethodGetCommunityListResponseModel,
     MethodSetCommunityRequestModel, MethodUpdateCommunityByIdRequestModel
 } from "/imports/api/community/models";
 import {Meteor} from "meteor/meteor";
 import {CommunityMethods} from "/imports/api/names";
+
 
 
 interface ICommunity {
@@ -16,6 +17,7 @@ interface ICommunity {
     communitiesList: MethodGetCommunityListResponseModel[];
     communitiesListFetch(): Promise<void>;
     updateCommunityById(data: MethodUpdateCommunityByIdRequestModel): Promise<void>;
+    deleteCommunityById(data: MethodDeleteCommunityByIdRequestModel): Promise<void>;
 }
 
 export const CommunityService = create<ICommunity>((setState) => {
@@ -61,6 +63,14 @@ export const CommunityService = create<ICommunity>((setState) => {
                     resolve()
                 })
             })
-        }
+        },
+        deleteCommunityById(data) {
+            return new Promise((resolve, rejects) => {
+                Meteor.call(CommunityMethods.DELETE_COMMUNITY_BY_ID, data, (err: any) => {
+                    if (err) return rejects(err)
+                    resolve()
+                })
+            })
+        },
     }
 })

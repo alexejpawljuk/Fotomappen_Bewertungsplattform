@@ -22,6 +22,7 @@ export enum CommunityMethods {
     GET_COMMUNITY_LIST = 'get.community.list',
     SET_COMMUNITY_CREATE = 'set.community.create',
     UPDATE_COMMUNITY_BY_ID = 'update.community.byId',
+    DELETE_COMMUNITY_BY_ID = 'delete.community.byId',
 }
 
 // User method names
