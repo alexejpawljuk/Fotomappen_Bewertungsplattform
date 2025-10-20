@@ -16,6 +16,13 @@ export interface MethodGetCommunityByIdResponseModel {
     community: Community;
 }
 
+export interface MethodGetCommunityListResponseModel {
+    communityId: string;
+    title: string
+    createdAt: Date;
+    clubs: number;
+}
+
 // SET Methods
 export interface MethodSetCommunityRequestModel {
     title: string;

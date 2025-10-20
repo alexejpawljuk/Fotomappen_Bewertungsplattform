@@ -5,19 +5,59 @@ import {
     Community,
     MethodGetCommunitiesAllResponseModel,
     MethodGetCommunityByIdRequestModel,
-    MethodGetCommunityByIdResponseModel
+    MethodGetCommunityByIdResponseModel, MethodGetCommunityListResponseModel
 } from "/imports/api/community/models";
+import {noAuthError} from "/imports/utils/serverErrors";
+
 
 Meteor.methods({
-    [CommunityMethods.GET_COMMUNITY_ALL]: function(): MethodGetCommunitiesAllResponseModel {
+    [CommunityMethods.GET_COMMUNITY_ALL]: function (): MethodGetCommunitiesAllResponseModel {
+        if (!Meteor.userId()) return noAuthError()
+
         const communities = CommunityCollection.find().fetch()
         return {communities}
     }
 })
 
 Meteor.methods({
-    [CommunityMethods.GET_COMMUNITY_BY_ID]: function(data: MethodGetCommunityByIdRequestModel): MethodGetCommunityByIdResponseModel {
+    [CommunityMethods.GET_COMMUNITY_BY_ID]: function (data: MethodGetCommunityByIdRequestModel): MethodGetCommunityByIdResponseModel {
+        if (!Meteor.userId()) return noAuthError()
+
         const community = CommunityCollection.findOne({_id: data.communityId})
         return {community: community as Community}
+    }
+})
+
+Meteor.methods({
+    [CommunityMethods.GET_COMMUNITY_LIST]: async function () {
+        if (!Meteor.userId()) return noAuthError()
+
+        try {
+            const result = await CommunityCollection.rawCollection()
+                .aggregate([
+                    {
+                        $lookup: {
+                            from: "users",
+                            localField: "_id",
+                            foreignField: "profile.communityId",
+                            as: "clubs"
+                        }
+                    },
+                    {$sort: {createdAt: -1}}
+                ])
+                .toArray();
+
+            return result.map<MethodGetCommunityListResponseModel>(community => ({
+                communityId: community._id as string,
+                title: community.name,
+                createdAt: community.createdAt,
+                clubs: community.clubs.length,
+            }))
+        } catch (error) {
+            if (error instanceof Meteor.Error) {
+                throw new Meteor.Error(error.message)
+            }
+            console.error(error)
+        }
     }
 })

@@ -19,6 +19,7 @@ export enum Role {
 export enum CommunityMethods {
     GET_COMMUNITY_BY_ID = 'get.community.ById',
     GET_COMMUNITY_ALL = 'get.communityAll',
+    GET_COMMUNITY_LIST = 'get.community.list',
     SET_COMMUNITY_CREATE = 'set.community.create',
 }
 
