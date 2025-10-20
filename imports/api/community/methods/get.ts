@@ -8,6 +8,7 @@ import {
     MethodGetCommunityByIdResponseModel, MethodGetCommunityListResponseModel
 } from "/imports/api/community/models";
 import {noAuthError} from "/imports/utils/serverErrors";
+import {check} from "meteor/check";
 
 
 Meteor.methods({
@@ -20,10 +21,12 @@ Meteor.methods({
 })
 
 Meteor.methods({
-    [CommunityMethods.GET_COMMUNITY_BY_ID]: function (data: MethodGetCommunityByIdRequestModel): MethodGetCommunityByIdResponseModel {
+    [CommunityMethods.GET_COMMUNITY_BY_ID]: function ({communityId}: MethodGetCommunityByIdRequestModel): MethodGetCommunityByIdResponseModel {
         if (!Meteor.userId()) return noAuthError()
 
-        const community = CommunityCollection.findOne({_id: data.communityId})
+        check(communityId, String)
+
+        const community = CommunityCollection.findOne({_id: communityId})
         return {community: community as Community}
     }
 })

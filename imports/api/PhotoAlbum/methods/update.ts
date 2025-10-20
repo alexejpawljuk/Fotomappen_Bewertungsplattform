@@ -6,27 +6,26 @@ import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection
 import {check} from 'meteor/check';
 
 Meteor.methods({
-    [PhotoAlbumMethods.UPDATE_PHOTO_ALBUM_BY_ID]: async function(data: MethodUpdatePhotoAlbumRequestModel){
+    [PhotoAlbumMethods.UPDATE_PHOTO_ALBUM_BY_ID]: async function({title, albumId}: MethodUpdatePhotoAlbumRequestModel){
         if (!this.userId) return noAuthError()
 
-        check(data.title, String)
-        check(data.albumId, String)
+        check(title, String)
+        check(albumId, String)
 
         try {
-            const selector = {_id: data.albumId}
+            const selector = {_id: albumId}
             const res = await PhotoAlbumCollection.updateAsync(
                 selector,
-                {$set: { title: data.title}}
+                {$set: { title: title}}
             )
 
             if (res === 0) {
                 throw new Meteor.Error('not-found', 'Album not found');
             }
+            return true;
         } catch (error) {
             if (error instanceof Meteor.Error) throw new Meteor.Error(error)
             console.log(error)
         }
-
-        return true;
     }
 })

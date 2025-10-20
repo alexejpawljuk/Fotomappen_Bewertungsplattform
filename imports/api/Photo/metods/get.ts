@@ -5,10 +5,16 @@ import {
     MethodGetPhotosListByAlbumIdRequestModel,
     MethodGetPhotosListByAlbumIdResponseModel
 } from "/imports/api/Photo/models";
+import {noAuthError} from "/imports/utils/serverErrors";
+import {check} from "meteor/check";
 
 
 Meteor.methods({
     [PhotoMethods.GET_PHOTOS_LIST_BY_ALBUM_ID]: async function ({albumId}: MethodGetPhotosListByAlbumIdRequestModel) {
+        if (!this.userId) return noAuthError()
+
+        check(albumId, String);
+
         const photosResult = PhotoCollection.find({
             photoAlbumId: albumId
         }).fetch()

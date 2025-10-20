@@ -29,23 +29,23 @@ Meteor.methods({
             return clientContentError(PhotoAlbumError.PHOTO_ALBUM_TITLE_TO_LONG)
         }
 
-        const data: PhotoAlbum = {
-            title,
-            owner: {
-                userId: this.userId,
-            },
-            contest: {
-                contestId: undefined
-            },
-            createdAt: new Date()
-        }
-
         const existing = PhotoAlbumCollection.findOne({title: cleanTitle});
         if (existing) {
             return clientContentError(PhotoAlbumError.PHOTO_ALBUM_TITLE_TAKEN)
         }
 
         try {
+            const data: PhotoAlbum = {
+                title,
+                owner: {
+                    userId: this.userId,
+                },
+                contest: {
+                    contestId: undefined
+                },
+                createdAt: new Date()
+            }
+
             PhotoAlbumCollection.insertAsync(data)
         } catch (e: unknown) {
             throw new Meteor.Error('Failed to insert photoAlbum')
