@@ -3,10 +3,7 @@ import {Flex, Form, Input, message, Popconfirm, Table, TableProps, Tag, Typograp
 import {CheckCircleOutlined, ClockCircleOutlined, SyncOutlined} from "@ant-design/icons";
 import Search from "antd/es/input/Search";
 import {formatDate} from "/imports/utils/formatDate";
-import {
-    MethodGetPhotoAlbumListResponseModel,
-    MethodUpdatePhotoAlbumRequestModel
-} from "/imports/api/PhotoAlbum/models";
+import {MethodGetPhotoAlbumListResponseModel, MethodUpdatePhotoAlbumRequestModel} from "/imports/api/PhotoAlbum/models";
 import {generatePath, Link} from "react-router-dom";
 import {protectedRoutes} from "/imports/ui/Router/routes";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
@@ -91,7 +88,6 @@ export const PhotoAlbumsList: React.FC = () => {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
-            editable: true as const, // 👈 флажок для merge
             render: (_: any, {title, albumId}) => (
                 <Link to={generatePath(protectedRoutes.club_admin.dashboardPhotoAlbum.path, {albumId})}>
                     {title}

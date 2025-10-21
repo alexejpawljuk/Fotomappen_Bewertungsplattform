@@ -12,7 +12,7 @@ interface AddCommunityPanelProps {
 export const AddCommunityPanel: React.FC<AddCommunityPanelProps> = ({}) => {
     useDebugMount("AddCommunityPanel")
 
-    const {setCommunity} = CommunityService()
+    const {setCommunity, communitiesListFetch} = CommunityService()
     const [title, setTitle] = useState("")
 
     const handleCreate = async () => {
@@ -31,7 +31,11 @@ export const AddCommunityPanel: React.FC<AddCommunityPanelProps> = ({}) => {
         }
 
         setCommunity({title})
-            .then(() => message.success("Community created successfully."))
+            .then(async () => {
+                setTitle("")
+                message.success("Community created successfully.")
+                return communitiesListFetch()
+            })
             .catch(err => message.error(err.details || "Community creation failed."))
             .catch(console.error)
     }

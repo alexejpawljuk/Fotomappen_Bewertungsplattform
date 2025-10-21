@@ -35,7 +35,7 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const CommunityList: React.FC = () => {
-    const {communitiesList, communitiesListFetch, updateCommunityById, deleteCommunityById} = CommunityService()
+    const {communitiesList, loading, communitiesListFetch, updateCommunityById, deleteCommunityById} = CommunityService()
 
     useDebugMount("CommunityList");
 
@@ -157,6 +157,7 @@ export const CommunityList: React.FC = () => {
 
             <Form form={form} component={false}>
                 <Table<MethodGetCommunityListResponseModel>
+                    loading={loading}
                     components={{body: {cell: EditableCell}}}
                     rowKey="communityId"
                     pagination={{position: ["bottomCenter"], onChange: cancel}}
