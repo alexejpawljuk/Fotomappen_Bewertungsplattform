@@ -1,3 +1,4 @@
+
 interface Phase {
     startTime: Date;
     endTime: Date;
@@ -22,3 +23,18 @@ export interface Contest {
 // GET methods
 
 //SET methods
+export interface MethodSetContestCreateRequestModel {
+    title: string;
+    submissionPhase: {
+        date: {
+            start: string;
+            end: string;
+        }
+    }
+    contestPhase: {
+        date: {
+            start: string;
+            end: string;
+        }
+    }
+}
