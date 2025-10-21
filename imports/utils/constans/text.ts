@@ -45,6 +45,12 @@ export enum PhotoError {
     PHOTOGRAPHER_LASTNAME_TOO_SHORT = "Der Nachname des Fotografen ist zu kurz, es sind minimal 4 Zeichen erlaubt.",
 }
 
+export enum ContestError {
+    CONTEST_TITLE_TAKEN = "Dieser Titel ist bereits vergeben.",
+}
+export enum ContestStatus {
+    SUCCESS = "wurde erfolgreich erstellt.",
+}
 
 export enum SignupStatus {
     SUCCESS = "Ihr Benutzerkonto wurde erfolgreich erstellt. Sie können sich jetzt anmelden."

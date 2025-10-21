@@ -41,12 +41,17 @@ export enum PhotoAlbumMethods {
     UPDATE_PHOTO_ALBUM_BY_ID = "update.photo_album.byId",
 }
 
-// Photo methods name
+// Photo methods names
 export enum PhotoMethods {
     GET_PHOTOS_LIST_BY_ALBUM_ID = "get.photos_list.by_photo_album_id",
     SET_PHOTO_BY_ALBUM_ID = "set.photo.by_photo_album_id",
     DELETE_PHOTO_BY_ID = "delete.photo.byId",
     UPDATE_PHOTO_BY_ID = "update.photo.byId",
+}
+
+// Contest methods manes
+export enum ContestMethods {
+    SET_CONTEST_CREATE = "set.contest.create",
 }
 
 export enum PhotoAlbumPublication {

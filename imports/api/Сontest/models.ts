@@ -1,26 +1,23 @@
-
 interface Phase {
-    startTime: Date;
-    endTime: Date;
-}
-
-interface Phases {
-    '1_phase': Phase
-    '2_phase': Phase
+    start: string;
+    end: string;
 }
 
 export interface Contest {
     _id?: string;
     title: string;
-    phases: Phases;
+    phases: {
+        submissionPhase: Phase
+        contestPhase: Phase
+    };
     createdAt: Date;
     owner: {
         userId: string;
     };
-
 }
 
 // GET methods
+
 
 //SET methods
 export interface MethodSetContestCreateRequestModel {

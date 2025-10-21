@@ -2,11 +2,9 @@ import React, {useState} from 'react';
 import {Button, Flex, Input, message} from "antd";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {DatePicker} from 'antd';
-
-const {RangePicker} = DatePicker;
 import type {Dayjs} from 'dayjs';
 import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
-import {PhotoAlbumError} from "/imports/utils/constans/text";
+import {ContestStatus, PhotoAlbumError} from "/imports/utils/constans/text";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import {isBefore} from "validator";
 import {MethodSetContestCreateRequestModel} from "/imports/api/Сontest/models";
@@ -15,15 +13,16 @@ type DateType = Dayjs | (Dayjs | null)[] | null
 type DateStringType = string | string[]
 type DateInputStatus =  "" | "warning" | "error" | undefined
 
+const {RangePicker} = DatePicker;
 
 export const AddContestPanel = ({}) => {
     useDebugMount("AddContestPanel")
+
     const {setContests} = ContestService()
     const [title, setTitle] = useState("")
     const [submissionPhase, setSubmissionPhase] = useState<{ date: DateType, dateString: DateStringType }>()
     const [contestPhase, setContestPhase] = useState<{ date: DateType, dateString: DateStringType }>()
     const [dateInputStatus, setDateInputStatus] = useState<DateInputStatus>("")
-
 
     const handleCreate = async () => {
         const cleanTitle = title.trim()
@@ -41,7 +40,6 @@ export const AddContestPanel = ({}) => {
             return message.error(PhotoAlbumError.PHOTO_ALBUM_TITLE_TO_LONG)
         }
 
-        //
         if (!contestPhase || !submissionPhase) {
             setDateInputStatus("error")
             return message.error("Error: Contest data failed.")
@@ -51,7 +49,7 @@ export const AddContestPanel = ({}) => {
             setDateInputStatus("warning")
             return message.error("Error: Invalid date string.")
         }
-        
+
         const contestData: MethodSetContestCreateRequestModel = {
             title,
             submissionPhase: {
@@ -69,7 +67,10 @@ export const AddContestPanel = ({}) => {
         }
         setContests(contestData)
             .then(() => {
-
+                setTitle("")
+                setSubmissionPhase(undefined)
+                setContestPhase(undefined)
+                message.success(ContestStatus.SUCCESS)
             })
             .catch((err) => message.error(err.details || "Contest creation failed."))
             .catch(console.error);

@@ -2,7 +2,8 @@
 import "/imports/api/User/club_admin/methods"
 import "/imports/api/community/methods"
 import "/imports/api/PhotoAlbum/methods"
-import "/imports/api/Photo/metods"
+import "/imports/api/Photo/methods"
+import "/imports/api/Сontest/methods"
 
 // Databases
 import "/imports/api/community/communityCollection"
