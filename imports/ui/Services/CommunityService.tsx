@@ -4,7 +4,7 @@ import {
     MethodGetCommunitiesAllResponseModel, MethodGetCommunityByIdRequestModel, MethodGetCommunityByIdResponseModel,
     MethodGetCommunityListResponseModel,
     MethodSetCommunityRequestModel, MethodUpdateCommunityByIdRequestModel
-} from "/imports/api/community/models";
+} from "/imports/api/Community/models";
 import {Meteor} from "meteor/meteor";
 import {CommunityMethods} from "/imports/api/names";
 
