@@ -50,18 +50,19 @@ export const ContestList: React.FC = () => {
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
     const [rows, setRows] = useState<MethodGetContestsListResponseModel[]>([]); // замени any на твой тип Contest
+    const [search, setSearch] = useState<string>("")
 
-
-    const fetchPage = async (p = page, ps = pageSize) => {
-        const res = (await getContestsListPagedFetch({ page: p, pageSize: ps }));
+    const fetchPage = async (p = page, ps = pageSize, s = search) => {
+        const res = await getContestsListPagedFetch({ page: p, pageSize: ps, search: s });
         setRows(res.items);
         setTotal(res.total);
         setPage(p);
         setPageSize(ps);
+        setSearch(s);
     };
 
     useEffect(() => {
-        fetchPage();
+        fetchPage().catch(console.error);
     }, []);
 
     const isEditing = (record: MethodGetContestsListResponseModel) => record.contestId === editingKey;
@@ -82,6 +83,12 @@ export const ContestList: React.FC = () => {
             })
             .catch(console.error);
     };
+
+    const handleSearch = (search: string) => {
+        const cleanSearch = search.trim();
+
+        fetchPage(page, pageSize, cleanSearch).catch(console.error);
+    }
 
     const handleDelete = (id: string) => {
         deleteContest({id})
@@ -202,6 +209,7 @@ export const ContestList: React.FC = () => {
         <Flex vertical gap={"small"}>
             <Flex justify={"flex-end"}>
                 <Search
+                    onChange={(e) => handleSearch(e.target.value)}
                     placeholder="search"
                     loading={false}
                     allowClear
@@ -229,7 +237,7 @@ export const ContestList: React.FC = () => {
                     onChange={(pagination) => {
                         const p = pagination.current || 1;
                         const ps = pagination.pageSize || 10;
-                        fetchPage(p, ps).catch(console.error);
+                        fetchPage(p, ps, search).catch(console.error);
                     }}
                 />
             </Form>

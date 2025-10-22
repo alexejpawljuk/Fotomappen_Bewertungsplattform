@@ -40,6 +40,7 @@ export interface MethodGetContestsListResponseModel {
 export interface MethodGetContestsListPagedRequestModel {
     page?: number;
     pageSize?: number;
+    search?: string;
 }
 export interface MethodGetContestsListPagedResponseModel {
     items: MethodGetContestsListResponseModel[];
