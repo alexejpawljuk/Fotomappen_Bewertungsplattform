@@ -41,7 +41,6 @@ export const ContestList: React.FC = () => {
 
     useEffect(() => {
         getContestsListFetch()
-            .then()
             .catch(err => message.error(err.details || "Error: Contest list fetch failed"))
             .catch(console.error);
     }, []);
@@ -151,7 +150,12 @@ export const ContestList: React.FC = () => {
                             <>
                                 <Typography.Link onClick={() => edit(record)}>Bearbeiten</Typography.Link>
                                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.contestId)}>
-                                    <a>Delete</a>
+                                    {/*<Button disabled type="link">Delete</Button>*/}
+                                    {
+                                        isTodayInRange(record.submissionPhase.start, new Date().toISOString()) ?
+                                            "Delete" :
+                                            <Typography.Link>Delete</Typography.Link>
+                                    }
                                 </Popconfirm>
                             </>
                         )}
