@@ -10,7 +10,8 @@ import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAd
 import {DashboardPhotoAlbums} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbums/DashboardPhotoAlbums";
 import {DashboardPhotoAlbum} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/DashboardPhotoAlbum";
 import {DashboardCommunity} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Community/DashboardCommunity";
-import {DashboardContest} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Contest/DashboardContest";
+import {DashboardContest as DashboardContestSuperAdmin} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Contest/DashboardContest";
+import {DashboardContest as DashboardContestClubAdmin} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/DashboardContest";
 
 export const publicRoutes = {
     home: {
@@ -51,6 +52,11 @@ export const protectedRoutes = {
             path: '/dashboard/club-admin/photo-album/:albumId',
             element: (<DashboardPhotoAlbum/>),
             requiredRole: Role.CLUB_ADMIN
+        },
+        dashboardContest: {
+            path: '/dashboard/club-admin/contests',
+            element: (<DashboardContestClubAdmin/>),
+            requiredRole: Role.CLUB_ADMIN
         }
     },
     [Role.SUPER_ADMIN]: {
@@ -66,7 +72,7 @@ export const protectedRoutes = {
         },
         dashboardContest: {
             path: '/dashboard/super-admin/contest',
-            element: (<DashboardContest/>),
+            element: (<DashboardContestSuperAdmin/>),
             requiredRole: Role.SUPER_ADMIN
         }
     }

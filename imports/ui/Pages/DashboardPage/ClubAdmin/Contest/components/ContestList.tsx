@@ -38,7 +38,7 @@ export const ContestList: React.FC = () => {
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState<string>('');
 
-    useDebugMount("ContestList");
+    useDebugMount("ContestList club admin");
 
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);

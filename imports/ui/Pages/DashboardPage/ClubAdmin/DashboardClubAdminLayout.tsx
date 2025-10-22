@@ -17,10 +17,14 @@ export const DashboardClubAdminLayout: React.FC<DashboardClubAdminLayoutProps> =
         navigate(protectedRoutes.club_admin.dashboardPhotoAlbums.path)
     }
 
+    const handleContest = () => {
+        navigate(protectedRoutes.club_admin.dashboardContest.path)
+    }
+
     return (
         <DashboardLayout>
             <Flex justify={"center"} align={"center"} wrap gap={"middle"} style={{height: "50px"}} >
-                <Button color="primary" variant="outlined">Wettbewerb</Button>
+                <Button color="primary" variant="outlined" onClick={handleContest}>Wettbewerb</Button>
                 <Button color="primary" variant="outlined" onClick={handlePhotoAlbums}>Fotomappen</Button>
             </Flex>
             {children ?? <AccountInfo/>}
