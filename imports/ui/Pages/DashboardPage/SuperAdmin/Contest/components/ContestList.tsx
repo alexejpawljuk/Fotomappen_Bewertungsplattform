@@ -4,19 +4,8 @@ import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import Search from "antd/es/input/Search";
 import {MethodGetContestsListResponseModel} from "/imports/api/Сontest/models";
-import {isAfter, isBefore} from "validator";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
-
-const isTodayInRange = (startStr: string, endStr: string) => {
-    // Локальная дата в формате YYYY-MM-DD (например, 2025-10-22)
-    const todayStr = new Date().toLocaleDateString('en-CA');
-
-    // Инклюзивная проверка: start <= today <= end
-    const notBeforeStart = !isBefore(todayStr, startStr); // today >= start
-    const notAfterEnd = !isAfter(todayStr, endStr);       // today <= end
-
-    return notBeforeStart && notAfterEnd;
-};
+import {isTodayInRange} from "/imports/utils/check";
 
 const EditableCell: React.FC<React.PropsWithChildren<{
     editing: boolean;
@@ -98,11 +87,9 @@ export const ContestList: React.FC = () => {
             key: 'submissionPhase',
             align: 'center',
             render: (value: any) => {
-                const start = String(value.start).slice(0, 10);
-                const end = String(value.end).slice(0, 10);
                 const dateToString = `${value.start} : ${value.end}`;
 
-                if (isTodayInRange(start, end)) {
+                if (isTodayInRange(value.start, value.end)) {
                     return <Tag color="success">{dateToString}</Tag>;
                 }
                 return <Tag bordered={false}>{dateToString}</Tag>;
@@ -114,11 +101,8 @@ export const ContestList: React.FC = () => {
             key: 'contestPhase',
             align: 'center',
             render: (value: any) => {
-                const start = String(value.start).slice(0, 10);
-                const end = String(value.end).slice(0, 10);
                 const dateToString = `${value.start} : ${value.end}`;
-
-                if (isTodayInRange(start, end)) {
+                if (isTodayInRange(value.start, value.end)) {
                     return <Tag color="success">{dateToString}</Tag>;
                 }
                 return <Tag bordered={false}>{dateToString}</Tag>;
