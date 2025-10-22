@@ -53,6 +53,7 @@ export enum PhotoMethods {
 export enum ContestMethods {
     SET_CONTEST_CREATE = "set.contest.create",
     GET_CONTEST_LIST = "get.contest.list",
+    GET_CONTEST_LIST_PAGED = "get.contest.list_paged",
 }
 
 export enum PhotoAlbumPublication {

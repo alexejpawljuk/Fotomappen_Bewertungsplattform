@@ -37,6 +37,15 @@ export interface MethodGetContestsListResponseModel {
     result: string | undefined;
 }
 
+export interface MethodGetContestsListPagedRequestModel {
+    page?: number;
+    pageSize?: number;
+}
+export interface MethodGetContestsListPagedResponseModel {
+    items: MethodGetContestsListResponseModel[];
+    total: number;
+}
+
 //SET methods
 export interface MethodSetContestCreateRequestModel {
     title: string;

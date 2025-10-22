@@ -1,5 +1,6 @@
 import {create} from "zustand";
-import {MethodGetContestsListResponseModel,
+import {
+    MethodGetContestsListPagedRequestModel, MethodGetContestsListPagedResponseModel, MethodGetContestsListResponseModel,
     MethodSetContestCreateRequestModel
 } from "/imports/api/Сontest/models";
 import {Meteor} from "meteor/meteor";
@@ -12,12 +13,15 @@ interface IContestService {
     contestsList: MethodGetContestsListResponseModel[];
     loading: boolean;
     getContestsListFetch(): Promise<void>;
+    contestsListPaged: MethodGetContestsListResponseModel[];
+    getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel): Promise<MethodGetContestsListPagedResponseModel>;
 }
 
 export const ContestService = create<IContestService>((setState) => {
     return {
         contestsList: [],
         loading: false,
+        contestsListPaged: [],
         setContests(data) {
             return new Promise((resolve, reject) => {
                 Meteor.call(ContestMethods.SET_CONTEST_CREATE, data, (err: any) => {
@@ -67,6 +71,14 @@ export const ContestService = create<IContestService>((setState) => {
                     }))
                     setState(state => ({...state, contestsList, loading: false}))
                     resolve();
+                })
+            })
+        },
+        getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel) {
+            return new Promise((resolve, reject) => {
+                Meteor.call(ContestMethods.GET_CONTEST_LIST_PAGED, data, (err: any, res: MethodGetContestsListPagedResponseModel) => {
+                    if (err) return reject(err)
+                    resolve(res)
                 })
             })
         }

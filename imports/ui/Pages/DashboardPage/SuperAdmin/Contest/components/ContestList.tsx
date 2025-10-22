@@ -7,6 +7,7 @@ import {MethodGetContestsListResponseModel} from "/imports/api/Сontest/models";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 import {isTodayInRange} from "/imports/utils/check";
 
+
 const EditableCell: React.FC<React.PropsWithChildren<{
     editing: boolean;
     dataIndex: 'title';
@@ -32,17 +33,35 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const ContestList: React.FC = () => {
-    const {contestsList, loading, getContestsListFetch, deleteContest} = ContestService();
+    const {contestsList, loading, getContestsListPagedFetch, deleteContest} = ContestService();
 
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState<string>('');
 
     useDebugMount("ContestList");
 
+    // useEffect(() => {
+    //     getContestsListFetch()
+    //         .catch(err => message.error(err.details || "Error: Contest list fetch failed"))
+    //         .catch(console.error);
+    // }, []);
+
+    const [page, setPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
+    const [total, setTotal] = useState(0);
+    const [rows, setRows] = useState<MethodGetContestsListResponseModel[]>([]); // замени any на твой тип Contest
+
+
+    const fetchPage = async (p = page, ps = pageSize) => {
+        const res = (await getContestsListPagedFetch({ page: p, pageSize: ps }));
+        setRows(res.items);
+        setTotal(res.total);
+        setPage(p);
+        setPageSize(ps);
+    };
+
     useEffect(() => {
-        getContestsListFetch()
-            .catch(err => message.error(err.details || "Error: Contest list fetch failed"))
-            .catch(console.error);
+        fetchPage();
     }, []);
 
     const isEditing = (record: MethodGetContestsListResponseModel) => record.contestId === editingKey;
@@ -195,10 +214,23 @@ export const ContestList: React.FC = () => {
                     components={{body: {cell: EditableCell}}}
                     rowKey="contestId"
                     loading={loading}
-                    dataSource={contestsList}
+                    // dataSource={contestsList}
                     columns={mergedColumns}
-                    pagination={{position: ["bottomCenter"], onChange: cancel}}
+                    // pagination={{position: ["bottomCenter"], onChange: cancel}}
                     style={{margin: '20px 0', minWidth: 700}}
+                    dataSource={rows}
+                    pagination={{
+                        current: page,
+                        pageSize,
+                        total,
+                        showSizeChanger: true,
+                        position: ["bottomCenter"],
+                    }}
+                    onChange={(pagination) => {
+                        const p = pagination.current || 1;
+                        const ps = pagination.pageSize || 10;
+                        fetchPage(p, ps).catch(console.error);
+                    }}
                 />
             </Form>
         </Flex>
