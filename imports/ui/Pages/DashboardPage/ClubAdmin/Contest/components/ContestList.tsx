@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Table, Flex, Popconfirm, message, TableProps, Form, Input, Typography, Tag} from 'antd';
+import {Table, Flex, TableProps, Form, Typography, Tag} from 'antd';
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import Search from "antd/es/input/Search";
@@ -7,36 +7,9 @@ import {MethodGetContestsListResponseModel} from "/imports/api/Сontest/models";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 import {isTodayInRange} from "/imports/utils/check";
 
-
-const EditableCell: React.FC<React.PropsWithChildren<{
-    editing: boolean;
-    dataIndex: 'title';
-    title: React.ReactNode;
-    record: MethodGetContestsListResponseModel;
-    index: number;
-}>> = ({editing, dataIndex, title, record, index, children, ...restProps}) => {
-    return (
-        <td {...restProps}>
-            {editing ? (
-                <Form.Item
-                    name={dataIndex}
-                    style={{margin: 0}}
-                    rules={[{required: true, message: `Please input ${title}!`}]}
-                >
-                    <Input autoFocus size="small" style={{width: 160}}/>
-                </Form.Item>
-            ) : (
-                children
-            )}
-        </td>
-    );
-};
-
 export const ContestList: React.FC = () => {
-    const {contestsListPaged, loading, getContestsListPagedFetch, deleteContest} = ContestService();
-
+    const {contestsListPaged, loading, getContestsListPagedFetch} = ContestService();
     const [form] = Form.useForm();
-    const [editingKey, setEditingKey] = useState<string>('');
 
     useDebugMount("ContestList club admin");
 
@@ -59,38 +32,11 @@ export const ContestList: React.FC = () => {
         fetchPage().catch(console.error);
     }, []);
 
-    const isEditing = (record: MethodGetContestsListResponseModel) => record.contestId === editingKey;
-
-    const edit = (record: MethodGetContestsListResponseModel) => {
-        form.setFieldsValue({title: record.title});
-        setEditingKey(record.contestId);
-    };
-
-    const cancel = () => setEditingKey('');
-
-    const save = (id: string) => {
-        console.log(id)
-        form.validateFields()
-            .then(async () => {
-                setEditingKey('');
-                return message.success('Title updated');
-            })
-            .catch(console.error);
-    };
-
     const handleSearch = (search: string) => {
         const cleanSearch = search.trim();
 
         fetchPage(page, pageSize, cleanSearch).catch(console.error);
     }
-
-    const handleDelete = (id: string) => {
-        deleteContest({id})
-            .then(() => {
-                return message.success('Competition deleted');
-            })
-            .catch(console.error);
-    };
 
     const columns = useMemo<TableProps<MethodGetContestsListResponseModel>['columns']>(() => [
         {
@@ -150,54 +96,9 @@ export const ContestList: React.FC = () => {
                     </a>
                 )
             },
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            align: 'center',
-            render: (_: any, record) => {
-                const editable = isEditing(record);
-                return (
-                    <Flex justify="center" gap="small">
-                        {editable ? (
-                            <>
-                                <Typography.Link onClick={cancel}>Cancel</Typography.Link>
-                                <Popconfirm title="Save changes?" onConfirm={() => save(record.contestId)}>
-                                    <a>Save</a>
-                                </Popconfirm>
-                            </>
-                        ) : (
-                            <>
-                                <Typography.Link onClick={() => edit(record)}>Bearbeiten</Typography.Link>
-                                <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.contestId)}>
-                                    {/*<Button disabled type="link">Delete</Button>*/}
-                                    {
-                                        isTodayInRange(record.submissionPhase.start, new Date().toISOString()) ?
-                                            "Delete" :
-                                            <Typography.Link>Delete</Typography.Link>
-                                    }
-                                </Popconfirm>
-                            </>
-                        )}
-                    </Flex>
-                );
-            },
-        },
-    ], [contestsListPaged, editingKey]);
 
-    const mergedColumns: TableProps<MethodGetContestsListResponseModel>['columns'] =
-        (columns as any).map((col: any) => {
-            if (!col.editable) return col;
-            return {
-                ...col,
-                onCell: (record: MethodGetContestsListResponseModel) => ({
-                    record,
-                    dataIndex: col.dataIndex,
-                    title: col.title,
-                    editing: isEditing(record),
-                }),
-            };
-        });
+        },
+    ], [contestsListPaged]);
 
     return (
         <Flex vertical gap={"small"}>
@@ -213,10 +114,9 @@ export const ContestList: React.FC = () => {
 
             <Form form={form} component={false}>
                 <Table<MethodGetContestsListResponseModel>
-                    components={{body: {cell: EditableCell}}}
                     rowKey="contestId"
                     loading={loading}
-                    columns={mergedColumns}
+                    columns={columns}
                     // pagination={{position: ["bottomCenter"], onChange: cancel}}
                     style={{margin: '20px 0', minWidth: 700}}
                     dataSource={rows}
