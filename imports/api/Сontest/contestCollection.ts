@@ -8,16 +8,17 @@ export const ContestCollection = new Mongo.Collection<Contest>(AvailableCollecti
 if (ContestCollection.find().count() === 0) {
     console.log("No Contests found. Creating some")
     const contests: Contest[] = Array.from({ length: 3 }, (_, index) => ({
+
         createdAt: new Date(),
         owner: { userId: `${index}` },
         phases: {
-            "1_phase": {
-                startTime: new Date(),
-                endTime: new Date()
+            submissionPhase: {
+                start: new Date().toDateString(),
+                end: new Date().toDateString()
             },
-            "2_phase": {
-                startTime: new Date(),
-                endTime: new Date()
+            contestPhase: {
+                start: new Date().toDateString(),
+                end: new Date().toDateString()
             }
         },
         title: `TEST Contest ${index}`,
