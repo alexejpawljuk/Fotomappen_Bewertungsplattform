@@ -33,7 +33,7 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const ContestList: React.FC = () => {
-    const {contestsList, loading, getContestsListPagedFetch, deleteContest} = ContestService();
+    const {contestsListPaged, loading, getContestsListPagedFetch, deleteContest} = ContestService();
 
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState<string>('');
@@ -189,7 +189,7 @@ export const ContestList: React.FC = () => {
                 );
             },
         },
-    ], [contestsList, editingKey]);
+    ], [contestsListPaged, editingKey]);
 
     const mergedColumns: TableProps<MethodGetContestsListResponseModel>['columns'] =
         (columns as any).map((col: any) => {

@@ -10,16 +10,14 @@ interface IContestService {
     setContests(data: MethodSetContestCreateRequestModel): Promise<void>;
     updateContest(data: any): Promise<void>;
     deleteContest(data: any): Promise<void>;
-    contestsList: MethodGetContestsListResponseModel[];
     loading: boolean;
-    getContestsListFetch(): Promise<void>;
     contestsListPaged: MethodGetContestsListResponseModel[];
     getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel): Promise<MethodGetContestsListPagedResponseModel>;
 }
 
 export const ContestService = create<IContestService>((setState) => {
     return {
-        contestsList: [],
+        // contestsList: [],
         loading: false,
         contestsListPaged: [],
         setContests(data) {
@@ -46,38 +44,15 @@ export const ContestService = create<IContestService>((setState) => {
                 })
             })
         },
-        getContestsListFetch() {
-            return new Promise((resolve, reject) => {
-                setState(state => ({...state, loading: true}));
-                Meteor.call(ContestMethods.GET_CONTEST_LIST, (err: any, res: MethodGetContestsListResponseModel[]) => {
-                    if (err) {
-                        setState(state => ({...state, loading: false}));
-                        return reject(err);
-                    }
-
-                    const contestsList = res.map<MethodGetContestsListResponseModel>(contest => ({
-                        contestId: contest.contestId,
-                        title: contest.title,
-                        submissionPhase: {
-                            start: contest?.submissionPhase?.start,
-                            end: contest?.submissionPhase?.end
-                        },
-                        contestPhase: {
-                            start: contest?.contestPhase?.start,
-                            end: contest?.contestPhase?.end
-                        },
-                        photo_albums: contest?.photo_albums,
-                        result: contest?.result
-                    }))
-                    setState(state => ({...state, contestsList, loading: false}))
-                    resolve();
-                })
-            })
-        },
         getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel) {
             return new Promise((resolve, reject) => {
+                setState(state => ({...state, loading: true}));
                 Meteor.call(ContestMethods.GET_CONTEST_LIST_PAGED, data, (err: any, res: MethodGetContestsListPagedResponseModel) => {
-                    if (err) return reject(err)
+                    if (err) {
+                        setState(state => ({...state, loading: false}));
+                        return reject(err)
+                    }
+                    setState(state => ({...state, contestsListPaged: res.items, loading: false}));
                     resolve(res)
                 })
             })
