@@ -12,7 +12,7 @@ export const DashboardContests: React.FC<DashboardContestProps> = ({}) => {
 
     return (
         <DashboardClubAdminLayout>
-            <DashboardContentTitle title={"Wettbewerbslist"} />
+            <DashboardContentTitle title={"Wettbewerbsliste"} />
             <ContestList/>
         </DashboardClubAdminLayout>
     );

@@ -20,7 +20,7 @@ export const DashboardContest: React.FC<DashboardContestProps> = ({}) => {
     useEffect(() => {
         if (!contestId) return
         getContestById({contestId})
-            .then(contest => setTitle(contest.title))
+            .then(({contest}) => setTitle(contest.title))
             .catch(console.error)
     }, [contestId]);
 
