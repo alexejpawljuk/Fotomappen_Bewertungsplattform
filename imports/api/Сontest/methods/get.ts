@@ -1,11 +1,13 @@
 import {Meteor} from "meteor/meteor";
 import {AvailableCollectionNames, ContestMethods} from "/imports/api/names";
 import {
+    MethodGetContestByIdRequestModel, MethodGetContestByIdResponseModel,
     MethodGetContestsListPagedRequestModel,
     MethodGetContestsListResponseModel
 } from "/imports/api/Сontest/models";
 import {noAuthError} from "/imports/utils/serverErrors";
 import {ContestCollection} from "/imports/api/Сontest/contestCollection";
+import {check} from "meteor/check";
 
 Meteor.methods({
     [ContestMethods.GET_CONTEST_LIST_PAGED]: async function (params: MethodGetContestsListPagedRequestModel = {}) {
@@ -76,3 +78,18 @@ Meteor.methods({
     }
 
 });
+
+Meteor.methods({
+    [ContestMethods.GET_CONTEST_BY_ID]: function ({contestId}: MethodGetContestByIdRequestModel): MethodGetContestByIdResponseModel {
+        if (!this.userId) return noAuthError();
+        check(contestId, String)
+
+        const contest = ContestCollection.findOne({
+            _id: contestId
+        })
+
+        if (!contest) throw new Meteor.Error("INTERNAL_ERROR", "Failed to fetch contests");
+
+        return {contest}
+    }
+})

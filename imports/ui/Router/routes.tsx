@@ -10,7 +10,8 @@ import {DashboardSuperAdminLayout} from "/imports/ui/Pages/DashboardPage/SuperAd
 import {DashboardPhotoAlbums} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbums/DashboardPhotoAlbums";
 import {DashboardPhotoAlbum} from "/imports/ui/Pages/DashboardPage/ClubAdmin/PhotoAlbum/DashboardPhotoAlbum";
 import {DashboardCommunity} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Community/DashboardCommunity";
-import {DashboardContest as DashboardContestSuperAdmin} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Contest/DashboardContest";
+import {DashboardContests as DashboardContestsSuperAdmin} from "/imports/ui/Pages/DashboardPage/SuperAdmin/Contests/DashboardContests";
+import {DashboardContests as DashboardContestsClubAdmin} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contests/DashboardContests";
 import {DashboardContest as DashboardContestClubAdmin} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/DashboardContest";
 
 export const publicRoutes = {
@@ -53,8 +54,13 @@ export const protectedRoutes = {
             element: (<DashboardPhotoAlbum/>),
             requiredRole: Role.CLUB_ADMIN
         },
-        dashboardContest: {
+        dashboardContests: {
             path: '/dashboard/club-admin/contests',
+            element: (<DashboardContestsClubAdmin/>),
+            requiredRole: Role.CLUB_ADMIN
+        },
+        dashboardContest: {
+            path: '/dashboard/club-admin/contests/:contestId',
             element: (<DashboardContestClubAdmin/>),
             requiredRole: Role.CLUB_ADMIN
         }
@@ -72,7 +78,7 @@ export const protectedRoutes = {
         },
         dashboardContest: {
             path: '/dashboard/super-admin/contest',
-            element: (<DashboardContestSuperAdmin/>),
+            element: (<DashboardContestsSuperAdmin/>),
             requiredRole: Role.SUPER_ADMIN
         }
     }

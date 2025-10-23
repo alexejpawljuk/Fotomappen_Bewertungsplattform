@@ -41,11 +41,11 @@ Meteor.methods({
 
         try {
             const res = await ContestCollection.insertAsync(contest)
-            if (!res) throw new Meteor.Error( "Server error: Contest collection failed.")
+            if (!res) throw new Meteor.Error( "Server error: Contests collection failed.")
             return true
         } catch (err) {
-            if (err instanceof Meteor.Error) throw new Meteor.Error(err.details || "Server error: Contest creation failed.")
-            console.log("Server error: Contest creation failed.")
+            if (err instanceof Meteor.Error) throw new Meteor.Error(err.details || "Server error: Contests creation failed.")
+            console.log("Server error: Contests creation failed.")
         }
     }
 })

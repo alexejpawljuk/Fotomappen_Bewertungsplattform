@@ -42,7 +42,7 @@ export const AddContestPanel = ({}) => {
 
         if (!contestPhase || !submissionPhase) {
             setDateInputStatus("error")
-            return message.error("Error: Contest data failed.")
+            return message.error("Error: Contests data failed.")
         }
 
         if (!isBefore((submissionPhase.dateString as string[])[1], (contestPhase.dateString as string[])[0])) {
@@ -73,7 +73,7 @@ export const AddContestPanel = ({}) => {
                 await getContestsListFetch()
                 return message.success(ContestStatus.SUCCESS)
             })
-            .catch((err) => message.error(err.details || "Contest creation failed."))
+            .catch((err) => message.error(err.details || "Contests creation failed."))
             .catch(console.error);
     }
 

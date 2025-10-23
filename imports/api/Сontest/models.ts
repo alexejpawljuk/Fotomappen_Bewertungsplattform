@@ -18,15 +18,6 @@ export interface Contest {
     };
 }
 
-// export interface ContestRow {
-//     contestId: string;
-//     title: string;
-//     einreichungsphase: string ;
-//     wettbewerbsphase: string;
-//     fotoclubs: number;
-//     auswertung: string | undefined;
-// }
-
 // GET methods
 export interface MethodGetContestsListResponseModel {
     contestId: string;
@@ -45,6 +36,13 @@ export interface MethodGetContestsListPagedRequestModel {
 export interface MethodGetContestsListPagedResponseModel {
     items: MethodGetContestsListResponseModel[];
     total: number;
+}
+
+export interface MethodGetContestByIdRequestModel {
+    contestId: string;
+}
+export interface MethodGetContestByIdResponseModel {
+    contest: Contest;
 }
 
 //SET methods

@@ -10,7 +10,7 @@ import {check} from "meteor/check";
 
 
 Meteor.methods({
-    [PhotoMethods.GET_PHOTOS_LIST_BY_ALBUM_ID]: async function ({albumId}: MethodGetPhotosListByAlbumIdRequestModel) {
+    [PhotoMethods.GET_PHOTOS_LIST_BY_ALBUM_ID]: function ({albumId}: MethodGetPhotosListByAlbumIdRequestModel) {
         if (!this.userId) return noAuthError()
 
         check(albumId, String);

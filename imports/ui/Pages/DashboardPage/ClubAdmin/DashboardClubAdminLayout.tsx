@@ -18,7 +18,7 @@ export const DashboardClubAdminLayout: React.FC<DashboardClubAdminLayoutProps> =
     }
 
     const handleContest = () => {
-        navigate(protectedRoutes.club_admin.dashboardContest.path)
+        navigate(protectedRoutes.club_admin.dashboardContests.path)
     }
 
     return (

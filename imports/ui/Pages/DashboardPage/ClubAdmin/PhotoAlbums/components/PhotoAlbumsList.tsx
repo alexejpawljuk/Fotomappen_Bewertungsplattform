@@ -203,7 +203,7 @@ export const PhotoAlbumsList: React.FC = () => {
                     pagination={{position: ["bottomCenter"], onChange: cancel}}
                     columns={mergedColumns}
                     dataSource={photoAlbumsList}
-                    style={{minWidth: "375px"}}
+                    style={{margin: '20px 0', minWidth: 700}}
                 />
             </Form>
         </Flex>
