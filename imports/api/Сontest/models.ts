@@ -43,6 +43,7 @@ export interface MethodGetContestByIdRequestModel {
 }
 export interface MethodGetContestByIdResponseModel {
     contest: Contest;
+    photoAlbums: PhotoAlbum[];
 }
 
 //SET methods

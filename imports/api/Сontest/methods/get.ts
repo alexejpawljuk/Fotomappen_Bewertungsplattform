@@ -8,6 +8,7 @@ import {
 import {noAuthError} from "/imports/utils/serverErrors";
 import {ContestCollection} from "/imports/api/Сontest/contestCollection";
 import {check} from "meteor/check";
+import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
 
 Meteor.methods({
     [ContestMethods.GET_CONTEST_LIST_PAGED]: async function (params: MethodGetContestsListPagedRequestModel = {}) {
@@ -80,16 +81,20 @@ Meteor.methods({
 });
 
 Meteor.methods({
-    [ContestMethods.GET_CONTEST_BY_ID]: function ({contestId}: MethodGetContestByIdRequestModel): MethodGetContestByIdResponseModel {
+    [ContestMethods.GET_CONTEST_BY_ID]: async function ({contestId}: MethodGetContestByIdRequestModel): Promise<MethodGetContestByIdResponseModel> {
         if (!this.userId) return noAuthError();
         check(contestId, String)
 
-        const contest = ContestCollection.findOne({
+        const contest = await ContestCollection.findOneAsync({
             _id: contestId
         })
-
         if (!contest) throw new Meteor.Error("INTERNAL_ERROR", "Failed to fetch contests");
 
-        return {contest}
+        const photoAlbums = PhotoAlbumCollection.find({
+            "contest.contestId": contestId
+        }).fetch()
+
+
+        return {contest, photoAlbums}
     }
 })

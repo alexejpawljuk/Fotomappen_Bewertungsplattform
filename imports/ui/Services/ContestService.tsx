@@ -1,7 +1,10 @@
 import {create} from "zustand";
 import {
-    Contest, MethodGetContestByIdRequestModel, MethodGetContestByIdResponseModel,
-    MethodGetContestsListPagedRequestModel, MethodGetContestsListPagedResponseModel, MethodGetContestsListResponseModel,
+    MethodGetContestByIdRequestModel,
+    MethodGetContestByIdResponseModel,
+    MethodGetContestsListPagedRequestModel,
+    MethodGetContestsListPagedResponseModel,
+    MethodGetContestsListResponseModel,
     MethodSetContestCreateRequestModel
 } from "/imports/api/Сontest/models";
 import {Meteor} from "meteor/meteor";
@@ -14,7 +17,7 @@ interface IContestService {
     loading: boolean;
     contestsListPaged: MethodGetContestsListResponseModel[];
     getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel): Promise<MethodGetContestsListPagedResponseModel>;
-    getContestById(data: MethodGetContestByIdRequestModel): Promise<Contest>;
+    getContestById(data: MethodGetContestByIdRequestModel): Promise<MethodGetContestByIdResponseModel>;
 }
 
 export const ContestService = create<IContestService>((setState) => {
@@ -59,11 +62,11 @@ export const ContestService = create<IContestService>((setState) => {
                 })
             })
         },
-        getContestById(data): Promise<Contest> {
+        getContestById(data) {
             return new Promise((resolve, reject) => {
                 Meteor.call(ContestMethods.GET_CONTEST_BY_ID, data, (err: any, res: MethodGetContestByIdResponseModel) => {
                     if (err) return reject(err);
-                    resolve(res.contest);
+                    resolve({contest: res.contest, photoAlbums: res.photoAlbums});
                 })
             })
         }

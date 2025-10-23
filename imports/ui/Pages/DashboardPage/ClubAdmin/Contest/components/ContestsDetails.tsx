@@ -5,6 +5,7 @@ import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import { useParams } from "react-router-dom";
 import {formatDate} from "/imports/utils/formatDate";
+import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 
 interface ContestsDetailsProps {
 }
@@ -12,6 +13,7 @@ interface ContestsDetailsProps {
 export const ContestsDetails: React.FC<ContestsDetailsProps> = ({}) => {
     const {contestId} = useParams()
     const [contest, setContest] = useState<Contest>()
+    const [photoAlbum, setPhotoAlbum] = useState<PhotoAlbum[]>()
     const {getContestById} = ContestService()
 
     useDebugMount("ContestsDetails")
@@ -19,7 +21,10 @@ export const ContestsDetails: React.FC<ContestsDetailsProps> = ({}) => {
     useEffect(() => {
         if (!contestId) return
         getContestById({contestId})
-            .then(contest => setContest(contest))
+            .then(({contest, photoAlbums}) => {
+                setContest(contest)
+                setPhotoAlbum(photoAlbums)
+            })
             .catch(console.error)
     }, [contestId]);
 
@@ -52,6 +57,11 @@ export const ContestsDetails: React.FC<ContestsDetailsProps> = ({}) => {
                 key: 'createdAt',
                 label: 'Erstellt am:',
                 children: formatDate(contest.createdAt, "DD.MM.YYYY - HH:mm")
+            },
+            {
+                key: 'photoAlbum',
+                label: 'Mappen',
+                children: photoAlbum?.length
             },
         ];
     }, [contest]);
