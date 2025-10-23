@@ -88,6 +88,7 @@ export const PhotoAlbumsList: React.FC = () => {
             title: 'Title',
             dataIndex: 'title',
             key: 'title',
+            editable: true as const,
             render: (_: any, {title, albumId}) => (
                 <Link to={generatePath(protectedRoutes.club_admin.dashboardPhotoAlbum.path, {albumId})}>
                     {title}
