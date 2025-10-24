@@ -5,6 +5,9 @@ import {useParams} from "react-router-dom";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import {ContestsDetails} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/components/ContestsDetails";
+import {
+    AddContestPhotoAlbumPanel
+} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/components/AddContestPhotoAlbumPanel";
 
 interface DashboardContestProps {
     // TODO: define props here
@@ -28,6 +31,7 @@ export const DashboardContest: React.FC<DashboardContestProps> = ({}) => {
         <DashboardClubAdminLayout>
             <DashboardContentTitle title={"Wettbewerb details: " + title} />
             <ContestsDetails/>
+            <AddContestPhotoAlbumPanel/>
         </DashboardClubAdminLayout>
     );
 };
