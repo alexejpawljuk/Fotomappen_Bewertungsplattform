@@ -3,7 +3,7 @@ import {AvailableCollectionNames, PhotoAlbumMethods} from "/imports/api/names"
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection"
 import {
     MethodGetPhotoAlbumByIDRequestModel, MethodGetPhotoAlbumByIDResponseModel,
-    MethodGetPhotoAlbumListResponseModel
+    MethodGetPhotoAlbumListResponseModel, MethodGetPhotoAlbumsByContestIdRequestModel
 } from "/imports/api/PhotoAlbum/models"
 import {noAuthError} from "/imports/utils/serverErrors"
 import {check} from "meteor/check"
@@ -70,6 +70,25 @@ Meteor.methods({
             const photoAlbum = await PhotoAlbumCollection.findOneAsync({_id: albumId})
             const result: MethodGetPhotoAlbumByIDResponseModel = {photoAlbum}
             return result
+        } catch (e) {
+            if (e instanceof Meteor.Error) {
+                return new Meteor.Error(e.error)
+            }
+            console.log(e)
+        }
+    }
+})
+
+Meteor.methods({
+    [PhotoAlbumMethods.GET_PHOTO_ALBUMS_BY_CONTEST_ID]: async function({contestId}: MethodGetPhotoAlbumsByContestIdRequestModel) {
+        if (!this.userId) return noAuthError()
+
+        check(contestId, String)
+
+        try {
+            const photoAlbums = PhotoAlbumCollection.find({contest: {contestId: contestId}}).fetch()
+            console.log(photoAlbums)
+            return {photoAlbums}
         } catch (e) {
             if (e instanceof Meteor.Error) {
                 return new Meteor.Error(e.error)
