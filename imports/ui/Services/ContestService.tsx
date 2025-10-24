@@ -16,7 +16,7 @@ interface IContestService {
     deleteContest(data: any): Promise<void>;
     loading: boolean;
     contestsListPaged: MethodGetContestsListResponseModel[];
-    getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel): Promise<MethodGetContestsListPagedResponseModel>;
+    getContestsListPagedFetch(data?: MethodGetContestsListPagedRequestModel): Promise<MethodGetContestsListPagedResponseModel>;
     getContestById(data: MethodGetContestByIdRequestModel): Promise<MethodGetContestByIdResponseModel>;
 }
 
@@ -49,7 +49,7 @@ export const ContestService = create<IContestService>((setState) => {
                 })
             })
         },
-        getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel) {
+        getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel = {page: 1, pageSize: 10, search: ""}) {
             return new Promise((resolve, reject) => {
                 setState(state => ({...state, loading: true}));
                 Meteor.call(ContestMethods.GET_CONTEST_LIST_PAGED, data, (err: any, res: MethodGetContestsListPagedResponseModel) => {

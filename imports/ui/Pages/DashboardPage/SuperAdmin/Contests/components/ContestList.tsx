@@ -43,12 +43,12 @@ export const ContestList: React.FC = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
-    const [rows, setRows] = useState<MethodGetContestsListResponseModel[]>([]); // замени any на твой тип Contests
+    // const [rows, setRows] = useState<MethodGetContestsListResponseModel[]>([]); // замени any на твой тип Contests
     const [search, setSearch] = useState<string>("")
 
     const fetchPage = async (p = page, ps = pageSize, s = search) => {
         const res = await getContestsListPagedFetch({ page: p, pageSize: ps, search: s });
-        setRows(res.items);
+        // setRows(res.items);
         setTotal(res.total);
         setPage(p);
         setPageSize(ps);
@@ -219,7 +219,7 @@ export const ContestList: React.FC = () => {
                     columns={mergedColumns}
                     // pagination={{position: ["bottomCenter"], onChange: cancel}}
                     style={{margin: '20px 0', minWidth: 700}}
-                    dataSource={rows}
+                    dataSource={contestsListPaged}
                     pagination={{
                         current: page,
                         pageSize,

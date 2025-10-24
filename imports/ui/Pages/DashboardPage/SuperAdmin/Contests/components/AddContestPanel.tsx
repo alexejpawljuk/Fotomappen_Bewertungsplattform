@@ -18,7 +18,7 @@ const {RangePicker} = DatePicker;
 export const AddContestPanel = ({}) => {
     useDebugMount("AddContestPanel")
 
-    const {setContests, getContestsListFetch} = ContestService()
+    const {setContests, getContestsListPagedFetch} = ContestService()
     const [title, setTitle] = useState("")
     const [submissionPhase, setSubmissionPhase] = useState<{ date: DateType, dateString: DateStringType }>()
     const [contestPhase, setContestPhase] = useState<{ date: DateType, dateString: DateStringType }>()
@@ -70,8 +70,8 @@ export const AddContestPanel = ({}) => {
                 setTitle("")
                 setSubmissionPhase(undefined)  // 🔹 Einreichungsphase zurücksetzen
                 setContestPhase(undefined)     // 🔹 Wettbewerbsphase zurücksetzen
-                await getContestsListFetch()
-                return message.success(ContestStatus.SUCCESS)
+                await getContestsListPagedFetch()
+                message.success(ContestStatus.SUCCESS)
             })
             .catch((err) => message.error(err.details || "Contests creation failed."))
             .catch(console.error);
