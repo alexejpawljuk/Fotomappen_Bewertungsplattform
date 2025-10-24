@@ -2,6 +2,8 @@ import React, {useEffect, useMemo, useState} from 'react';
 import {Button, Flex, Select, } from "antd";
 import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
+import {useParams} from "react-router-dom";
+import {ContestService} from "/imports/ui/Services/ContestService";
 
 interface AddContestPhotoAlbumPanelProps {
     // TODO: define props here
@@ -14,7 +16,9 @@ type SelectProps = {
 }
 
 export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps> = ({}) => {
+    const {contestId} = useParams();
     const {photoAlbumsList, photoAlbumsListFetch} = PhotoAlbumService()
+    const {setPhotoAlbumToContest} = ContestService()
     const [selectedPhotoAlbumId, setSelectedPhotoAlbumId] = useState<PhotoAlbum["_id"]>(undefined)
     const selectOptions = useMemo<SelectProps[]>(() => photoAlbumsList.map<SelectProps>(album => ({
         label: album.title,
@@ -22,14 +26,16 @@ export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps>
         disabled: !!album.contest.contestId
     })), [photoAlbumsList]);
 
-
-
     useEffect(() => {
         photoAlbumsListFetch().catch(console.error)
+        console.log(contestId)
     }, []);
 
     const handelToParticipate = () => {
-        console.log("handelToParticipate: ", selectedPhotoAlbumId);
+        if (!contestId || !selectedPhotoAlbumId) throw new Error("contestId and photoAlbumId must be provided");
+        setPhotoAlbumToContest({contestId, photoAlbumId: selectedPhotoAlbumId})
+            .then(() => photoAlbumsListFetch())
+            .catch(console.error)
     }
 
     const onSearch = (search: string) => {

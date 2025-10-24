@@ -52,6 +52,7 @@ export enum PhotoMethods {
 // Contests methods manes
 export enum ContestMethods {
     SET_CONTEST_CREATE = "set.contest.create",
+    SET_PHOTO_ALBUM_TO_CONTEST = "set.photo_album.to.contest",
     // GET_CONTEST_LIST = "get.contest.list",
     GET_CONTEST_LIST_PAGED = "get.contest.list_paged",
     GET_CONTEST_BY_ID = "get.contest.byId",

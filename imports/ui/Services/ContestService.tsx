@@ -5,13 +5,14 @@ import {
     MethodGetContestsListPagedRequestModel,
     MethodGetContestsListPagedResponseModel,
     MethodGetContestsListResponseModel,
-    MethodSetContestCreateRequestModel
+    MethodSetContestCreateRequestModel, MethodSetPhotoAlbumToContestRequestModel
 } from "/imports/api/Сontest/models";
 import {Meteor} from "meteor/meteor";
 import {ContestMethods} from "/imports/api/names";
 
 interface IContestService {
     setContests(data: MethodSetContestCreateRequestModel): Promise<void>;
+    setPhotoAlbumToContest(data: MethodSetPhotoAlbumToContestRequestModel): Promise<void>;
     updateContest(data: any): Promise<void>;
     deleteContest(data: any): Promise<void>;
     loading: boolean;
@@ -28,6 +29,14 @@ export const ContestService = create<IContestService>((setState) => {
         setContests(data) {
             return new Promise((resolve, reject) => {
                 Meteor.call(ContestMethods.SET_CONTEST_CREATE, data, (err: any) => {
+                    if (err) return reject(err);
+                    resolve();
+                })
+            })
+        },
+        setPhotoAlbumToContest(data) {
+            return new Promise((resolve, reject) => {
+                Meteor.call(ContestMethods.SET_PHOTO_ALBUM_TO_CONTEST, data, (err: any) => {
                     if (err) return reject(err);
                     resolve();
                 })

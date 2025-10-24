@@ -62,3 +62,8 @@ export interface MethodSetContestCreateRequestModel {
         }
     }
 }
+
+export interface MethodSetPhotoAlbumToContestRequestModel {
+    contestId: string
+    photoAlbumId: string
+}
