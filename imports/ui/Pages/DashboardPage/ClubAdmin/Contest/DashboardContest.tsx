@@ -8,6 +8,9 @@ import {ContestsDetails} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest
 import {
     AddContestPhotoAlbumPanel
 } from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/components/AddContestPhotoAlbumPanel";
+import {
+    ContestPhotoAlbumList
+} from "/imports/ui/Pages/DashboardPage/ClubAdmin/Contest/components/ContestPhotoAlbumList";
 
 interface DashboardContestProps {
     // TODO: define props here
@@ -32,6 +35,7 @@ export const DashboardContest: React.FC<DashboardContestProps> = ({}) => {
             <DashboardContentTitle title={"Wettbewerb details: " + title} />
             <ContestsDetails/>
             <AddContestPhotoAlbumPanel/>
+            <ContestPhotoAlbumList/>
         </DashboardClubAdminLayout>
     );
 };

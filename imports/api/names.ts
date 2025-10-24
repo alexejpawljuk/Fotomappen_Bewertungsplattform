@@ -37,6 +37,7 @@ export enum PhotoAlbumMethods {
     SET_PHOTO_ALBUM_CREATE = "set.photo_album.create",
     GET_PHOTO_ALBUM_LIST = "get.photo_album.list",
     GET_PHOTO_ALBUM_BY_ID = "get.photo_album.byId",
+    GET_PHOTO_ALBUMS_BY_CONTEST_ID = "get.photo_album.by.contestId",
     DELETE_PHOTO_ALBUM_BY_ID = "delete.photo_album.byId",
     UPDATE_PHOTO_ALBUM_BY_ID = "update.photo_album.byId",
 }

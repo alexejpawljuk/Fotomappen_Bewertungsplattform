@@ -7,6 +7,7 @@ export interface PhotoAlbum {
     };
     contest: {
         contestId: string | undefined;
+        link: string | undefined;
     }
 }
 
@@ -43,6 +44,13 @@ export interface MethodGetPhotoAlbumByIDRequestModel {
 }
 export interface MethodGetPhotoAlbumByIDResponseModel {
     photoAlbum: PhotoAlbum | undefined;
+}
+
+export interface MethodGetPhotoAlbumsByContestIdRequestModel {
+    contestId: string
+}
+export interface MethodGetPhotoAlbumsByContestIdResponseModel {
+    photoAlbums: PhotoAlbum[];
 }
 
 
