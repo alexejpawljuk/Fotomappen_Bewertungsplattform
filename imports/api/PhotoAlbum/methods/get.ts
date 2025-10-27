@@ -87,7 +87,6 @@ Meteor.methods({
 
         try {
             const photoAlbums = PhotoAlbumCollection.find({contest: {contestId: contestId}}).fetch()
-            console.log(photoAlbums)
             return {photoAlbums}
         } catch (e) {
             if (e instanceof Meteor.Error) {

@@ -57,7 +57,7 @@ export const ContestPhotoAlbumList: React.FC = () => {
         <Flex vertical gap={"small"}>
             <Form form={form} component={false}>
                 <Table<PhotoAlbum>
-                    rowKey="albumId"
+                    rowKey="_id"
                     pagination={{position: ["bottomCenter"]}}
                     columns={columns}
                     dataSource={photoAlbum}
