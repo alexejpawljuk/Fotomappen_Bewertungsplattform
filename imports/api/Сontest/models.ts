@@ -67,3 +67,9 @@ export interface MethodSetPhotoAlbumToContestRequestModel {
     contestId: string
     photoAlbumId: string
 }
+
+// UPDATE Method
+export interface MethodUpdateContestRequestModel {
+    contestId: string;
+    title: string;
+}

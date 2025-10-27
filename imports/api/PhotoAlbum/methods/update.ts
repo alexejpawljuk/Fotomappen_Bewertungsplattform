@@ -24,7 +24,7 @@ Meteor.methods({
             }
             return true;
         } catch (error) {
-            if (error instanceof Meteor.Error) throw new Meteor.Error(error)
+            if (error instanceof Meteor.Error) throw new Meteor.Error(error.details ?? "Error: UPDATE_PHOTO_ALBUM_BY_ID");
             console.log(error)
         }
     }

@@ -33,7 +33,7 @@ const EditableCell: React.FC<React.PropsWithChildren<{
 };
 
 export const ContestList: React.FC = () => {
-    const {contestsListPaged, loading, getContestsListPagedFetch, deleteContest} = ContestService();
+    const {contestsListPaged, loading, getContestsListPagedFetch, deleteContest, updateContest} = ContestService();
 
     const [form] = Form.useForm();
     const [editingKey, setEditingKey] = useState<string>('');
@@ -43,12 +43,10 @@ export const ContestList: React.FC = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [total, setTotal] = useState(0);
-    // const [rows, setRows] = useState<MethodGetContestsListResponseModel[]>([]); // замени any на твой тип Contests
     const [search, setSearch] = useState<string>("")
 
     const fetchPage = async (p = page, ps = pageSize, s = search) => {
         const res = await getContestsListPagedFetch({ page: p, pageSize: ps, search: s });
-        // setRows(res.items);
         setTotal(res.total);
         setPage(p);
         setPageSize(ps);
@@ -68,10 +66,12 @@ export const ContestList: React.FC = () => {
 
     const cancel = () => setEditingKey('');
 
-    const save = (id: string) => {
-        console.log(id)
+    const save = (contestId: string) => {
+        console.log(contestId)
         form.validateFields()
-            .then(async () => {
+            .then(async ({title}) => {
+                await updateContest({contestId, title});
+                await fetchPage(page, pageSize, search)
                 setEditingKey('');
                 return message.success('Title updated');
             })
@@ -80,7 +80,6 @@ export const ContestList: React.FC = () => {
 
     const handleSearch = (search: string) => {
         const cleanSearch = search.trim();
-
         fetchPage(page, pageSize, cleanSearch).catch(console.error);
     }
 

@@ -57,6 +57,7 @@ export enum ContestMethods {
     // GET_CONTEST_LIST = "get.contest.list",
     GET_CONTEST_LIST_PAGED = "get.contest.list_paged",
     GET_CONTEST_BY_ID = "get.contest.byId",
+    UPDATE_CONTEST_TITLE_BY_ID = "update.contest_title.byId",
 }
 
 export enum PhotoAlbumPublication {

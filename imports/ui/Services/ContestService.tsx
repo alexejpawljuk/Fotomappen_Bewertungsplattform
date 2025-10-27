@@ -5,7 +5,7 @@ import {
     MethodGetContestsListPagedRequestModel,
     MethodGetContestsListPagedResponseModel,
     MethodGetContestsListResponseModel,
-    MethodSetContestCreateRequestModel, MethodSetPhotoAlbumToContestRequestModel
+    MethodSetContestCreateRequestModel, MethodSetPhotoAlbumToContestRequestModel, MethodUpdateContestRequestModel
 } from "/imports/api/Сontest/models";
 import {Meteor} from "meteor/meteor";
 import {ContestMethods} from "/imports/api/names";
@@ -13,7 +13,7 @@ import {ContestMethods} from "/imports/api/names";
 interface IContestService {
     setContests(data: MethodSetContestCreateRequestModel): Promise<void>;
     setPhotoAlbumToContest(data: MethodSetPhotoAlbumToContestRequestModel): Promise<void>;
-    updateContest(data: any): Promise<void>;
+    updateContest(data: MethodUpdateContestRequestModel): Promise<void>;
     deleteContest(data: any): Promise<void>;
     loading: boolean;
     contestsListPaged: MethodGetContestsListResponseModel[];
@@ -44,7 +44,7 @@ export const ContestService = create<IContestService>((setState) => {
         },
         updateContest(data) {
             return new Promise((resolve, reject) => {
-                Meteor.call("", data, (err: any) => {
+                Meteor.call(ContestMethods.UPDATE_CONTEST_TITLE_BY_ID, data, (err: any) => {
                     if (err) return reject(err);
                     resolve();
                 })
@@ -58,7 +58,7 @@ export const ContestService = create<IContestService>((setState) => {
                 })
             })
         },
-        getContestsListPagedFetch(data: MethodGetContestsListPagedRequestModel = {page: 1, pageSize: 10, search: ""}) {
+        getContestsListPagedFetch(data = {page: 1, pageSize: 10, search: ""}) {
             return new Promise((resolve, reject) => {
                 setState(state => ({...state, loading: true}));
                 Meteor.call(ContestMethods.GET_CONTEST_LIST_PAGED, data, (err: any, res: MethodGetContestsListPagedResponseModel) => {
