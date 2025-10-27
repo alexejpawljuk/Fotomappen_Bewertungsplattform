@@ -13,8 +13,6 @@ import {check} from "meteor/check";
 
 Meteor.methods({
     [CommunityMethods.GET_COMMUNITY_ALL]: function (): MethodGetCommunitiesAllResponseModel {
-        if (!Meteor.userId()) return noAuthError()
-
         const communities = CommunityCollection.find().fetch()
         return {communities}
     }
