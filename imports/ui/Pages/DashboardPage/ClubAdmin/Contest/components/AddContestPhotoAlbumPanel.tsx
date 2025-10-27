@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Button, Flex, Select, } from "antd";
+import {Button, Flex, message, Select,} from "antd";
 import {PhotoAlbumService} from "/imports/ui/Services/PhotoAlbumService";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 import {useParams} from "react-router-dom";
@@ -35,6 +35,7 @@ export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps>
         if (!contestId || !selectedPhotoAlbumId) throw new Error("contestId and photoAlbumId must be provided");
         setPhotoAlbumToContest({contestId, photoAlbumId: selectedPhotoAlbumId})
             .then(() => photoAlbumsListFetch())
+            .catch(err => message.error(err.details || err.error))
             .catch(console.error)
     }
 

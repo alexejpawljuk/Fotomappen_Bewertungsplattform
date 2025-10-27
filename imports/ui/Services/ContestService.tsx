@@ -5,7 +5,9 @@ import {
     MethodGetContestsListPagedRequestModel,
     MethodGetContestsListPagedResponseModel,
     MethodGetContestsListResponseModel,
-    MethodSetContestCreateRequestModel, MethodSetPhotoAlbumToContestRequestModel, MethodUpdateContestRequestModel
+    MethodSetContestCreateRequestModel,
+    MethodSetPhotoAlbumToContestRequestModel,
+    MethodUpdateContestRequestModel
 } from "/imports/api/Сontest/models";
 import {Meteor} from "meteor/meteor";
 import {ContestMethods} from "/imports/api/names";

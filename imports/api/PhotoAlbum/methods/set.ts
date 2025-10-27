@@ -41,7 +41,8 @@ Meteor.methods({
                     userId: this.userId,
                 },
                 contest: {
-                    contestId: undefined
+                    contestId: undefined,
+                    link: undefined
                 },
                 createdAt: new Date()
             }
