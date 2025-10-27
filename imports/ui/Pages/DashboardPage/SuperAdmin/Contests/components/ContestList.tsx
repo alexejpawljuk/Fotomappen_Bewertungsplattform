@@ -46,7 +46,7 @@ export const ContestList: React.FC = () => {
     const [search, setSearch] = useState<string>("")
 
     const fetchPage = async (p = page, ps = pageSize, s = search) => {
-        const res = await getContestsListPagedFetch({ page: p, pageSize: ps, search: s });
+        const res = await getContestsListPagedFetch({page: p, pageSize: ps, search: s});
         setTotal(res.total);
         setPage(p);
         setPageSize(ps);
@@ -162,19 +162,19 @@ export const ContestList: React.FC = () => {
                             <>
                                 <Typography.Link onClick={cancel}>Cancel</Typography.Link>
                                 <Popconfirm title="Save changes?" onConfirm={() => save(record.contestId)}>
-                                    <a>Save</a>
+                                    <Typography.Link>Save</Typography.Link>
                                 </Popconfirm>
                             </>
                         ) : (
                             <>
                                 <Typography.Link onClick={() => edit(record)}>Bearbeiten</Typography.Link>
                                 <Popconfirm title="Sure to delete?" onConfirm={() => handleDelete(record.contestId)}>
-                                    {/*<Button disabled type="link">Delete</Button>*/}
-                                    {
-                                        isTodayInRange(record.submissionPhase.start, new Date().toISOString()) ?
-                                            "Delete" :
-                                            <Typography.Link>Delete</Typography.Link>
-                                    }
+                                    <Typography.Link
+                                        disabled={
+                                            isTodayInRange(record.submissionPhase.start, new Date().toISOString()) ||
+                                            record.photo_albums.length > 0
+                                        }
+                                    >Delete</Typography.Link>
                                 </Popconfirm>
                             </>
                         )}
