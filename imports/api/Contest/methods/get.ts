@@ -4,9 +4,9 @@ import {
     MethodGetContestByIdRequestModel, MethodGetContestByIdResponseModel,
     MethodGetContestsListPagedRequestModel,
     MethodGetContestsListResponseModel
-} from "/imports/api/Сontest/models";
+} from "/imports/api/Contest/models";
 import {noAuthError} from "/imports/utils/serverErrors";
-import {ContestCollection} from "/imports/api/Сontest/contestCollection";
+import {ContestCollection} from "/imports/api/Contest/contestCollection";
 import {check} from "meteor/check";
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
 

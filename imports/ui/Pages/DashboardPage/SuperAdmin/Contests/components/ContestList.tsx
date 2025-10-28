@@ -3,7 +3,7 @@ import {Table, Flex, Popconfirm, message, TableProps, Form, Input, Typography, T
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import Search from "antd/es/input/Search";
-import {MethodGetContestsListResponseModel} from "/imports/api/Сontest/models";
+import {MethodGetContestsListResponseModel} from "/imports/api/Contest/models";
 import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 import {isTodayInRange} from "/imports/utils/check";
 

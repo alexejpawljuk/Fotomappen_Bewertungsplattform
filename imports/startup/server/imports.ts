@@ -3,13 +3,13 @@ import "/imports/api/User/club_admin/methods"
 import "/imports/api/community/methods"
 import "/imports/api/PhotoAlbum/methods"
 import "/imports/api/Photo/methods"
-import "/imports/api/Сontest/methods"
+import "/imports/api/Contest/methods"
 
 // Databases
 import "/imports/api/community/communityCollection"
 import "/imports/api/PhotoAlbum/photoAlbumCollection"
 import "/imports/api/Photo/photoCollection"
-import "/imports/api/Сontest/contestCollection"
+import "/imports/api/Contest/contestCollection"
 
 // configuration
 import "/imports/api/config"

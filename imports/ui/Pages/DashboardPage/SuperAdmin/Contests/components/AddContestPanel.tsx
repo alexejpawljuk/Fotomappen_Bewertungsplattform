@@ -7,7 +7,7 @@ import {stringContainsOnlyLettersAndNumbers} from "/imports/utils/check";
 import {ContestStatus, PhotoAlbumError} from "/imports/utils/constans/text";
 import {ContestService} from "/imports/ui/Services/ContestService";
 import {isBefore} from "validator";
-import {MethodSetContestCreateRequestModel} from "/imports/api/Сontest/models";
+import {MethodSetContestCreateRequestModel} from "/imports/api/Contest/models";
 
 type DateType = Dayjs | (Dayjs | null)[] | null
 type DateStringType = string | string[]

@@ -4,13 +4,12 @@ import {
     Contest,
     MethodSetContestCreateRequestModel,
     MethodSetPhotoAlbumToContestRequestModel
-} from "/imports/api/Сontest/models";
+} from "/imports/api/Contest/models";
 import {clientContentError, noAuthError} from "/imports/utils/serverErrors";
 import {check} from "meteor/check";
-import {ContestCollection} from "/imports/api/Сontest/contestCollection";
+import {ContestCollection} from "/imports/api/Contest/contestCollection";
 import {ContestError} from "/imports/utils/constans/text";
 import {PhotoAlbumCollection} from "/imports/api/PhotoAlbum/photoAlbumCollection";
-import {PhotoAlbum} from "/imports/api/PhotoAlbum/models";
 
 
 Meteor.methods({
@@ -62,9 +61,9 @@ Meteor.methods({
 
 Meteor.methods({
     [ContestMethods.SET_PHOTO_ALBUM_TO_CONTEST]: async function ({
-                                                               contestId,
-                                                               photoAlbumId
-                                                           }: MethodSetPhotoAlbumToContestRequestModel) {
+                                                                     contestId,
+                                                                     photoAlbumId
+                                                                 }: MethodSetPhotoAlbumToContestRequestModel) {
         if (!this.userId) return noAuthError()
         check(contestId, String)
         check(photoAlbumId, String)
@@ -76,12 +75,31 @@ Meteor.methods({
         if (photoAlbum.contest.contestId)
             throw new Meteor.Error("Failed to insert photoAlbum to Contest. This photo album is already linked to another contest");
 
-        const data: PhotoAlbum = {
-            _id: contestId,
-            contest: {
-                contestId
+        try {
+            const photoAlbum = await PhotoAlbumCollection.findOneAsync({_id: photoAlbumId})
+            if (!photoAlbum)
+                throw new Meteor.Error("Server error: Photo album not exists")
+
+            if (photoAlbum.contest.contestId)
+                throw new Meteor.Error("Failed to insert photoAlbum to Contest. This photo album is already linked to another contest");
+
+            const selector = {_id: photoAlbumId}
+            const res = await PhotoAlbumCollection.updateAsync(
+                selector,
+                {
+                    $set: {
+                        "contest.contestId": contestId
+                    }
+                }
+            )
+
+            if (res === 0) {
+                throw new Meteor.Error('not-found', 'Album not found');
             }
-        } as PhotoAlbum
-        PhotoAlbumCollection.insert(data)
+            return true;
+        } catch (error) {
+            if (error instanceof Meteor.Error) throw new Meteor.Error(error.details ?? "Error: UPDATE_PHOTO_ALBUM_BY_ID");
+            console.log(error)
+        }
     }
 })

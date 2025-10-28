@@ -1,9 +1,9 @@
 import {Meteor} from "meteor/meteor";
 import {ContestMethods} from "/imports/api/names";
-import {MethodUpdateContestRequestModel} from "/imports/api/Сontest/models";
+import {MethodUpdateContestRequestModel} from "/imports/api/Contest/models";
 import {noAuthError} from "/imports/utils/serverErrors";
 import {check} from "meteor/check";
-import {ContestCollection} from "/imports/api/Сontest/contestCollection";
+import {ContestCollection} from "/imports/api/Contest/contestCollection";
 
 Meteor.methods({
     [ContestMethods.UPDATE_CONTEST_TITLE_BY_ID]: async function({contestId, title}: MethodUpdateContestRequestModel) {

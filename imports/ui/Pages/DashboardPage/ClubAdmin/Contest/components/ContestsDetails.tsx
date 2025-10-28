@@ -1,5 +1,5 @@
 import React, {useEffect, useMemo, useState} from 'react';
-import {Contest} from "/imports/api/Сontest/models";
+import {Contest} from "/imports/api/Contest/models";
 import {Descriptions, DescriptionsProps, Flex, Typography} from "antd";
 import {useDebugMount} from "/imports/ui/hooks/useDebugMount";
 import {ContestService} from "/imports/ui/Services/ContestService";

@@ -8,7 +8,7 @@ import {
     MethodSetContestCreateRequestModel,
     MethodSetPhotoAlbumToContestRequestModel,
     MethodUpdateContestRequestModel
-} from "/imports/api/Сontest/models";
+} from "/imports/api/Contest/models";
 import {Meteor} from "meteor/meteor";
 import {ContestMethods} from "/imports/api/names";
 
