@@ -46,7 +46,7 @@ Meteor.methods({
                 numberOfPhotos: photo?.length ?? 0,
                 rating: undefined,
                 contest: {
-                    contestId: contest[0]?.contestId ?? undefined,
+                    contestId: contest[0]?._id ?? undefined,
                     status: "Inactive"
                 }
             }))
