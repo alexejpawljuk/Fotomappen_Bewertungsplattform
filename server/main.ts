@@ -9,7 +9,6 @@ import { Roles } from "meteor/alanning:roles";
 Meteor.startup(async () => {
     await ensureRoles()
     await initSuperAdmin()
-    // PhotoCollection._ensureIndex({ photoAlbumId: 1 });
     console.log('Startup complete ');
 });
 
