@@ -17,9 +17,10 @@ type SelectProps = {
 
 export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps> = ({}) => {
     const {contestId} = useParams();
-    const {photoAlbumsList, photoAlbumsListFetch} = PhotoAlbumService()
+    const {photoAlbumsList, photoAlbumsListFetch, getPhotoAlbumsByContestId} = PhotoAlbumService()
     const {setPhotoAlbumToContest} = ContestService()
-    const [selectedPhotoAlbumId, setSelectedPhotoAlbumId] = useState<PhotoAlbum["_id"]>(undefined)
+    const [selectedPhotoAlbum, setSelectedPhotoAlbum] = useState<PhotoAlbum>({} as PhotoAlbum)
+
     const selectOptions = useMemo<SelectProps[]>(() => photoAlbumsList.map<SelectProps>(album => ({
         label: album.title,
         value: album.albumId,
@@ -28,15 +29,25 @@ export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps>
 
     useEffect(() => {
         photoAlbumsListFetch().catch(console.error)
-        console.log(contestId)
+        getPhotoAlbumsByContestId({contestId: contestId as string})
+            .then(albums => {
+                if (albums.length > 1) return Promise.reject("There are multiple photo albums from the same club participating in the contest");
+                if (albums.length > 0) setSelectedPhotoAlbum(albums[0]);
+            })
+            .catch(console.error)
     }, []);
 
-    const handelToParticipate = () => {
-        if (!contestId || !selectedPhotoAlbumId) throw new Error("contestId and photoAlbumId must be provided");
-        setPhotoAlbumToContest({contestId, photoAlbumId: selectedPhotoAlbumId})
-            .then(() => photoAlbumsListFetch())
+    const handelAddAlbumToParticipate = () => {
+        if (!contestId || !selectedPhotoAlbum?._id) throw new Error("contestId and photoAlbumId must be provided");
+        setPhotoAlbumToContest({contestId, photoAlbumId: selectedPhotoAlbum._id})
+            // .then(() => photoAlbumsListFetch())
             // .catch(err => message.error(err.details || err.error))
             .catch(console.error)
+    }
+
+    const handelRemoveAlbumFromParticipate = () => {
+        if (!contestId || !selectedPhotoAlbum?._id) throw new Error("contestId and photoAlbumId must be provided");
+
     }
 
     const onSearch = (search: string) => {
@@ -51,7 +62,8 @@ export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps>
                     borderRadius: "10px",
                     width: "50%",
                 }}
-            ><legend>Wettbewersteilnahme</legend>
+            >
+                <legend>Wettbewersteilnahme</legend>
 
                 <Flex justify={"space-around"}>
                     <Select
@@ -59,18 +71,28 @@ export const AddContestPhotoAlbumPanel: React.FC<AddContestPhotoAlbumPanelProps>
                         placeholder="Fotomappe auswählen"
                         optionFilterProp="label"
                         allowClear
-                        style={{width:'185px'}}
-                        onChange={setSelectedPhotoAlbumId}
+                        style={{width: '185px'}}
+                        onChange={value => setSelectedPhotoAlbum({...selectedPhotoAlbum, _id: value})}
                         onSearch={onSearch}
                         options={selectOptions}
+                        value={selectedPhotoAlbum.title}
+                        disabled={!!selectedPhotoAlbum?._id ?? false}
                     />
-                    <Button
-                        color="primary"
-                        variant="outlined"
-                        size={"small"}
-                        style={{width: "150px"}}
-                        onClick={handelToParticipate}
-                    >Teilnehmen</Button>
+                    {!!selectedPhotoAlbum?._id ?
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            size={"small"}
+                            style={{width: "150px"}}
+                            onClick={handelRemoveAlbumFromParticipate}
+                        >Austreten</Button> :
+                        <Button
+                            color="primary"
+                            variant="outlined"
+                            size={"small"}
+                            style={{width: "150px"}}
+                            onClick={handelAddAlbumToParticipate}
+                        >Teilnehmen</Button>}
                 </Flex>
             </fieldset>
         </Flex>
